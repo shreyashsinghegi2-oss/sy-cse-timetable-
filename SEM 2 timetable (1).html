@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Timetable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f0efe6;
+    --paper-line:#d7dcd0;
+    --ink:#1f2a26;
+    --pencil:#5a6660;
+    --margin-red:#b6473f;
+    --marker:#f4cb4d;
+    --marker-soft:#f9e9b8;
+    --tape:#dfe6cf;
+    --moss:#4c6b52;
+    --card-a:#fffef8;
+    --card-b:#fbf6e3;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      repeating-linear-gradient(var(--paper) 0px, var(--paper) 33px, var(--paper-line) 34px),
+      var(--paper);
+    color:var(--ink);
+    font-family:"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    padding:0 0 70px 46px;
+    position:relative;
+  }
+  /* spiral-margin */
+  body::before{
+    content:"";
+    position:fixed;
+    top:0;left:26px;bottom:0;
+    width:2px;
+    background:var(--margin-red);
+    opacity:.55;
+  }
+  .holes{position:fixed;top:60px;left:8px;display:flex;flex-direction:column;gap:70px;z-index:0;}
+  .holes span{
+    width:13px;height:13px;border-radius:50%;
+    background:var(--paper);
+    box-shadow:inset 0 0 0 2px var(--paper-line), 0 0 0 2px var(--paper);
+    display:block;
+  }
+  .hand{font-family:"Kalam",cursive;}
+  .mono{font-family:"Space Mono",ui-monospace,Menlo,Consolas,monospace;}
+
+  .wrap{max-width:780px;margin:0 auto;padding:0 22px;position:relative;z-index:1;}
+
+  /* Header */
+  header{padding:26px 0 6px;}
+  header .top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;}
+  .title-block h1{
+    margin:0;
+    font-family:"Kalam",cursive;
+    font-weight:700;
+    font-size:32px;
+    color:var(--ink);
+    transform:rotate(-1deg);
+  }
+  .title-block .sub{font-size:13px;color:var(--pencil);margin-top:2px;padding-left:2px;}
+  .clock-block{text-align:right;}
+  .clock-block .time{font-family:"Space Mono",monospace;font-size:26px;font-weight:700;letter-spacing:.5px;}
+  .clock-block .date{font-size:12.5px;color:var(--pencil);margin-top:2px;}
+
+  /* Section tabs — like little index tabs */
+  .div-tabs{display:flex;gap:8px;margin:18px 0 22px;flex-wrap:wrap;}
+  .div-tab{
+    font-family:"Kalam",cursive;
+    font-size:16px;
+    background:var(--paper);
+    border:1.5px solid var(--ink);
+    padding:5px 13px 4px;
+    cursor:pointer;
+    color:var(--ink);
+    border-radius:3px 9px 3px 9px;
+  }
+  .div-tab.active{background:var(--ink);color:var(--paper);}
+
+  /* Now / Next notes */
+  .notes{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:8px;}
+  .note{
+    flex:1 1 260px;
+    padding:16px 18px 14px;
+    position:relative;
+    border-radius:2px;
+  }
+  .note.now{
+    background:var(--card-a);
+    transform:rotate(-0.6deg);
+    box-shadow:2px 3px 0 rgba(31,42,38,.08), 0 1px 0 rgba(31,42,38,.15);
+  }
+  .note.next{
+    background:var(--card-b);
+    transform:rotate(0.7deg);
+    box-shadow:2px 3px 0 rgba(31,42,38,.06);
+  }
+  .note .tape{
+    position:absolute;top:-9px;left:50%;
+    width:64px;height:20px;
+    margin-left:-32px;
+    background:var(--tape);
+    opacity:.85;
+    transform:rotate(-2deg);
+  }
+  .note .tag{font-family:"Kalam",cursive;font-size:15px;color:var(--moss);margin-bottom:6px;}
+  .note.next .tag{color:var(--margin-red);}
+  .note .subject{font-size:18px;font-weight:700;margin-bottom:5px;line-height:1.3;}
+  .note .meta{font-size:13px;color:var(--pencil);line-height:1.6;}
+  .note .countdown{font-family:"Space Mono",monospace;font-size:12px;margin-top:8px;color:var(--ink);}
+
+  /* Day tabs */
+  .day-tabs{display:flex;gap:2px;margin-top:30px;flex-wrap:wrap;}
+  .day-tab{
+    background:none;border:none;
+    font-family:"Kalam",cursive;
+    font-size:17px;
+    padding:6px 12px;
+    color:var(--pencil);
+    cursor:pointer;
+    position:relative;
+  }
+  .day-tab.active{color:var(--ink);}
+  .day-tab.active::after{
+    content:"";
+    position:absolute;left:6px;right:6px;bottom:2px;height:9px;
+    background:var(--marker);
+    opacity:.65;
+    z-index:-1;
+    border-radius:1px 5px 1px 5px;
+  }
+  .day-tab.today .dot{color:var(--margin-red);}
+
+  /* Schedule ruled list */
+  .schedule{margin-top:6px;}
+  .slot{
+    display:grid;
+    grid-template-columns:76px 1fr;
+    gap:16px;
+    padding:11px 4px;
+    border-bottom:1px solid var(--paper-line);
+    cursor:pointer;
+    position:relative;
+  }
+  .slot.break-slot{cursor:default;opacity:.6;}
+  .slot.current{background:linear-gradient(100deg, transparent, var(--marker-soft) 12%, var(--marker-soft) 88%, transparent);}
+  .slot .t{font-family:"Space Mono",monospace;font-size:12px;color:var(--pencil);padding-top:2px;}
+  .slot .s-name{font-size:15.5px;font-weight:600;}
+  .slot .s-sub{font-size:12.5px;color:var(--pencil);margin-top:2px;}
+  .slot.break-slot .s-name{font-weight:400;font-style:italic;color:var(--pencil);}
+  .here-pin{font-family:"Kalam",cursive;font-size:12px;color:var(--moss);position:absolute;right:4px;top:11px;}
+
+  /* Detail modal */
+  .overlay{
+    display:none;position:fixed;inset:0;
+    background:rgba(31,42,38,.5);
+    align-items:center;justify-content:center;z-index:50;padding:20px;
+  }
+  .overlay.show{display:flex;}
+  .modal{
+    background:var(--card-a);
+    border-radius:2px;
+    padding:24px 22px;
+    max-width:360px;width:100%;
+    box-shadow:4px 5px 0 rgba(31,42,38,.15);
+    transform:rotate(-0.4deg);
+  }
+  .modal h3{margin:0 0 12px;font-family:"Kalam",cursive;font-size:22px;}
+  .modal .row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px dashed var(--paper-line);font-size:14px;}
+  .modal .row span:first-child{color:var(--pencil);}
+  .modal button.close{
+    margin-top:16px;width:100%;padding:9px;background:var(--ink);color:var(--paper);
+    border:none;border-radius:2px;font-size:14px;cursor:pointer;font-family:"Kalam",cursive;
+  }
+
+  /* Settings */
+  .settings{margin-top:38px;border-top:1px dashed var(--paper-line);padding-top:16px;}
+  .settings summary{cursor:pointer;font-size:13.5px;color:var(--pencil);}
+  .settings .panel{margin-top:14px;display:flex;flex-direction:column;gap:16px;}
+  .settings .block{background:var(--card-a);border-radius:2px;padding:15px;box-shadow:1px 2px 0 rgba(31,42,38,.06);}
+  .settings .block h4{margin:0 0 7px;font-size:13.5px;}
+  .settings .block p{margin:0 0 9px;font-size:12px;color:var(--pencil);line-height:1.5;}
+  .settings input[type=file]{font-size:12.5px;}
+  .settings textarea{
+    width:100%;min-height:220px;font-family:"Space Mono",ui-monospace,Menlo,Consolas,monospace;font-size:11.5px;
+    padding:9px;border:1px solid var(--paper-line);border-radius:2px;background:#fbfaf3;
+  }
+  .btn-row{display:flex;gap:7px;margin-top:7px;flex-wrap:wrap;}
+  .btn{
+    background:var(--ink);color:var(--paper);border:none;padding:7px 13px;border-radius:2px;
+    font-size:12.5px;cursor:pointer;
+  }
+  .btn.secondary{background:transparent;color:var(--ink);border:1px solid var(--paper-line);}
+  #uploadedImgPreview{max-width:100%;margin-top:9px;border-radius:2px;border:1px solid var(--paper-line);display:none;}
+  .save-msg{font-size:12px;color:var(--moss);margin-left:5px;display:none;}
+  .foot-note{font-size:11px;color:var(--pencil);margin-top:26px;}
+
+  @media(max-width:600px){
+    body{padding-left:34px;}
+    .holes{display:none;}
+    .title-block h1{font-size:26px;}
+  }
+</style>
+</head>
+<body>
+<div class="holes"><span></span><span></span><span></span><span></span></div>
+
+<div class="wrap">
+
+  <header>
+    <div class="top-row">
+      <div class="title-block">
+        <h1 id="sectionTitle">SY CSE E — my timetable</h1>
+        <div class="sub">ADYPU · B.Tech CSE · Sem III · odd term 26-27</div>
+      </div>
+      <div class="clock-block">
+        <div class="time mono" id="clockTime">--:--:--</div>
+        <div class="date" id="clockDate">—</div>
+      </div>
+    </div>
+
+    <div class="div-tabs" id="sectionButtons"></div>
+  </header>
+
+  <div class="notes">
+    <div class="note now" id="nowCard">
+      <div class="tape"></div>
+      <div class="tag hand">right now</div>
+      <div class="subject" id="nowSubject">—</div>
+      <div class="meta" id="nowMeta">—</div>
+      <div class="countdown" id="nowCountdown"></div>
+    </div>
+    <div class="note next" id="nextCard">
+      <div class="tag hand">coming up</div>
+      <div class="subject" id="nextSubject">—</div>
+      <div class="meta" id="nextMeta">—</div>
+      <div class="countdown" id="nextCountdown"></div>
+    </div>
+  </div>
+
+  <div class="day-tabs" id="dayTabs"></div>
+  <div class="schedule" id="scheduleList"></div>
+
+  <details class="settings">
+    <summary>Settings — fix a class, add a reference photo</summary>
+    <div class="panel">
+
+      <div class="block">
+        <h4>Reference image</h4>
+        <p>Upload the original timetable photo or screenshot. It stays on this device only, shown here to cross-check against — it doesn't feed the schedule logic itself.</p>
+        <input type="file" id="imgInput" accept="image/*">
+        <img id="uploadedImgPreview">
+        <div class="btn-row">
+          <button class="btn secondary" id="clearImgBtn">Remove image</button>
+        </div>
+      </div>
+
+      <div class="block">
+        <h4>Edit this division's schedule (<span id="editSectionLabel">E</span>)</h4>
+        <p>Something wrong for your division? Edit the data below and save — it'll override permanently on this device. Each day is a list of entries with start, end, subject, faculty, room, type.</p>
+        <textarea id="dataEditor" spellcheck="false"></textarea>
+        <div class="btn-row">
+          <button class="btn" id="saveDataBtn">Save changes</button>
+          <button class="btn secondary" id="resetDataBtn">Reset to original</button>
+          <span class="save-msg" id="saveMsg">Saved ✓</span>
+        </div>
+      </div>
+
+    </div>
+  </details>
+
+  <p class="foot-note">
+    Runs fully offline in your browser. Nothing leaves this device — the photo and any edits are saved only in local storage, right here.
+  </p>
+</div>
+
+<div class="overlay" id="detailOverlay">
+  <div class="modal">
+    <h3 id="modalTitle">Subject</h3>
+    <div class="row"><span>Time</span><span id="modalTime">—</span></div>
+    <div class="row"><span>Faculty</span><span id="modalFaculty">—</span></div>
+    <div class="row"><span>Room</span><span id="modalRoom">—</span></div>
+    <div class="row"><span>Type</span><span id="modalType">—</span></div>
+    <button class="close" id="modalClose">Close</button>
+  </div>
+</div>
+
+<script>
+/* ---------- Base timetable data (from ADYPU SY CSE odd-term 2026-27 TT, W.E.F 25/08/2026) ---------- */
+/* type: class | lab | project | break | training | library | sports */
+
+const BASE_DATA = {
+A: {
+  Mon: [
+    {start:"09:30",end:"11:30",subject:"OOP Lab",faculty:"Ms. Parnika Patil",room:"104 (PDP)",type:"lab"},
+    {start:"11:30",end:"12:30",subject:"Discrete Mathematics",faculty:"Dr. Vishwajeet Goswami",room:"VGO-001",type:"class"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"14:15",subject:"Computer Organization & Architecture",faculty:"Ms. Kavita Kaushwah",room:"KK-001",type:"class"},
+    {start:"14:15",end:"15:15",subject:"Advanced Data Structure",faculty:"Dr. Atul Kathole",room:"AK-001",type:"class"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"Object Oriented Programming",faculty:"Ms. Parnika Patil",room:"PDP-001",type:"class"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"—",type:"class"},
+  ],
+  Tue: [
+    {start:"09:30",end:"11:30",subject:"Advanced Data Structure Lab",faculty:"Dr. Atul Kathole",room:"104 (AK)",type:"lab"},
+    {start:"11:30",end:"12:30",subject:"Discrete Mathematics",faculty:"Dr. Vishwajeet Goswami",room:"VGO-001",type:"class"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"14:15",subject:"Computer Organization & Architecture",faculty:"Ms. Kavita Kaushwah",room:"KK-001",type:"class"},
+    {start:"14:15",end:"15:15",subject:"Discrete Mathematics",faculty:"Dr. Vishwajeet Goswami",room:"VGO-001",type:"class"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"Object Oriented Programming",faculty:"Ms. Parnika Patil",room:"PDP-001",type:"class"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"—",type:"class"},
+  ],
+  Wed: [
+    {start:"09:30",end:"11:30",subject:"Mini Project",faculty:"",room:"Online Mode",type:"project"},
+    {start:"11:30",end:"12:30",subject:"Advanced Data Structure",faculty:"Dr. Atul Kathole",room:"AK-001",type:"class"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"14:15",subject:"Computer Organization & Architecture",faculty:"Ms. Kavita Kaushwah",room:"KK-001",type:"class"},
+    {start:"14:15",end:"15:15",subject:"Advanced Data Structure",faculty:"Dr. Atul Kathole",room:"AK-001",type:"class"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"Object Oriented Programming",faculty:"Ms. Parnika Patil",room:"PDP-001",type:"class"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"—",type:"class"},
+  ],
+  Thu: [
+    {start:"09:30",end:"12:30",subject:"Industrial Training / Expert Session",faculty:"",room:"—",type:"training"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"15:15",subject:"Library",faculty:"",room:"—",type:"library"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"17:30",subject:"Sports",faculty:"",room:"—",type:"sports"},
+  ],
+  Fri: [
+    {start:"09:30",end:"12:30",subject:"Industrial Training / Expert Session",faculty:"",room:"—",type:"training"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"15:15",subject:"Library",faculty:"",room:"—",type:"library"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"17:30",subject:"Sports",faculty:"",room:"—",type:"sports"},
+  ],
+},
+B: {
+  Mon: [
+    {start:"09:30",end:"10:30",subject:"Computer Organization & Architecture",faculty:"Ms. Kavita Kaushwah",room:"KK-002",type:"class"},
+    {start:"10:30",end:"11:30",subject:"Discrete Mathematics",faculty:"Dr. Vishwajeet Goswami",room:"VGO-002",type:"class"},
+    {start:"11:30",end:"12:30",subject:"Object Oriented Programming",faculty:"Ms. Parnika Patil",room:"PDP-002",type:"class"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"14:15",subject:"Advanced Data Structure",faculty:"Dr. Atul Kathole",room:"AK-002",type:"class"},
+    {start:"14:15",end:"15:15",subject:"Mini Project",faculty:"",room:"Online Mode",type:"project"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"Mini Project",faculty:"",room:"Online Mode",type:"project"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"Online Mode",type:"class"},
+  ],
+  Tue: [
+    {start:"09:30",end:"10:30",subject:"Computer Organization & Architecture",faculty:"Ms. Kavita Kaushwah",room:"KK-002",type:"class"},
+    {start:"10:30",end:"11:30",subject:"Computer Organization & Architecture",faculty:"Ms. Kavita Kaushwah",room:"KK-002",type:"class"},
+    {start:"11:30",end:"12:30",subject:"Object Oriented Programming",faculty:"Ms. Parnika Patil",room:"PDP-002",type:"class"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"14:15",subject:"Discrete Mathematics",faculty:"Dr. Vishwajeet Goswami",room:"VGO-002",type:"class"},
+    {start:"14:15",end:"15:15",subject:"Discrete Mathematics",faculty:"Dr. Vishwajeet Goswami",room:"VGO-002",type:"class"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"Advanced Data Structure",faculty:"Dr. Atul Kathole",room:"AK-002",type:"class"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"—",type:"class"},
+  ],
+  Wed: [
+    {start:"09:30",end:"11:30",subject:"Advanced Data Structure Lab",faculty:"Dr. Atul Kathole",room:"104 (AK)",type:"lab"},
+    {start:"11:30",end:"12:30",subject:"Object Oriented Programming",faculty:"Ms. Parnika Patil",room:"PDP-002",type:"class"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"15:15",subject:"OOP Lab",faculty:"Ms. Parnika Patil",room:"104 (PDP)",type:"lab"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"Advanced Data Structure",faculty:"Dr. Atul Kathole",room:"AK-002",type:"class"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"—",type:"class"},
+  ],
+  Thu: [
+    {start:"09:30",end:"12:30",subject:"Industrial Training / Expert Session",faculty:"",room:"—",type:"training"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"15:15",subject:"Library",faculty:"",room:"—",type:"library"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"17:30",subject:"Sports",faculty:"",room:"—",type:"sports"},
+  ],
+  Fri: [
+    {start:"09:30",end:"12:30",subject:"Industrial Training / Expert Session",faculty:"",room:"—",type:"training"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"15:15",subject:"Library",faculty:"",room:"—",type:"library"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"17:30",subject:"Sports",faculty:"",room:"—",type:"sports"},
+  ],
+},
+C: {
+  Mon: [
+    {start:"09:30",end:"10:30",subject:"Advanced Data Structure",faculty:"Mr. Dinesh Bhadane",room:"DB-003",type:"class"},
+    {start:"10:30",end:"11:30",subject:"MDMC Lab",faculty:"",room:"Online Mode",type:"lab"},
+    {start:"11:30",end:"12:30",subject:"Computer Organization & Architecture",faculty:"Mr. Arbaz Shaikh",room:"AS-003",type:"class"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"14:15",subject:"Discrete Mathematics",faculty:"Dr. Vishwajeet Goswami",room:"VGO-003",type:"class"},
+    {start:"14:15",end:"15:15",subject:"Object Oriented Programming",faculty:"Ms. Parnika Patil",room:"PDP-003",type:"class"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"MDMC Lab",faculty:"",room:"Online Mode",type:"lab"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"—",type:"class"},
+  ],
+  Tue: [
+    {start:"09:30",end:"10:30",subject:"Advanced Data Structure",faculty:"Mr. Dinesh Bhadane",room:"DB-003",type:"class"},
+    {start:"10:30",end:"11:30",subject:"Discrete Mathematics",faculty:"Dr. Vishwajeet Goswami",room:"VGO-003",type:"class"},
+    {start:"11:30",end:"12:30",subject:"Computer Organization & Architecture",faculty:"Mr. Arbaz Shaikh",room:"AS-003",type:"class"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"14:15",subject:"Object Oriented Programming",faculty:"Ms. Parnika Patil",room:"PDP-003",type:"class"},
+    {start:"14:15",end:"15:15",subject:"OOP Lab",faculty:"Ms. Parnika Patil",room:"PDP-003",type:"lab"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"Mini Project",faculty:"",room:"Online Mode",type:"project"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"—",type:"class"},
+  ],
+  Wed: [
+    {start:"09:30",end:"10:30",subject:"Object Oriented Programming",faculty:"Ms. Parnika Patil",room:"PDP-003",type:"class"},
+    {start:"10:30",end:"11:30",subject:"Advanced Data Structure",faculty:"Mr. Dinesh Bhadane",room:"DB-003",type:"class"},
+    {start:"11:30",end:"12:30",subject:"Computer Organization & Architecture",faculty:"Mr. Arbaz Shaikh",room:"AS-003",type:"class"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"14:15",subject:"Discrete Mathematics",faculty:"Dr. Vishwajeet Goswami",room:"VGO-003",type:"class"},
+    {start:"14:15",end:"15:15",subject:"Mini Project",faculty:"",room:"Online Mode",type:"project"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"Advanced Data Structure Lab",faculty:"Mr. Dinesh Bhadane",room:"104 (DB)",type:"lab"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"—",type:"class"},
+  ],
+  Thu: [
+    {start:"09:30",end:"12:30",subject:"Industrial Training / Expert Session",faculty:"",room:"—",type:"training"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"15:15",subject:"Library",faculty:"",room:"—",type:"library"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"17:30",subject:"Sports",faculty:"",room:"—",type:"sports"},
+  ],
+  Fri: [
+    {start:"09:30",end:"12:30",subject:"Industrial Training / Expert Session",faculty:"",room:"—",type:"training"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"15:15",subject:"Library",faculty:"",room:"—",type:"library"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"17:30",subject:"Sports",faculty:"",room:"—",type:"sports"},
+  ],
+},
+D: {
+  Mon: [
+    {start:"09:30",end:"10:30",subject:"Discrete Mathematics",faculty:"Dr. Vishwajeet Goswami",room:"VGO-101",type:"class"},
+    {start:"10:30",end:"11:30",subject:"Computer Organization & Architecture",faculty:"Mr. Arbaz Shaikh",room:"AS-101",type:"class"},
+    {start:"11:30",end:"12:30",subject:"Advanced Data Structure",faculty:"Mr. Deepak Lakde",room:"DL-101",type:"class"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"15:15",subject:"OOP Lab",faculty:"Mr. IP",room:"104 (IP)",type:"lab"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"Object Oriented Programming",faculty:"Mr. IP",room:"—",type:"class"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"—",type:"class"},
+  ],
+  Tue: [
+    {start:"09:30",end:"10:30",subject:"Mini Project",faculty:"",room:"Online Mode",type:"project"},
+    {start:"10:30",end:"11:30",subject:"Advanced Data Structure",faculty:"Mr. Deepak Lakde",room:"DL-101",type:"class"},
+    {start:"11:30",end:"12:30",subject:"Advanced Data Structure Lab",faculty:"Mr. Deepak Lakde",room:"104 (DL)",type:"lab"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"14:15",subject:"Computer Organization & Architecture",faculty:"Mr. Arbaz Shaikh",room:"AS-101",type:"class"},
+    {start:"14:15",end:"15:15",subject:"Sports",faculty:"",room:"—",type:"sports"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"Mini Project",faculty:"",room:"Online Mode",type:"project"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"Online Mode",type:"class"},
+  ],
+  Wed: [
+    {start:"09:30",end:"10:30",subject:"Advanced Data Structure",faculty:"Mr. Deepak Lakde",room:"DL-101",type:"class"},
+    {start:"10:30",end:"12:30",subject:"Discrete Mathematics",faculty:"Dr. Vishwajeet Goswami",room:"VGO-101",type:"class"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"14:15",subject:"Computer Organization & Architecture",faculty:"Mr. Arbaz Shaikh",room:"AS-101",type:"class"},
+    {start:"14:15",end:"15:15",subject:"Sports",faculty:"",room:"—",type:"sports"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"Mini Project",faculty:"",room:"Online Mode",type:"project"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"Online Mode",type:"class"},
+  ],
+  Thu: [
+    {start:"09:30",end:"12:30",subject:"Industrial Training / Expert Session",faculty:"",room:"—",type:"training"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"15:15",subject:"Library",faculty:"",room:"—",type:"library"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"17:30",subject:"Sports",faculty:"",room:"—",type:"sports"},
+  ],
+  Fri: [
+    {start:"09:30",end:"12:30",subject:"Industrial Training / Expert Session",faculty:"",room:"—",type:"training"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"15:15",subject:"Library",faculty:"",room:"—",type:"library"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"17:30",subject:"Sports",faculty:"",room:"—",type:"sports"},
+  ],
+},
+E: {
+  Mon: [
+    {start:"09:30",end:"10:30",subject:"Mini Project",faculty:"",room:"Online Mode",type:"project"},
+    {start:"10:30",end:"11:30",subject:"Discrete Mathematics",faculty:"Ms. Surekha Gite",room:"SG-003",type:"class"},
+    {start:"11:30",end:"12:30",subject:"Sports",faculty:"",room:"—",type:"sports"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"15:15",subject:"Advanced Data Structure",faculty:"Mr. Deepak Lakde",room:"DL-002",type:"class"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"Computer Organization & Architecture",faculty:"Mr. Arbaz Shaikh",room:"AS-002",type:"class"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"—",type:"class"},
+  ],
+  Tue: [
+    {start:"09:30",end:"10:30",subject:"Computer Organization & Architecture",faculty:"Mr. Arbaz Shaikh",room:"AS-001",type:"class"},
+    {start:"10:30",end:"11:30",subject:"Discrete Mathematics",faculty:"Ms. Surekha Gite",room:"SG-001",type:"class"},
+    {start:"11:30",end:"12:30",subject:"Sports",faculty:"",room:"—",type:"sports"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"15:15",subject:"OOP Lab",faculty:"Mr. IP",room:"104 (IP)",type:"lab"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"Object Oriented Programming",faculty:"Mr. IP",room:"002 (IP)",type:"class"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"—",type:"class"},
+  ],
+  Wed: [
+    {start:"09:30",end:"10:30",subject:"Mini Project",faculty:"",room:"Online Mode",type:"project"},
+    {start:"10:30",end:"11:30",subject:"Discrete Mathematics",faculty:"Ms. Surekha Gite",room:"SG-001",type:"class"},
+    {start:"11:30",end:"12:30",subject:"Advanced Data Structure Lab",faculty:"Mr. Deepak Lakde",room:"102 (DL)",type:"lab"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"14:15",subject:"Advanced Data Structure",faculty:"Mr. Deepak Lakde",room:"DL-002",type:"class"},
+    {start:"14:15",end:"15:15",subject:"Computer Organization & Architecture",faculty:"Mr. Arbaz Shaikh",room:"AS-002",type:"class"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"16:30",subject:"Mini Project",faculty:"",room:"Online Mode",type:"project"},
+    {start:"16:30",end:"17:30",subject:"MDMC-Minor",faculty:"Dr Yogesh Mali / Dr Abhishek Shroff / Ms Mitali Dey / Dr. MA Ansari",room:"Online Mode",type:"class"},
+  ],
+  Thu: [
+    {start:"09:30",end:"12:30",subject:"Industrial Training / Expert Session",faculty:"",room:"—",type:"training"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"15:15",subject:"Library",faculty:"",room:"—",type:"library"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"17:30",subject:"Sports",faculty:"",room:"—",type:"sports"},
+  ],
+  Fri: [
+    {start:"09:30",end:"12:30",subject:"Industrial Training / Expert Session",faculty:"",room:"—",type:"training"},
+    {start:"12:30",end:"13:15",subject:"Lunch Break",faculty:"",room:"",type:"break"},
+    {start:"13:15",end:"15:15",subject:"Library",faculty:"—",room:"—",type:"library"},
+    {start:"15:15",end:"15:30",subject:"Short Break",faculty:"",room:"",type:"break"},
+    {start:"15:30",end:"17:30",subject:"Sports",faculty:"",room:"—",type:"sports"},
+  ],
+},
+};
+
+const DAYS = ["Mon","Tue","Wed","Thu","Fri"];
+const DAY_FULL = {Mon:"Monday",Tue:"Tuesday",Wed:"Wednesday",Thu:"Thursday",Fri:"Friday",Sat:"Saturday",Sun:"Sunday"};
+const SECTIONS = ["A","B","C","D","E"];
+
+let currentSection = "E"; // always opens on Div E
+let currentTab = null;
+
+/* ---------- Data helpers (with localStorage override per section) ---------- */
+function getData(section){
+  const override = localStorage.getItem("tt_data_"+section);
+  if(override){
+    try{ return JSON.parse(override); }catch(e){ return BASE_DATA[section]; }
+  }
+  return BASE_DATA[section];
+}
+
+function toMinutes(hhmm){
+  const [h,m] = hhmm.split(":").map(Number);
+  return h*60+m;
+}
+
+/* ---------- Clock ---------- */
+function pad(n){return n.toString().padStart(2,"0");}
+
+function tick(){
+  const now = new Date();
+  document.getElementById("clockTime").textContent =
+    pad(now.getHours())+":"+pad(now.getMinutes())+":"+pad(now.getSeconds());
+  document.getElementById("clockDate").textContent =
+    now.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  updateNowNext(now);
+  updateDayTabsState(now);
+}
+
+function nowDayKey(now){
+  const map = {0:"Sun",1:"Mon",2:"Tue",3:"Wed",4:"Thu",5:"Fri",6:"Sat"};
+  return map[now.getDay()];
+}
+
+function updateNowNext(now){
+  const dayKey = nowDayKey(now);
+  const data = getData(currentSection);
+  const nowMin = now.getHours()*60+now.getMinutes();
+
+  let today = data[dayKey] || [];
+  let current = null, next = null;
+
+  for(let i=0;i<today.length;i++){
+    const s = toMinutes(today[i].start), e = toMinutes(today[i].end);
+    if(nowMin>=s && nowMin<e){ current = today[i]; }
+    if(s>nowMin && !next){ next = today[i]; }
+  }
+
+  // if nothing left today, look ahead to next teaching day
+  if(!next){
+    let dIdx = DAYS.indexOf(dayKey);
+    for(let offset=1; offset<=7 && !next; offset++){
+      const idx = (dIdx+offset) % 5;
+      const d = DAYS[idx];
+      if(dIdx===-1 && offset>5) break;
+      const arr = data[d];
+      if(arr && arr.length){ next = Object.assign({},arr[0],{_day:d}); break; }
+      if(offset>=5) break;
+    }
+  }
+
+  fillCard("now", current, current && current.type!=="break");
+  fillCard("next", next, true);
+}
+
+function fillCard(which, entry, showCountdown){
+  const subjectEl = document.getElementById(which+"Subject");
+  const metaEl = document.getElementById(which+"Meta");
+  const cdEl = document.getElementById(which+"Countdown");
+
+  if(!entry){
+    subjectEl.textContent = which==="now" ? "Free period" : "Nothing scheduled";
+    metaEl.textContent = "—";
+    cdEl.textContent = "";
+    return;
+  }
+
+  subjectEl.textContent = entry.subject + (entry._day ? " on "+DAY_FULL[entry._day] : "");
+  const bits = [];
+  bits.push(entry.start+" – "+entry.end);
+  if(entry.faculty) bits.push(entry.faculty);
+  if(entry.room && entry.room!=="—") bits.push("Room "+entry.room);
+  metaEl.textContent = bits.join(", ");
+
+  if(showCountdown){
+    const now = new Date();
+    const targetMin = which==="now" ? toMinutes(entry.end) : toMinutes(entry.start);
+    let diff;
+    if(entry._day){
+      cdEl.textContent = "";
+    } else {
+      diff = targetMin - (now.getHours()*60+now.getMinutes());
+      if(diff<0) diff += 1440;
+      const h = Math.floor(diff/60), m = diff%60;
+      const label = which==="now" ? "wraps up in " : "kicks off in ";
+      cdEl.textContent = label + (h>0 ? h+"h " : "") + m+"m";
+    }
+  } else {
+    cdEl.textContent = "";
+  }
+}
+
+/* ---------- Day tabs & schedule list ---------- */
+function renderDayTabs(){
+  const wrap = document.getElementById("dayTabs");
+  wrap.innerHTML = "";
+  const now = new Date();
+  const todayKey = nowDayKey(now);
+  const defaultDay = DAYS.includes(todayKey) ? todayKey : "Mon";
+  if(!currentTab) currentTab = defaultDay;
+
+  DAYS.forEach(d=>{
+    const btn = document.createElement("button");
+    btn.className = "day-tab"+(d===currentTab?" active":"")+(d===todayKey?" today":"");
+    btn.innerHTML = DAY_FULL[d] + (d===todayKey ? ' <span class="dot">•</span>' : "");
+    btn.onclick = ()=>{ currentTab = d; renderDayTabs(); renderSchedule(); };
+    wrap.appendChild(btn);
+  });
+}
+
+function updateDayTabsState(now){
+  const todayKey = nowDayKey(now);
+  document.querySelectorAll(".day-tab").forEach((btn,i)=>{
+    btn.classList.toggle("today", DAYS[i]===todayKey);
+  });
+}
+
+function renderSchedule(){
+  const list = document.getElementById("scheduleList");
+  list.innerHTML = "";
+  const data = getData(currentSection);
+  const entries = data[currentTab] || [];
+  const now = new Date();
+  const isToday = nowDayKey(now)===currentTab;
+  const nowMin = now.getHours()*60+now.getMinutes();
+
+  entries.forEach(entry=>{
+    const div = document.createElement("div");
+    const isBreak = entry.type==="break";
+    div.className = "slot"+(isBreak?" break-slot":"")+
+      (isToday && nowMin>=toMinutes(entry.start) && nowMin<toMinutes(entry.end) ? " current":"");
+    const isCurrentNow = isToday && nowMin>=toMinutes(entry.start) && nowMin<toMinutes(entry.end);
+    div.innerHTML = `
+      <div class="t">${entry.start}<br>${entry.end}</div>
+      <div>
+        <div class="s-name">${entry.subject}</div>
+        <div class="s-sub">${[entry.faculty, (entry.room&&entry.room!=="—")?("Room "+entry.room):""].filter(Boolean).join(", ")}</div>
+      </div>
+      ${isCurrentNow && !isBreak ? '<div class="here-pin hand">you are here</div>' : ""}`;
+    if(!isBreak){
+      div.onclick = ()=> openModal(entry);
+    }
+    list.appendChild(div);
+  });
+}
+
+/* ---------- Modal ---------- */
+function openModal(entry){
+  document.getElementById("modalTitle").textContent = entry.subject;
+  document.getElementById("modalTime").textContent = entry.start+" – "+entry.end;
+  document.getElementById("modalFaculty").textContent = entry.faculty || "—";
+  document.getElementById("modalRoom").textContent = (entry.room && entry.room!=="—") ? entry.room : "—";
+  document.getElementById("modalType").textContent = entry.type;
+  document.getElementById("detailOverlay").classList.add("show");
+}
+document.getElementById("modalClose").onclick = ()=> document.getElementById("detailOverlay").classList.remove("show");
+document.getElementById("detailOverlay").onclick = (e)=>{ if(e.target.id==="detailOverlay") e.target.classList.remove("show"); };
+
+/* ---------- Section switching ---------- */
+function renderSectionButtons(){
+  const wrap = document.getElementById("sectionButtons");
+  wrap.innerHTML = "";
+  SECTIONS.forEach(s=>{
+    const btn = document.createElement("button");
+    btn.className = "div-tab"+(s===currentSection?" active":"");
+    btn.textContent = "Div "+s;
+    btn.onclick = ()=>{
+      currentSection = s;
+      document.getElementById("sectionTitle").textContent = "SY CSE "+s+" — my timetable";
+      document.getElementById("editSectionLabel").textContent = s;
+      loadEditor();
+      renderSectionButtons();
+      renderSchedule();
+      tick();
+    };
+    wrap.appendChild(btn);
+  });
+}
+
+/* ---------- Settings: image upload ---------- */
+const imgInput = document.getElementById("imgInput");
+const imgPreview = document.getElementById("uploadedImgPreview");
+
+function loadImage(){
+  const saved = localStorage.getItem("tt_image");
+  if(saved){
+    imgPreview.src = saved;
+    imgPreview.style.display = "block";
+  } else {
+    imgPreview.style.display = "none";
+  }
+}
+imgInput.onchange = (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    localStorage.setItem("tt_image", reader.result);
+    loadImage();
+  };
+  reader.readAsDataURL(file);
+};
+document.getElementById("clearImgBtn").onclick = ()=>{
+  localStorage.removeItem("tt_image");
+  imgInput.value = "";
+  loadImage();
+};
+
+/* ---------- Settings: data editor ---------- */
+const editor = document.getElementById("dataEditor");
+function loadEditor(){
+  editor.value = JSON.stringify(getData(currentSection), null, 2);
+}
+document.getElementById("saveDataBtn").onclick = ()=>{
+  try{
+    const parsed = JSON.parse(editor.value);
+    localStorage.setItem("tt_data_"+currentSection, JSON.stringify(parsed));
+    const msg = document.getElementById("saveMsg");
+    msg.style.display = "inline";
+    setTimeout(()=>msg.style.display="none", 1800);
+    renderSchedule();
+    tick();
+  }catch(err){
+    alert("That's not valid JSON — fix the syntax and try again.\\n\\n"+err.message);
+  }
+};
+document.getElementById("resetDataBtn").onclick = ()=>{
+  localStorage.removeItem("tt_data_"+currentSection);
+  loadEditor();
+  renderSchedule();
+  tick();
+};
+
+/* ---------- Init ---------- */
+document.getElementById("sectionTitle").textContent = "SY CSE "+currentSection+" — my timetable";
+document.getElementById("editSectionLabel").textContent = currentSection;
+renderSectionButtons();
+renderDayTabs();
+renderSchedule();
+loadImage();
+loadEditor();
+tick();
+setInterval(tick, 1000);
+</script>
+</body>
+</html>
