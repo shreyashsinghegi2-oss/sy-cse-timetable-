@@ -4,6 +4,7 @@ import Login from "@/pages/Login";
 import AppShell from "@/components/app/AppShell";
 import Dashboard from "@/pages/app/Dashboard";
 import Marketplace from "@/pages/app/Marketplace";
+import Opportunities from "@/pages/app/Opportunities";
 import ModulePlaceholder from "@/pages/app/ModulePlaceholder";
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
       <Route path="/app" element={<AppShell />}>
         <Route index element={<Dashboard />} />
         <Route path="marketplace" element={<Marketplace />} />
+        <Route path="opportunities" element={<Opportunities />} />
         <Route path="*" element={<ModulePlaceholder />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
