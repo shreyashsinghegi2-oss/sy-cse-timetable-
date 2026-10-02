@@ -63,7 +63,7 @@ export function SiteHeader() {
         <Link href="/" aria-label="StudentXchange home"><BrandLogo /></Link>
         <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
           {links.map((l) => (
-            <a key={l.href} href={l.href} className="rounded-md px-3 py-2 text-sm text-subtle transition-colors hover:text-ink">{l.label}</a>
+            <a key={l.href} href={l.href} className="nav-link rounded-md px-3 py-2 text-sm text-subtle transition-colors hover:text-ink">{l.label}</a>
           ))}
         </nav>
         <div className="hidden items-center gap-2 lg:flex">

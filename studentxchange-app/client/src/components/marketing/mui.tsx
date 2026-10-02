@@ -1,17 +1,18 @@
-import { forwardRef, type AnchorHTMLAttributes, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode } from "react";
+import { useEffect, useRef, useState, forwardRef, type AnchorHTMLAttributes, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode } from "react";
 import { Link } from "wouter";
 import { cn } from "./cn";
 
-type Variant = "primary" | "dark" | "secondary" | "ghost";
+type Variant = "primary" | "dark" | "secondary" | "ghost" | "white";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-lg font-medium whitespace-nowrap transition-colors duration-150 disabled:opacity-50 disabled:pointer-events-none";
+  "btn-shine inline-flex items-center justify-center gap-2 rounded-lg font-medium whitespace-nowrap transition-all duration-200 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none";
 const variants: Record<Variant, string> = {
   primary: "bg-sky text-ink hover:bg-sky-600 hover:text-white",
   dark: "bg-ink text-white hover:bg-ink-2",
   secondary: "border border-line bg-surface text-ink hover:bg-surface-2",
   ghost: "text-ink hover:bg-surface-2",
+  white: "bg-white text-ink hover:bg-sky-50",
 };
 const sizes: Record<Size, string> = { sm: "h-8 px-3 text-sm", md: "h-10 px-4 text-sm", lg: "h-12 px-6 text-base" };
 const cls = (v: Variant, s: Size, extra?: string) => cn(base, variants[v], sizes[s], extra);
@@ -58,9 +59,11 @@ export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputE
 );
 
 export function Progress({ value, className }: { value: number; className?: string }) {
+  const [w, setW] = useState(0);
+  useEffect(() => { const t = setTimeout(() => setW(value), 350); return () => clearTimeout(t); }, [value]);
   return (
     <div role="progressbar" aria-valuenow={value} aria-valuemin={0} aria-valuemax={100} className={cn("h-1.5 w-full overflow-hidden rounded-full bg-surface-2", className)}>
-      <div className="h-full rounded-full bg-sky transition-[width] duration-500" style={{ width: `${value}%` }} />
+      <div className="h-full rounded-full bg-gradient-to-r from-sky to-blue-600 transition-[width]" style={{ width: `${w}%`, transitionDuration: "1.1s" }} />
     </div>
   );
 }
@@ -88,4 +91,43 @@ export function EmptyState({ icon, title, body, action }: { icon: ReactNode; tit
       {action && <div className="mt-5">{action}</div>}
     </div>
   );
+}
+
+/** Fade/slide in once when scrolled into view. */
+export function Reveal({ children, delay = 0, className }: { children: ReactNode; delay?: number; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof IntersectionObserver === "undefined") { setShown(true); return; }
+    const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setShown(true); io.disconnect(); } }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return <div ref={ref} className={cn("reveal", shown && "in", className)} style={{ ["--d" as string]: `${delay}ms` }}>{children}</div>;
+}
+
+/** Counts up to `to` when scrolled into view. */
+export function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    const el = ref.current;
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (!el || reduce || typeof IntersectionObserver === "undefined") { setN(to); return; }
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      const t0 = performance.now(), dur = 1400;
+      const tick = (t: number) => {
+        const k = Math.min(1, (t - t0) / dur);
+        setN(Math.round(to * (1 - Math.pow(1 - k, 3))));
+        if (k < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }, { threshold: 0.4 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [to]);
+  return <span ref={ref}>{n.toLocaleString("en-IN")}{suffix}</span>;
 }

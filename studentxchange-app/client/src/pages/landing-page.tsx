@@ -9,28 +9,35 @@ import SEOHead from "@/components/seo/seo-head";
 import { SiteHeader } from "@/components/marketing/SiteHeader";
 import { SiteFooter } from "@/components/marketing/SiteFooter";
 import { ProductMock } from "@/components/marketing/ProductMock";
-import { ButtonLink, Badge, Card } from "@/components/marketing/mui";
+import { ButtonLink, Badge, Card, Reveal, CountUp } from "@/components/marketing/mui";
 
-const stats = [
-  ["3,500+", "students"],
-  ["4,830", "pipeline students"],
-  ["134+", "marketplace listings"],
-  ["33+", "completed orders"],
+const stats: [number, string, string][] = [
+  [3500, "+", "students"],
+  [4830, "", "pipeline students"],
+  [134, "+", "marketplace listings"],
+  [33, "+", "completed orders"],
 ];
 
 /** Explore-by-category tiles, each deep-linking into the live module. */
 const categories = [
-  { icon: Briefcase, name: "Internships", text: "Paid and unpaid roles, filtered to your year.", to: "/lancing/internships" },
-  { icon: Trophy, name: "Competitions", text: "Quizzes, case studies and design challenges.", to: "/competitions" },
-  { icon: Code2, name: "Hackathons & Coding", text: "Build with a team or compete in the Coding Arena.", to: "/collab-arena" },
-  { icon: GraduationCap, name: "Campus drives", text: "Placement drives from partner colleges.", to: "/lancing/campus-drives" },
-  { icon: Zap, name: "Freelancing", text: "Take on projects from companies and angels.", to: "/student-lancing" },
-  { icon: Building2, name: "Company problems", text: "Real problem statements from employers.", to: "/lancing/companies" },
+  { icon: Briefcase, name: "Internships", text: "Paid and unpaid roles, filtered to your year.", to: "/lancing/internships", tint: "bg-sky-50 text-sky-600 group-hover:bg-sky-500 group-hover:text-white" },
+  { icon: Trophy, name: "Competitions", text: "Quizzes, case studies and design challenges.", to: "/competitions", tint: "bg-amber-50 text-amber-600 group-hover:bg-amber-500 group-hover:text-white" },
+  { icon: Code2, name: "Hackathons & Coding", text: "Build with a team or compete in the Coding Arena.", to: "/collab-arena", tint: "bg-indigo-50 text-indigo-600 group-hover:bg-indigo-500 group-hover:text-white" },
+  { icon: GraduationCap, name: "Campus drives", text: "Placement drives from partner colleges.", to: "/lancing/campus-drives", tint: "bg-emerald-50 text-emerald-600 group-hover:bg-emerald-500 group-hover:text-white" },
+  { icon: Zap, name: "Freelancing", text: "Take on projects from companies and angels.", to: "/student-lancing", tint: "bg-cyan-50 text-cyan-600 group-hover:bg-cyan-500 group-hover:text-white" },
+  { icon: Building2, name: "Company problems", text: "Real problem statements from employers.", to: "/lancing/companies", tint: "bg-violet-50 text-violet-600 group-hover:bg-violet-500 group-hover:text-white" },
 ];
 
 const quick = ["Internships", "Hackathons", "Competitions", "Freelancing", "Campus drives"];
 
 /** Illustrative cards only — wire to the opportunities API before launch. */
+const bannerFor: Record<string, string> = {
+  Hackathon: "from-sky-500 to-blue-700",
+  Internship: "from-blue-600 to-indigo-700",
+  Competition: "from-cyan-500 to-sky-700",
+  "Campus drive": "from-indigo-600 to-blue-900",
+};
+
 const trending = [
   { type: "Hackathon", title: "Smart Campus Hackathon 2026", org: "ADYPU Innovation Centre", place: "Pune · Offline", left: "6 days left", joined: "842", reward: "₹1,00,000 prizes" },
   { type: "Internship", title: "Frontend Developer Intern", org: "Veloces Labs", place: "Pune · Hybrid", left: "12 days left", joined: "213", reward: "₹15,000 / month" },
@@ -60,14 +67,14 @@ const partners = ["Vedam Institute of Technology", "Veloces Institute of Technol
 
 function SectionHead({ eyebrow, title, text, action }: { eyebrow: string; title: string; text?: string; action?: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+    <Reveal className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
       <div>
         <p className="eyebrow">{eyebrow}</p>
         <h2 className="h2 mt-3 max-w-2xl">{title}</h2>
         {text && <p className="lead mt-3 max-w-xl">{text}</p>}
       </div>
       {action}
-    </div>
+    </Reveal>
   );
 }
 
@@ -78,6 +85,7 @@ export default function LandingPage() {
     e.preventDefault();
     navigate(`/lancing/internships${q.trim() ? `?q=${encodeURIComponent(q.trim())}` : ""}`);
   };
+  const marquee = [...partners, "Ajeenkya DY Patil University", ...partners, "Ajeenkya DY Patil University"];
 
   return (
     <div className="bg-white text-ink">
@@ -90,24 +98,30 @@ export default function LandingPage() {
       <main>
         {/* Hero */}
         <section className="relative overflow-hidden">
-          <div className="absolute inset-x-0 top-0 -z-10 h-[520px] bg-gradient-to-b from-sky-50 to-white" aria-hidden />
-          <div className="container-x grid items-center gap-12 pb-16 pt-12 md:pt-20 lg:grid-cols-[1.2fr_1fr]">
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-sky-50 via-white to-white" aria-hidden />
+          <div className="bg-grid absolute inset-0 -z-10" aria-hidden />
+          <div className="blob absolute -left-24 top-10 -z-10 h-72 w-72 rounded-full bg-sky/25 blur-3xl" aria-hidden />
+          <div className="blob absolute -right-20 top-40 -z-10 h-80 w-80 rounded-full bg-blue-500/15 blur-3xl [animation-delay:-5s]" aria-hidden />
+          <div className="container-x grid items-center gap-14 pb-20 pt-12 md:pt-20 lg:grid-cols-[1.15fr_1fr]">
             <div className="animate-fade-up">
-              <p className="eyebrow">The student operating system</p>
-              <h1 className="h1 mt-4">Everything a student needs to learn, earn, collaborate and grow.</h1>
+              <span className="inline-flex items-center gap-2 rounded-full border border-sky/40 bg-white/80 px-3 py-1 text-xs font-medium text-sky-600 shadow-card backdrop-blur">
+                <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full rounded-full bg-sky" style={{ animation: "ping-soft 1.8s ease-out infinite" }} /><span className="relative inline-flex h-2 w-2 rounded-full bg-sky-600" /></span>
+                The student operating system
+              </span>
+              <h1 className="h1 mt-5">Everything a student needs to <span className="text-gradient">learn, earn, collaborate</span> and grow.</h1>
               <p className="lead mt-5 max-w-xl">Internships, competitions, a campus marketplace and a personal career roadmap, under one verified student identity.</p>
 
-              <form onSubmit={search} className="mt-8 flex max-w-xl items-center gap-2 rounded-xl border border-line bg-white p-1.5 shadow-card focus-within:border-sky-600 focus-within:ring-2 focus-within:ring-sky/30" role="search">
+              <form onSubmit={search} className="mt-8 flex max-w-xl items-center gap-2 rounded-2xl border border-line bg-white p-1.5 shadow-pop transition-shadow focus-within:border-sky-600 focus-within:ring-4 focus-within:ring-sky/20" role="search">
                 <Search size={18} className="ml-3 shrink-0 text-subtle" aria-hidden />
                 <label className="min-w-0 flex-1"><span className="sr-only">Search opportunities</span>
                   <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search internships, hackathons, skills…" className="h-11 w-full bg-transparent text-sm outline-none placeholder:text-subtle/70" />
                 </label>
-                <button type="submit" className="h-11 !w-auto shrink-0 rounded-lg bg-ink px-5 text-sm font-medium text-white transition-colors hover:bg-ink-2">Search</button>
+                <button type="submit" className="btn-shine h-11 !w-auto shrink-0 rounded-xl bg-gradient-to-r from-sky-600 to-blue-600 px-5 text-sm font-medium text-white transition-transform hover:scale-[1.03] active:scale-[0.98]">Search</button>
               </form>
               <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
                 <span className="text-subtle">Popular:</span>
                 {quick.map((t) => (
-                  <Link key={t} href="/lancing/internships" className="rounded-full border border-line px-3 py-1 text-xs transition-colors hover:border-sky hover:bg-sky-50">{t}</Link>
+                  <Link key={t} href="/lancing/internships" className="rounded-full border border-line bg-white px-3 py-1 text-xs transition-all hover:-translate-y-0.5 hover:border-sky hover:bg-sky-50">{t}</Link>
                 ))}
               </div>
 
@@ -121,13 +135,13 @@ export default function LandingPage() {
         </section>
 
         {/* Traction */}
-        <section aria-label="Traction" className="border-y border-line bg-surface-2">
-          <div className="container-x grid grid-cols-2 gap-y-6 py-8 md:grid-cols-4">
-            {stats.map(([n, l]) => (
-              <div key={l} className="md:text-center">
-                <div className="text-2xl font-semibold tracking-tight md:text-3xl">{n}</div>
-                <div className="text-sm text-subtle">{l}</div>
-              </div>
+        <section aria-label="Traction" className="band-blue text-white">
+          <div className="container-x grid grid-cols-2 gap-y-8 py-10 md:grid-cols-4">
+            {stats.map(([n, suf, l], i) => (
+              <Reveal key={l} delay={i * 90} className="md:text-center">
+                <div className="text-3xl font-semibold tracking-tight md:text-4xl"><CountUp to={n} suffix={suf} /></div>
+                <div className="mt-1 text-sm text-white/75">{l}</div>
+              </Reveal>
             ))}
           </div>
         </section>
@@ -136,61 +150,70 @@ export default function LandingPage() {
         <section id="opportunities" className="container-x py-20 md:py-24">
           <SectionHead eyebrow="Explore" title="Find the next thing worth doing." text="Six ways in, one profile behind all of them." />
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {categories.map(({ icon: I, name, text, to }) => (
-              <Link key={name} href={to} className="group">
-                <Card className="flex h-full items-start gap-4 p-5 transition-colors duration-150 group-hover:border-sky">
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-sky-50 text-sky-600"><I size={20} /></span>
-                  <span className="flex-1">
-                    <span className="flex items-center justify-between text-base font-semibold tracking-tight">{name}<ArrowRight size={16} className="text-subtle transition-transform group-hover:translate-x-0.5" /></span>
-                    <span className="mt-1 block text-sm text-subtle">{text}</span>
-                  </span>
-                </Card>
-              </Link>
+            {categories.map(({ icon: I, name, text, to, tint }, i) => (
+              <Reveal key={name} delay={i * 70}>
+                <Link href={to} className="group block h-full">
+                  <Card className="lift flex h-full items-start gap-4 p-5">
+                    <span className={`grid h-11 w-11 shrink-0 place-items-center rounded-xl transition-colors duration-300 ${tint}`}><I size={20} /></span>
+                    <span className="flex-1">
+                      <span className="flex items-center justify-between text-base font-semibold tracking-tight">{name}<ArrowRight size={16} className="text-subtle transition-transform duration-200 group-hover:translate-x-1 group-hover:text-sky-600" /></span>
+                      <span className="mt-1 block text-sm text-subtle">{text}</span>
+                    </span>
+                  </Card>
+                </Link>
+              </Reveal>
             ))}
           </div>
 
           <div className="mt-14">
-            <h3 className="text-lg font-semibold tracking-tight">Trending now</h3>
+            <Reveal><h3 className="text-lg font-semibold tracking-tight">Trending now</h3></Reveal>
             <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {trending.map((o) => (
-                <Card key={o.title} className="flex flex-col overflow-hidden transition-colors hover:border-sky">
-                  <div className="flex h-24 items-end bg-gradient-to-br from-ink to-ink-2 p-3" aria-hidden>
-                    <Badge tone="sky">{o.type}</Badge>
-                  </div>
-                  <div className="flex flex-1 flex-col p-4">
-                    <h4 className="line-clamp-2 text-sm font-semibold leading-snug">{o.title}</h4>
-                    <p className="mt-1 text-xs text-subtle">{o.org}</p>
-                    <div className="mt-3 space-y-1.5 text-xs text-subtle">
-                      <p className="flex items-center gap-1.5"><MapPin size={12} />{o.place}</p>
-                      <p className="flex items-center gap-1.5"><Users2 size={12} />{o.joined} registered</p>
-                      <p className="flex items-center gap-1.5 text-ink"><Trophy size={12} />{o.reward}</p>
+              {trending.map((o, i) => (
+                <Reveal key={o.title} delay={i * 90}>
+                  <Card className="lift flex h-full flex-col overflow-hidden">
+                    <div className={`relative flex h-28 items-end overflow-hidden bg-gradient-to-br p-3 ${bannerFor[o.type]}`} aria-hidden>
+                      <div className="absolute -right-6 -top-6 h-28 w-28 rounded-full bg-white/10" />
+                      <div className="absolute right-6 top-8 h-12 w-12 rounded-full bg-white/10" />
+                      <span className="relative rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-medium text-white backdrop-blur">{o.type}</span>
                     </div>
-                    <p className="mt-auto flex items-center gap-1.5 pt-4 text-xs font-medium text-subtle"><Clock size={12} />{o.left}</p>
-                  </div>
-                </Card>
+                    <div className="flex flex-1 flex-col p-4">
+                      <h4 className="line-clamp-2 text-sm font-semibold leading-snug">{o.title}</h4>
+                      <p className="mt-1 text-xs text-subtle">{o.org}</p>
+                      <div className="mt-3 space-y-1.5 text-xs text-subtle">
+                        <p className="flex items-center gap-1.5"><MapPin size={12} />{o.place}</p>
+                        <p className="flex items-center gap-1.5"><Users2 size={12} />{o.joined} registered</p>
+                        <p className="flex items-center gap-1.5 font-medium text-ink"><Trophy size={12} className="text-amber-500" />{o.reward}</p>
+                      </div>
+                      <p className="mt-auto flex items-center gap-1.5 pt-4 text-xs font-medium text-amber-600"><Clock size={12} />{o.left}</p>
+                    </div>
+                  </Card>
+                </Reveal>
               ))}
             </div>
           </div>
         </section>
 
         {/* Ecosystem */}
-        <section id="product" className="bg-surface-2 py-20 md:py-24">
+        <section id="product" className="bg-gradient-to-b from-surface-2 to-white py-20 md:py-24">
           <div className="container-x">
             <SectionHead eyebrow="One ecosystem" title="Four products. One identity. One loop." />
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                { icon: ShoppingBag, name: "Marketplace", text: "Buy and sell academic resources with verified students.", to: "/marketplace" },
-                { icon: Users, name: "Student Collab", text: "Find teammates, join communities, ship projects together.", to: "/collab" },
-                { icon: Briefcase, name: "StudentLancing", text: "Internships, jobs and freelance work with clear application states.", to: "/student-lancing" },
-                { icon: Compass, name: "Career Compass", text: "An AI roadmap from first year to placement, with progress you can see.", to: "/lancing/career-compass" },
-              ].map(({ icon: I, name, text, to }) => (
-                <Link key={name} href={to} className="group">
-                  <Card className="h-full p-6 transition-colors duration-150 group-hover:border-sky">
-                    <div className="grid h-10 w-10 place-items-center rounded-lg bg-sky-50 text-sky-600"><I size={20} /></div>
-                    <h3 className="mt-5 text-lg font-semibold tracking-tight">{name}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-subtle">{text}</p>
-                  </Card>
-                </Link>
+                { icon: ShoppingBag, name: "Marketplace", text: "Buy and sell academic resources with verified students.", to: "/marketplace", g: "from-sky-500 to-blue-600" },
+                { icon: Users, name: "Student Collab", text: "Find teammates, join communities, ship projects together.", to: "/collab", g: "from-blue-500 to-indigo-600" },
+                { icon: Briefcase, name: "StudentLancing", text: "Internships, jobs and freelance work with clear application states.", to: "/student-lancing", g: "from-cyan-500 to-sky-600" },
+                { icon: Compass, name: "Career Compass", text: "An AI roadmap from first year to placement, with progress you can see.", to: "/lancing/career-compass", g: "from-indigo-500 to-blue-700" },
+              ].map(({ icon: I, name, text, to, g }, i) => (
+                <Reveal key={name} delay={i * 90}>
+                  <Link href={to} className="group block h-full">
+                    <Card className="lift h-full p-6">
+                      <div className={`grid h-11 w-11 place-items-center rounded-xl bg-gradient-to-br text-white shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3 ${g}`}><I size={20} /></div>
+                      <h3 className="mt-5 text-lg font-semibold tracking-tight">{name}</h3>
+                      <p className="mt-2 text-sm leading-relaxed text-subtle">{text}</p>
+                      <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-sky-600">Open <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" /></span>
+                    </Card>
+                  </Link>
+                </Reveal>
               ))}
             </div>
           </div>
@@ -199,57 +222,68 @@ export default function LandingPage() {
         {/* Journey */}
         <section id="journey" className="container-x py-20 md:py-24">
           <SectionHead eyebrow="Student journey" title="From first year to first offer." />
-          <ol className="mt-10 flex overflow-x-auto pb-2 [scrollbar-width:none]">
+          <div role="list" className="mt-10 flex overflow-x-auto pb-2 [scrollbar-width:none]">
             {journey.map((s, i) => (
-              <li key={s} className="min-w-[140px] flex-1 pr-4">
-                <div className="flex items-center">
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ink text-xs font-semibold text-white">{i + 1}</span>
-                  {i < journey.length - 1 && <span className="ml-2 h-px flex-1 bg-line" />}
+              <Reveal key={s} delay={i * 80} className="min-w-[140px] flex-1 pr-4">
+                <div role="listitem">
+                  <div className="flex items-center">
+                    <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-full text-xs font-semibold text-white shadow-md ${i === journey.length - 1 ? "bg-gradient-to-br from-sky-500 to-blue-700" : "bg-ink"}`}>{i + 1}</span>
+                    {i < journey.length - 1 && <span className="ml-2 h-0.5 flex-1 rounded bg-gradient-to-r from-sky/70 to-line" />}
+                  </div>
+                  <p className="mt-3 text-sm font-medium">{s}</p>
                 </div>
-                <p className="mt-3 text-sm font-medium">{s}</p>
-              </li>
+              </Reveal>
             ))}
-          </ol>
+          </div>
         </section>
 
         {/* Career Compass */}
-        <section id="compass" className="bg-surface-2 py-20 md:py-24">
+        <section id="compass" className="bg-gradient-to-b from-sky-50 to-white py-20 md:py-24">
           <div className="container-x grid items-center gap-12 lg:grid-cols-2">
-            <div>
+            <Reveal>
               <Badge tone="sky">Premium · ₹499 / year</Badge>
-              <h2 className="h2 mt-4">Career Compass turns “what should I do next?” into a plan.</h2>
+              <h2 className="h2 mt-4">Career Compass turns “what should I do next?” into a <span className="text-gradient">plan</span>.</h2>
               <p className="lead mt-4">Pick your degree, goals and skills. Get a roadmap, learning paths and assessments, and a readiness score that moves as you do.</p>
               <ButtonLink href="/lancing/career-compass" className="mt-7" variant="dark">See Career Compass <ArrowRight size={16} /></ButtonLink>
-            </div>
+            </Reveal>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {compass.map(([I, l]) => (
-                <Card key={l} className="p-4"><I size={18} className="text-sky-600" /><p className="mt-3 text-sm font-medium">{l}</p></Card>
+              {compass.map(([I, l], i) => (
+                <Reveal key={l} delay={i * 60}>
+                  <Card className="lift p-4"><span className="grid h-9 w-9 place-items-center rounded-lg bg-sky-50 text-sky-600"><I size={18} /></span><p className="mt-3 text-sm font-medium">{l}</p></Card>
+                </Reveal>
               ))}
             </div>
           </div>
         </section>
 
         {/* Institutions + logos */}
-        <section id="institutions" className="bg-ink py-20 text-white md:py-28">
+        <section id="institutions" className="section-navy py-20 text-white md:py-28">
           <div className="container-x">
-            <p className="eyebrow !text-sky">For institutions</p>
-            <h2 className="h2 mt-3 max-w-2xl">Career visibility from Year 1, not just placement season.</h2>
-            <p className="mt-4 max-w-xl text-base text-white/60">Roadmaps, cohort progress and readiness in one dashboard. Students pay directly, so colleges stay out of the billing.</p>
+            <Reveal>
+              <p className="eyebrow !text-sky">For institutions</p>
+              <h2 className="h2 mt-3 max-w-2xl">Career visibility from Year 1, not just placement season.</h2>
+              <p className="mt-4 max-w-xl text-base text-white/65">Roadmaps, cohort progress and readiness in one dashboard. Students pay directly, so colleges stay out of the billing.</p>
+            </Reveal>
             <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-5">
-              {inst.map(([I, l]) => (
-                <div key={l} className="rounded-xl border border-white/10 bg-ink-2 p-4"><I size={18} className="text-sky" /><p className="mt-3 text-sm font-medium">{l}</p></div>
+              {inst.map(([I, l], i) => (
+                <Reveal key={l} delay={i * 70}>
+                  <div className="rounded-xl border border-white/10 bg-white/5 p-4 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-sky/50 hover:bg-white/10"><I size={18} className="text-sky" /><p className="mt-3 text-sm font-medium">{l}</p></div>
+                </Reveal>
               ))}
             </div>
             <div className="mt-12 border-t border-white/10 pt-8">
               <p className="text-xs font-semibold uppercase tracking-[0.14em] text-white/50">Institutions on the platform and in rollout</p>
-              <div className="mt-5 flex flex-wrap items-center gap-x-8 gap-y-5">
-                <span className="grid h-14 place-items-center rounded-lg bg-white px-4"><img src="/adypu-logo.png" alt="Ajeenkya DY Patil University" width={88} height={36} className="h-9 w-[88px] object-contain" loading="lazy" /></span>
-                {partners.map((p) => <span key={p} className="text-sm font-medium text-white/70">{p}</span>)}
+              <div className="marquee relative mt-6 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
+                <div className="marquee-track items-center gap-12">
+                  {marquee.map((p, i) => p.startsWith("Ajeenkya")
+                    ? <span key={i} className="grid h-14 shrink-0 place-items-center rounded-lg bg-white px-4"><img src="/adypu-logo.png" alt="Ajeenkya DY Patil University" width={88} height={36} className="h-9 w-[88px] object-contain" /></span>
+                    : <span key={i} className="shrink-0 text-base font-medium text-white/70">{p}</span>)}
+                </div>
               </div>
             </div>
             <div className="mt-10 flex flex-wrap gap-3">
-              <ButtonLink href="/lancing/login?mode=signup" size="lg">Partner with us</ButtonLink>
-              <ButtonLink href="/lancing/login" variant="secondary" size="lg" className="!border-white/20 !bg-transparent !text-white hover:!bg-white/10">Institution login</ButtonLink>
+              <ButtonLink href="/lancing/login?mode=signup" size="lg">Partner with us <ArrowRight size={16} /></ButtonLink>
+              <ButtonLink href="/lancing/login" variant="secondary" size="lg" className="!border-white/25 !bg-transparent !text-white hover:!bg-white/10">Institution login</ButtonLink>
             </div>
           </div>
         </section>
@@ -257,39 +291,43 @@ export default function LandingPage() {
         {/* Marketplace */}
         <section id="marketplace" className="container-x grid items-center gap-12 py-20 md:py-28 lg:grid-cols-2">
           <div className="order-2 grid grid-cols-2 gap-3 lg:order-1">
-            {[["Data Structures Notes", "₹199"], ["Engineering Drawing Kit", "₹349"], ["Python Cheat Sheets", "₹99"], ["DBMS Previous Papers", "₹149"]].map(([n, p]) => (
-              <Card key={n} className="overflow-hidden">
-                <div className="aspect-[4/3] bg-surface-2" />
-                <div className="p-3"><p className="text-sm font-medium">{n}</p>
-                  <div className="mt-1 flex items-center justify-between"><span className="text-sm font-semibold">{p}</span><Badge tone="success">Verified</Badge></div>
-                </div>
-              </Card>
+            {[["Data Structures Notes", "₹199", "from-sky-100 to-blue-200"], ["Engineering Drawing Kit", "₹349", "from-indigo-100 to-blue-200"], ["Python Cheat Sheets", "₹99", "from-cyan-100 to-sky-200"], ["DBMS Previous Papers", "₹149", "from-blue-100 to-indigo-200"]].map(([n, p, g], i) => (
+              <Reveal key={n} delay={i * 80}>
+                <Card className="lift overflow-hidden">
+                  <div className={`aspect-[4/3] bg-gradient-to-br ${g}`} />
+                  <div className="p-3"><p className="text-sm font-medium">{n}</p>
+                    <div className="mt-1 flex items-center justify-between"><span className="text-sm font-semibold">{p}</span><Badge tone="success">Verified</Badge></div>
+                  </div>
+                </Card>
+              </Reveal>
             ))}
           </div>
-          <div className="order-1 lg:order-2">
+          <Reveal className="order-1 lg:order-2">
             <p className="eyebrow">Marketplace</p>
             <h2 className="h2 mt-3">Verified campus commerce.</h2>
             <ul className="mt-6 space-y-3 text-sm">
               {[[Search, "Search and filter by category"], [ShieldCheck, "Verified student sellers"], [ShoppingCart, "Cart and one-step checkout"]].map(([I, t]) => {
                 const Icon = I as typeof Search;
-                return <li key={t as string} className="flex items-center gap-3"><Icon size={16} className="text-sky-600" />{t as string}</li>;
+                return <li key={t as string} className="flex items-center gap-3"><span className="grid h-7 w-7 place-items-center rounded-full bg-sky-50 text-sky-600"><Icon size={14} /></span>{t as string}</li>;
               })}
             </ul>
             <ButtonLink href="/marketplace" className="mt-7" variant="secondary">Browse the marketplace <ArrowRight size={16} /></ButtonLink>
-          </div>
+          </Reveal>
         </section>
 
         {/* Collab */}
-        <section id="collab" className="bg-surface-2 py-20 md:py-24">
+        <section id="collab" className="bg-gradient-to-b from-surface-2 to-white py-20 md:py-24">
           <div className="container-x">
             <SectionHead eyebrow="Student Collab" title="A professional network, built for students." />
             <div className="mt-10 grid gap-4 md:grid-cols-3">
-              {[[Users, "Profiles and matching", "Skills, goals and projects decide who you meet."], [MessageSquare, "Messaging", "Direct and group chats for teams and communities."], [CalendarDays, "Events", "Hackathons, meetups and club activity in one feed."]].map(([I, t, d]) => {
+              {[[Users, "Profiles and matching", "Skills, goals and projects decide who you meet."], [MessageSquare, "Messaging", "Direct and group chats for teams and communities."], [CalendarDays, "Events", "Hackathons, meetups and club activity in one feed."]].map(([I, t, d], i) => {
                 const Icon = I as typeof Users;
                 return (
-                  <Card key={t as string} className="p-6"><Icon size={20} className="text-sky-600" />
-                    <h3 className="mt-4 text-base font-semibold">{t as string}</h3><p className="mt-1.5 text-sm text-subtle">{d as string}</p>
-                  </Card>
+                  <Reveal key={t as string} delay={i * 90}>
+                    <Card className="lift p-6"><span className="grid h-10 w-10 place-items-center rounded-xl bg-sky-50 text-sky-600"><Icon size={20} /></span>
+                      <h3 className="mt-4 text-base font-semibold">{t as string}</h3><p className="mt-1.5 text-sm text-subtle">{d as string}</p>
+                    </Card>
+                  </Reveal>
                 );
               })}
             </div>
@@ -297,20 +335,23 @@ export default function LandingPage() {
         </section>
 
         {/* AI */}
-        <section className="bg-ink py-20 text-white md:py-28">
+        <section className="section-navy py-20 text-white md:py-28">
           <div className="container-x grid items-center gap-12 lg:grid-cols-2">
-            <div>
+            <Reveal>
               <p className="eyebrow !text-sky">AI, where it helps</p>
               <h2 className="h2 mt-3">Guidance that reads your goals, not your buzzwords.</h2>
-              <p className="mt-4 text-base text-white/60">Roadmap generation, skill-gap analysis and learning paths, all kept inside your plan with quotas you can see.</p>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-ink-2 p-5 font-mono text-[13px] leading-relaxed" aria-hidden>
-              <p className="text-white/50">› goal: backend engineer · year 2</p>
-              <p className="mt-2 text-sky">Skill gap: databases, system design</p>
-              <p className="mt-1 text-white/80">Week 1–2 · SQL fundamentals</p>
-              <p className="text-white/80">Week 3–4 · REST API project</p>
-              <p className="text-white/80">Week 5 · Mock assessment</p>
-            </div>
+              <p className="mt-4 text-base text-white/65">Roadmap generation, skill-gap analysis and learning paths, all kept inside your plan with quotas you can see.</p>
+            </Reveal>
+            <Reveal delay={120}>
+              <div className="float-slow rounded-2xl border border-white/10 bg-white/5 p-5 font-mono text-[13px] leading-relaxed shadow-2xl backdrop-blur" aria-hidden>
+                <div className="mb-3 flex gap-1.5"><i className="h-2.5 w-2.5 rounded-full bg-white/20" /><i className="h-2.5 w-2.5 rounded-full bg-white/20" /><i className="h-2.5 w-2.5 rounded-full bg-white/20" /></div>
+                <p className="text-white/50">› goal: backend engineer · year 2</p>
+                <p className="mt-2 text-sky">Skill gap: databases, system design</p>
+                <p className="mt-1 text-white/80">Week 1–2 · SQL fundamentals</p>
+                <p className="text-white/80">Week 3–4 · REST API project</p>
+                <p className="text-white/80">Week 5 · Mock assessment<span className="ml-1 inline-block h-4 w-2 translate-y-0.5 animate-pulse bg-sky" /></p>
+              </div>
+            </Reveal>
           </div>
         </section>
 
@@ -318,8 +359,10 @@ export default function LandingPage() {
         <section className="container-x py-20 md:py-24">
           <SectionHead eyebrow="Why StudentXchange" title="Built with the students who use it." />
           <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {stories.map(([q, a]) => (
-              <Card key={a} className="p-6"><p className="text-sm leading-relaxed">“{q}”</p><p className="mt-4 text-xs text-subtle">{a}</p></Card>
+            {stories.map(([q, a], i) => (
+              <Reveal key={a} delay={i * 90}>
+                <Card className="lift h-full p-6"><p className="text-sm leading-relaxed">“{q}”</p><p className="mt-4 text-xs text-subtle">{a}</p></Card>
+              </Reveal>
             ))}
           </div>
           <ul className="mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-subtle">
@@ -331,14 +374,18 @@ export default function LandingPage() {
 
         {/* Final CTA */}
         <section className="container-x pb-20 md:pb-28">
-          <div className="rounded-3xl bg-ink px-6 py-14 text-center text-white md:py-20">
-            <Sparkles size={22} className="mx-auto text-sky" aria-hidden />
-            <h2 className="h2 mx-auto mt-4 max-w-3xl">Your college years should build your career, not scatter your attention.</h2>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <ButtonLink href="/auth?mode=signup" size="lg">Register free</ButtonLink>
-              <ButtonLink href="/auth" variant="secondary" size="lg" className="!border-white/20 !bg-transparent !text-white hover:!bg-white/10">Log in</ButtonLink>
+          <Reveal>
+            <div className="cta-blue relative overflow-hidden rounded-3xl px-6 py-14 text-center text-white md:py-20">
+              <div className="blob absolute -left-10 -top-10 h-56 w-56 rounded-full bg-white/10 blur-2xl" aria-hidden />
+              <div className="blob absolute -bottom-16 right-0 h-64 w-64 rounded-full bg-sky/30 blur-3xl [animation-delay:-6s]" aria-hidden />
+              <Sparkles size={22} className="relative mx-auto text-white" aria-hidden />
+              <h2 className="h2 relative mx-auto mt-4 max-w-3xl">Your college years should build your career, not scatter your attention.</h2>
+              <div className="relative mt-8 flex flex-wrap justify-center gap-3">
+                <ButtonLink href="/auth?mode=signup" variant="white" size="lg">Register free <ArrowRight size={16} /></ButtonLink>
+                <ButtonLink href="/auth" variant="secondary" size="lg" className="!border-white/40 !bg-transparent !text-white hover:!bg-white/10">Log in</ButtonLink>
+              </div>
             </div>
-          </div>
+          </Reveal>
         </section>
       </main>
       <SiteFooter />
