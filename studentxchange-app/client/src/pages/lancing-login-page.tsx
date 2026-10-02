@@ -1,3 +1,4 @@
+import { BrandMark } from "@/components/brand/brand-mark";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -139,6 +140,9 @@ export default function LancingLoginPage() {
             <span className="text-xl font-bold tracking-tight" >
               Student<span className="text-sky-600">Lancing</span>
             </span>
+          </Link>
+          <Link href="/" className="hidden sm:flex items-center gap-2 text-xs text-gray-500 hover:text-gray-800" aria-label="StudentXchange home">
+            by <BrandMark size={36} wordmark={false} />
           </Link>
         </div>
       </nav>

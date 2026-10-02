@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, forwardRef, type AnchorHTMLAttributes, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode } from "react";
 import { Link } from "wouter";
+import { BrandMark } from "@/components/brand/brand-mark";
 import { cn } from "./cn";
 
 type Variant = "primary" | "dark" | "secondary" | "ghost" | "white";
@@ -68,15 +69,8 @@ export function Progress({ value, className }: { value: number; className?: stri
   );
 }
 
-export function Logo({ light = false }: { light?: boolean }) {
-  return (
-    <span className="inline-flex items-center gap-2 font-semibold tracking-tight">
-      <span className="grid h-7 w-7 place-items-center rounded-lg bg-ink">
-        <svg width="16" height="16" viewBox="0 0 32 32" fill="none" aria-hidden><path d="M7 9h18M7 23h18M11 9l10 14M21 9L11 23" stroke="#38BDF8" strokeWidth="3" strokeLinecap="round" /></svg>
-      </span>
-      <span className={light ? "text-white" : "text-ink"}>StudentXchange</span>
-    </span>
-  );
+export function Logo({ light = false, size = 36 }: { light?: boolean; size?: number }) {
+  return <BrandMark light={light} size={size} />;
 }
 
 /** Header wordmark: monogram + name. The full-colour official badge is shown in the footer. */

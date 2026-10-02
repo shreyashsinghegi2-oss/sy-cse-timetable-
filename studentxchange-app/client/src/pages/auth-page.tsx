@@ -1,3 +1,4 @@
+import { BrandMark } from "@/components/brand/brand-mark";
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useForm } from "react-hook-form";
@@ -122,6 +123,7 @@ export default function AuthPage() {
             <div>
               <Card className="w-full">
                 <CardHeader>
+                  <BrandMark size={64} wordmark={false} className="mb-2" />
                   <CardTitle className="text-2xl">Welcome to StudentXchange</CardTitle>
                   <CardDescription>
                     Sign in to your account or create a new one to start buying and selling

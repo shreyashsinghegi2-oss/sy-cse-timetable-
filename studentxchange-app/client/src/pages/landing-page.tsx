@@ -3,12 +3,13 @@ import { Link, useLocation } from "wouter";
 import {
   ArrowRight, ShoppingBag, Users, Briefcase, Compass, Map, Brain, BookOpen, ClipboardCheck, Target, Sparkles,
   BarChart3, FileText, Building2, Search, ShieldCheck, ShoppingCart, MessageSquare, CalendarDays, Trophy, Zap,
-  Code2, GraduationCap, Clock, MapPin, Users2, CheckCircle2,
+  Code2, GraduationCap, Clock, MapPin, Users2, CheckCircle2, Plus, UserPlus, Rocket,
 } from "lucide-react";
 import SEOHead from "@/components/seo/seo-head";
 import { SiteHeader } from "@/components/marketing/SiteHeader";
 import { SiteFooter } from "@/components/marketing/SiteFooter";
 import { ProductMock } from "@/components/marketing/ProductMock";
+import { EcosystemHub, ReadinessGauge, Wave } from "@/components/marketing/Graphics";
 import { ButtonLink, Badge, Card, Reveal, CountUp } from "@/components/marketing/mui";
 
 const stats: [number, string, string][] = [
@@ -43,6 +44,20 @@ const trending = [
   { type: "Internship", title: "Frontend Developer Intern", org: "Veloces Labs", place: "Pune · Hybrid", left: "12 days left", joined: "213", reward: "₹15,000 / month" },
   { type: "Competition", title: "National Coding Championship", org: "StudentXchange Arena", place: "Online", left: "3 days left", joined: "2,310", reward: "₹50,000 prizes" },
   { type: "Campus drive", title: "Software Engineer — Campus Drive", org: "Partner company", place: "Pune · Offline", left: "15 days left", joined: "1,180", reward: "Final-year" },
+];
+
+const steps = [
+  { icon: UserPlus, title: "Create your verified profile", text: "Sign up with your college details. Add your degree, year, skills and goals once." },
+  { icon: Map, title: "Get your roadmap", text: "Career Compass builds a year-wise plan with skills, learning paths and assessments." },
+  { icon: Rocket, title: "Collaborate and apply", text: "Join teams, enter competitions and apply to internships and drives from one profile." },
+];
+
+const faqs = [
+  ["Is StudentXchange free?", "Marketplace, Student Collab and the core Career Compass tools (goals, skills and roadmap generation, within quotas) are free. Career Compass Premium is ₹499 per student per year: a one-time payment, 365 days of access, no automatic renewal."],
+  ["Do I need Premium to use the Marketplace or Collab?", "No. Premium unlocks Placement Readiness, skill assessments, learning paths and the Coding Arena. Marketplace and Collab work without it."],
+  ["How does an institution partner with StudentXchange?", "Your college acts as the distribution and implementation partner, while students are billed directly for the annual career product. Institutions get roadmaps, cohort progress and readiness views."],
+  ["How are payments handled?", "Payments are processed through PayU, and amounts are verified on the server before access is granted."],
+  ["Who can join?", "Students from any institution can register. Companies, angels and placement cells have their own Lancing sign-in."],
 ];
 
 const journey = ["First year", "Skills", "Collaboration", "Internships", "Projects", "Placement readiness", "Career"];
@@ -196,8 +211,20 @@ export default function LandingPage() {
         {/* Ecosystem */}
         <section id="product" className="bg-gradient-to-b from-surface-2 to-white py-20 md:py-24">
           <div className="container-x">
-            <SectionHead eyebrow="One ecosystem" title="Four products. One identity. One loop." />
-            <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid items-center gap-12 lg:grid-cols-[1fr_1fr]">
+              <Reveal>
+                <p className="eyebrow">One ecosystem</p>
+                <h2 className="h2 mt-3">Four products. One identity. <span className="text-gradient">One loop.</span></h2>
+                <p className="lead mt-4 max-w-md">Your profile, skills and activity travel with you. What you do in Collab strengthens your career roadmap, and your roadmap points you to the right opportunities.</p>
+                <ul className="mt-6 space-y-3 text-sm">
+                  {["Verified student identity across every product", "Progress and history that carry over", "One login, one profile, one place"].map((t) => (
+                    <li key={t} className="flex items-center gap-3"><span className="grid h-6 w-6 place-items-center rounded-full bg-sky-50 text-sky-600"><CheckCircle2 size={14} /></span>{t}</li>
+                  ))}
+                </ul>
+              </Reveal>
+              <Reveal delay={120}><EcosystemHub /></Reveal>
+            </div>
+            <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {[
                 { icon: ShoppingBag, name: "Marketplace", text: "Buy and sell academic resources with verified students.", to: "/marketplace", g: "from-sky-500 to-blue-600" },
                 { icon: Users, name: "Student Collab", text: "Find teammates, join communities, ship projects together.", to: "/collab", g: "from-blue-500 to-indigo-600" },
@@ -216,6 +243,27 @@ export default function LandingPage() {
                 </Reveal>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* How it works */}
+        <section className="container-x py-20 md:py-24">
+          <SectionHead eyebrow="How it works" title="Up and running in three steps." />
+          <div className="relative mt-12 grid gap-6 md:grid-cols-3">
+            <div className="absolute left-[16%] right-[16%] top-7 hidden h-px md:block" aria-hidden>
+              <svg width="100%" height="2" className="overflow-visible"><line x1="0" y1="1" x2="100%" y2="1" stroke="#38bdf8" strokeWidth="2" className="dash-flow" /></svg>
+            </div>
+            {steps.map(({ icon: I, title, text }, i) => (
+              <Reveal key={title} delay={i * 120}>
+                <div className="relative text-center">
+                  <div className="relative mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-sky-500 to-blue-700 text-white shadow-lg shadow-sky-500/30"><I size={22} />
+                    <span className="absolute -right-2 -top-2 grid h-6 w-6 place-items-center rounded-full border-2 border-white bg-ink text-[11px] font-semibold">{i + 1}</span>
+                  </div>
+                  <h3 className="mt-5 text-lg font-semibold tracking-tight">{title}</h3>
+                  <p className="mx-auto mt-2 max-w-xs text-sm leading-relaxed text-subtle">{text}</p>
+                </div>
+              </Reveal>
+            ))}
           </div>
         </section>
 
@@ -246,16 +294,31 @@ export default function LandingPage() {
               <p className="lead mt-4">Pick your degree, goals and skills. Get a roadmap, learning paths and assessments, and a readiness score that moves as you do.</p>
               <ButtonLink href="/lancing/career-compass" className="mt-7" variant="dark">See Career Compass <ArrowRight size={16} /></ButtonLink>
             </Reveal>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {compass.map(([I, l], i) => (
-                <Reveal key={l} delay={i * 60}>
-                  <Card className="lift p-4"><span className="grid h-9 w-9 place-items-center rounded-lg bg-sky-50 text-sky-600"><I size={18} /></span><p className="mt-3 text-sm font-medium">{l}</p></Card>
-                </Reveal>
-              ))}
-            </div>
+            <Reveal delay={120}>
+              <Card className="p-6 shadow-pop">
+                <div className="flex flex-col items-center gap-6 sm:flex-row">
+                  <ReadinessGauge value={68} />
+                  <div className="w-full flex-1 space-y-3">
+                    <p className="text-sm font-semibold">Skill progress</p>
+                    {[["Data structures", 82], ["React & TypeScript", 64], ["SQL", 47]].map(([n, v]) => (
+                      <div key={n as string}>
+                        <div className="mb-1 flex justify-between text-xs"><span>{n}</span><span className="text-subtle">{v}%</span></div>
+                        <div className="h-1.5 overflow-hidden rounded-full bg-surface-2"><div className="h-full rounded-full bg-gradient-to-r from-sky to-blue-600" style={{ width: `${v}%` }} /></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="mt-6 flex flex-wrap gap-2 border-t border-line pt-5">
+                  {compass.map(([I, l]) => (
+                    <span key={l} className="inline-flex items-center gap-1.5 rounded-full bg-sky-50 px-3 py-1.5 text-xs font-medium text-sky-600"><I size={13} />{l}</span>
+                  ))}
+                </div>
+              </Card>
+            </Reveal>
           </div>
         </section>
 
+        <Wave fill="#071A2E" />
         {/* Institutions + logos */}
         <section id="institutions" className="section-navy py-20 text-white md:py-28">
           <div className="container-x">
@@ -372,14 +435,38 @@ export default function LandingPage() {
           </ul>
         </section>
 
+        {/* FAQ */}
+        <section id="faq" className="container-x py-20 md:py-24">
+          <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr]">
+            <Reveal>
+              <p className="eyebrow">FAQ</p>
+              <h2 className="h2 mt-3">Questions, answered.</h2>
+              <p className="lead mt-4 max-w-sm">Can’t find what you’re looking for? Read our <Link href="/policies" className="text-sky-600 underline underline-offset-4">policies</Link> or write to the team.</p>
+            </Reveal>
+            <Reveal delay={100}>
+              <div className="divide-y divide-line rounded-2xl border border-line bg-white">
+                {faqs.map(([q, a]) => (
+                  <details key={q} className="faq group px-5 py-4">
+                    <summary className="flex items-center justify-between gap-4 text-left text-[15px] font-medium">
+                      {q}
+                      <span className="faq-plus grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface-2 text-ink transition-all duration-300"><Plus size={15} /></span>
+                    </summary>
+                    <p className="faq-body mt-3 pr-10 text-sm leading-relaxed text-subtle">{a}</p>
+                  </details>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
         {/* Final CTA */}
         <section className="container-x pb-20 md:pb-28">
           <Reveal>
             <div className="cta-blue relative overflow-hidden rounded-3xl px-6 py-14 text-center text-white md:py-20">
               <div className="blob absolute -left-10 -top-10 h-56 w-56 rounded-full bg-white/10 blur-2xl" aria-hidden />
               <div className="blob absolute -bottom-16 right-0 h-64 w-64 rounded-full bg-sky/30 blur-3xl [animation-delay:-6s]" aria-hidden />
-              <Sparkles size={22} className="relative mx-auto text-white" aria-hidden />
-              <h2 className="h2 relative mx-auto mt-4 max-w-3xl">Your college years should build your career, not scatter your attention.</h2>
+              <div className="relative mx-auto grid h-24 w-24 place-items-center rounded-full bg-white shadow-xl"><img src="/logo-mark.png" alt="StudentXchange" className="float-slow h-[68px] w-auto" /></div>
+              <h2 className="h2 relative mx-auto mt-6 max-w-3xl">Your college years should build your career, not scatter your attention.</h2>
               <div className="relative mt-8 flex flex-wrap justify-center gap-3">
                 <ButtonLink href="/auth?mode=signup" variant="white" size="lg">Register free <ArrowRight size={16} /></ButtonLink>
                 <ButtonLink href="/auth" variant="secondary" size="lg" className="!border-white/40 !bg-transparent !text-white hover:!bg-white/10">Log in</ButtonLink>

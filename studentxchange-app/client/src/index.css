@@ -1244,7 +1244,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Inter', 'Inter Fallback', system-ui, sans
   mask-image: radial-gradient(70% 60% at 50% 30%, #000 40%, transparent 100%);
 }
 .section-navy {
-  background: radial-gradient(60% 70% at 85% 0%, rgba(56,189,248,.20), transparent 60%),
+  background: radial-gradient(45% 55% at 85% 45%, rgba(56,189,248,.20), transparent 70%),
               radial-gradient(40% 50% at 0% 100%, rgba(37,99,235,.22), transparent 60%),
               linear-gradient(180deg, #071A2E, #0B2545);
 }
@@ -1267,3 +1267,16 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Inter', 'Inter Fallback', system-ui, sans
   .text-gradient, .float-slow, .float-slower, .blob, .marquee-track, .btn-shine::after { animation: none !important; }
   .lift:hover { transform: none; }
 }
+
+/* Graphics + motion (batch 2) */
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes dash-flow { to { stroke-dashoffset: -28; } }
+@keyframes pop-in { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: scale(1); } }
+.spin-slow { animation: spin-slow 48s linear infinite; transform-origin: 50% 50%; }
+.spin-mid { animation: spin-slow 16s linear infinite; }
+.dash-flow { stroke-dasharray: 5 9; animation: dash-flow 1.6s linear infinite; }
+details.faq > summary { list-style: none; cursor: pointer; }
+details.faq > summary::-webkit-details-marker { display: none; }
+details.faq[open] .faq-body { animation: fade-up .35s ease both; }
+details.faq[open] .faq-plus { transform: rotate(45deg); background: #0ea5e9; color: #fff; }
+@media (prefers-reduced-motion: reduce) { .spin-slow, .spin-mid, .dash-flow { animation: none !important; } }

@@ -19,7 +19,7 @@ export function ProductMock() {
       <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-pop">
         <div className="flex items-center gap-1.5 border-b border-line bg-surface-2 px-4 py-2.5">
           <i className="h-2.5 w-2.5 rounded-full bg-red-300" /><i className="h-2.5 w-2.5 rounded-full bg-amber-300" /><i className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
-          <span className="ml-3 rounded-md bg-white px-2 py-0.5 text-[10px] text-subtle">studentxchange.in</span>
+          <span className="ml-3 inline-flex items-center gap-1.5 rounded-md bg-white px-2 py-0.5 text-[10px] text-subtle"><img src="/logo-mark.png" alt="" className="h-3.5 w-auto" />studentxchange.in</span>
         </div>
         <div className="grid gap-3 bg-gradient-to-b from-sky-50/70 to-surface-2 p-4 sm:grid-cols-5">
           <div className="rounded-xl border border-line bg-white p-4 sm:col-span-3">

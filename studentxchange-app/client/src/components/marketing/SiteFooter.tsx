@@ -2,7 +2,7 @@ import { Link } from "wouter";
 import { Logo } from "@/components/marketing/mui";
 
 const cols: { title: string; items: [string, string][] }[] = [
-  { title: "Platform", items: [["Marketplace", "/marketplace"], ["Student Collab", "/collab"], ["StudentLancing", "/student-lancing"], ["Career Compass", "/lancing/career-compass"], ["Competitions", "/competitions"]] },
+  { title: "Platform", items: [["Marketplace", "/marketplace"], ["Student Collab", "/collab"], ["StudentLancing", "/student-lancing"], ["Career Compass", "/lancing/career-compass"]] },
   { title: "Opportunities", items: [["Internships", "/lancing/internships"], ["Campus drives", "/lancing/campus-drives"], ["Competitions", "/competitions"], ["Company problem bank", "/lancing/companies"]] },
   { title: "Company", items: [["About", "/about"], ["Log in", "/auth"], ["Register", "/auth?mode=signup"]] },
   { title: "Legal", items: [["Terms", "/terms"], ["Privacy policy", "/privacy-policy"], ["Policies & refunds", "/policies"]] },
@@ -13,9 +13,8 @@ export function SiteFooter() {
     <footer id="footer" className="bg-ink text-white">
       <div className="container-x grid gap-10 py-14 md:grid-cols-[1.4fr_repeat(4,1fr)]">
         <div>
-          <Link href="/"><Logo light /></Link>
+          <Link href="/" aria-label="StudentXchange home"><Logo light size={56} /></Link>
           <p className="mt-4 max-w-xs text-sm text-white/60">The student operating system. Learn, earn, collaborate and grow.</p>
-          <img src="/logo-studentxchange.jpg" alt="StudentXchange.in official badge" width={72} height={72} className="mt-5 h-[72px] w-[72px] rounded-xl object-cover" loading="lazy" />
         </div>
         {cols.map((c) => (
           <div key={c.title}>

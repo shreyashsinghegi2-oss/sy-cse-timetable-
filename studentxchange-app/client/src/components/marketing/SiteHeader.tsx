@@ -50,8 +50,13 @@ function LoginMenu() {
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [progress, setProgress] = useState(0);
   useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 8);
+    const on = () => {
+      setScrolled(window.scrollY > 8);
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(h > 0 ? Math.min(100, (window.scrollY / h) * 100) : 0);
+    };
     on();
     window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
@@ -59,8 +64,11 @@ export function SiteHeader() {
 
   return (
     <header className={`sticky top-0 z-40 overflow-visible bg-white/90 backdrop-blur ${scrolled ? "border-b border-line" : "border-b border-transparent"}`}>
+      <div className="absolute inset-x-0 bottom-0 h-[2px] bg-transparent" aria-hidden>
+        <div className="h-full bg-gradient-to-r from-sky to-blue-600 transition-[width] duration-100" style={{ width: `${progress}%` }} />
+      </div>
       <div className="container-x flex h-16 items-center justify-between gap-6">
-        <Link href="/" aria-label="StudentXchange home"><BrandLogo /></Link>
+        <Link href="/" aria-label="StudentXchange home"><BrandLogo size={46} /></Link>
         <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
           {links.map((l) => (
             <a key={l.href} href={l.href} className="nav-link rounded-md px-3 py-2 text-sm text-subtle transition-colors hover:text-ink">{l.label}</a>

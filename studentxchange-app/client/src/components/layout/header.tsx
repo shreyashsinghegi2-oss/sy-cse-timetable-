@@ -1,4 +1,5 @@
 import { Link, useLocation } from "wouter";
+import { BrandLink } from "@/components/brand/brand-mark";
 import { useAuth } from "@/hooks/use-auth";
 import { ShoppingCart, Menu, Package, ListOrdered, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -41,8 +42,9 @@ export default function Header() {
     <header id="header" className="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          <div className="flex">
-            <nav className="hidden sm:flex sm:space-x-8">
+          <div className="flex items-center gap-8">
+            <BrandLink size={40} className="mr-1" />
+            <nav className="hidden sm:flex sm:space-x-8 h-16">
               <Link href="/sell">
                 <span id="sell-button" className={`${isActive('/sell') ? 'border-primary text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium cursor-pointer`}>
                   Sell Your Items

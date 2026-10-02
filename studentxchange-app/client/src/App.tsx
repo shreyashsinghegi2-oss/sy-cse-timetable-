@@ -14,6 +14,7 @@ import { LancingAuthProvider, useLancingAuth } from "./hooks/use-lancing-auth";
 import { CartProvider } from "./hooks/use-cart";
 import { ErrorBoundary } from "./components/error-boundary";
 import { FeedSkeleton, MarketplaceGridSkeleton, UserProfileSkeleton } from "@/components/ui/skeletons";
+import { BrandLoader } from "@/components/brand/brand-mark";
 import TopNav from "./components/navigation/top-nav";
 import MobileNav from "./components/layout/mobile-nav";
 import CollabMobileNav from "./components/collab/collab-mobile-nav";
@@ -155,14 +156,7 @@ function PageLoader() {
     );
   }
 
-  return (
-    <div
-      className="min-h-screen bg-white"
-      style={{ contain: "layout paint" }}
-      aria-busy="true"
-      aria-live="polite"
-    />
-  );
+  return <BrandLoader />;
 }
 
 
