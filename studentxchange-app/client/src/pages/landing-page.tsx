@@ -1,209 +1,264 @@
+import {
+  ArrowRight, ShoppingBag, Users, Briefcase, Compass, Map, Brain, BookOpen, ClipboardCheck, Target, Sparkles,
+  BarChart3, FileText, Building2, Search, ShieldCheck, ShoppingCart, MessageSquare, CalendarDays, Trophy, Zap,
+} from "lucide-react";
 import { Link } from "wouter";
-import { ShoppingBag, Users, Briefcase } from "lucide-react";
-
 import SEOHead from "@/components/seo/seo-head";
-import { generateWebsiteSchema } from "@/components/seo/product-schema";
+import { SiteHeader } from "@/components/marketing/SiteHeader";
+import { SiteFooter } from "@/components/marketing/SiteFooter";
+import { ProductMock } from "@/components/marketing/ProductMock";
+import { ButtonLink, Badge, Card } from "@/components/marketing/mui";
 
-export default function LandingPage() {
+const stats = [
+  ["3,500+", "students"],
+  ["4,830", "pipeline students"],
+  ["134+", "marketplace listings"],
+  ["33+", "completed orders"],
+];
+
+const products = [
+  { icon: ShoppingBag, name: "Marketplace", text: "Buy and sell academic resources with verified students.", to: "/marketplace" },
+  { icon: Users, name: "Student Collab", text: "Find teammates, join communities, ship projects together.", to: "/collab" },
+  { icon: Briefcase, name: "StudentLancing", text: "Internships, jobs and freelance work with clear application states.", to: "/student-lancing" },
+  { icon: Compass, name: "Career Compass", text: "An AI roadmap from first year to placement, with progress you can see.", to: "/lancing/career-compass" },
+];
+
+const journey = ["First year", "Skills", "Collaboration", "Internships", "Projects", "Placement readiness", "Career"];
+
+const compass = [
+  [Map, "Roadmap"], [Target, "Skills"], [BookOpen, "Learning"], [ClipboardCheck, "Assessments"],
+  [BarChart3, "Placement readiness"], [Search, "Opportunities"], [Brain, "AI guidance"],
+] as const;
+
+const inst = [
+  [BarChart3, "Progress"], [Target, "Skill mapping"], [ClipboardCheck, "Readiness"], [FileText, "Reports"], [Building2, "Opportunity management"],
+] as const;
+
+const opp = [
+  ["Internships", Briefcase], ["Jobs", Building2], ["Freelancing", Zap], ["Competitions", Trophy], ["Hackathons", Sparkles], ["Campus drives", CalendarDays],
+] as const;
+
+const stories = [
+  ["I stopped juggling five apps. My roadmap, teammates and internship applications now live in one place.", "Aarav, SY Computer Engineering"],
+  ["Sold my semester notes in two days, and the buyer was verified from my own campus.", "Meera, Business Studies"],
+  ["Our placement cell finally sees where each student stands, from Year 1.", "Placement coordinator, partner college"],
+];
+
+export default function Landing() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-white">
+    <div>
       <SEOHead
-        title="StudentXchange - Connect, Collaborate, and Create Opportunities"
-        description="Empowering students to buy & sell educational materials, collaborate on projects, and find freelancing opportunities. Your one-stop platform for student success."
-        keywords="student marketplace, student collaboration, student freelancing, buy sell books, educational materials, student network, India education"
-        structuredData={generateWebsiteSchema()}
+        title="StudentXchange — The Student Operating System"
+        description="Learn, earn, collaborate and grow. Marketplace, Student Collab, StudentLancing and Career Compass under one verified student identity."
         canonical="https://studentxchange.in/"
       />
-
-      {/* Header */}
-      <header className="w-full py-6 px-8">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-2">
-            <div className="text-3xl font-bold text-gray-900 tracking-tight" aria-label="StudentXchange">
-              Student<span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Xchange</span>
+      <SiteHeader />
+      <main>
+        {/* 02 Hero */}
+        <section className="container-x grid items-center gap-12 pb-16 pt-14 md:pt-20 lg:grid-cols-[1.05fr_1fr]">
+          <div className="animate-fade-up">
+            <p className="eyebrow">The student operating system</p>
+            <h1 className="h1 mt-4">Everything a student needs to learn, earn, collaborate and grow.</h1>
+            <p className="lead mt-5 max-w-xl">Marketplace, community, opportunities and a personal career roadmap, under one verified student identity.</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <ButtonLink href="/auth" variant="dark" size="lg">Get Started <ArrowRight size={16} /></ButtonLink>
+              <ButtonLink href="/marketplace" variant="secondary" size="lg">Explore StudentXchange</ButtonLink>
             </div>
           </div>
+          <ProductMock />
+        </section>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            <Link href="/">
-              <span className="text-gray-700 font-medium hover:text-blue-600 transition-colors duration-300 cursor-pointer">
-                Home
-              </span>
-            </Link>
-            <Link href="/about">
-              <span className="text-gray-700 font-medium hover:text-blue-600 transition-colors duration-300 cursor-pointer">
-                About
-              </span>
-            </Link>
-            <Link href="/policies">
-              <span className="text-gray-700 font-medium hover:text-blue-600 transition-colors duration-300 cursor-pointer">
-                Policies
-              </span>
-            </Link>
-          </nav>
-        </div>
-      </header>
-
-      {/* Main Content - Three Platform Cards */}
-      <main className="flex-1 flex items-center justify-center px-4 py-12 md:py-20">
-        <div className="max-w-6xl w-full">
-          {/* Welcome Text */}
-          <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">
-              Choose Your Platform
-            </h1>
-            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-              Three powerful tools designed to empower your student journey
-            </p>
-          </div>
-
-          {/* Platform Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-16">
-            
-            {/* Student Marketplace Card */}
-            <Link href="/marketplace">
-              <div 
-                className="group relative bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-2 border border-gray-100"
-                data-testid="card-marketplace"
-              >
-                <div className="flex flex-col items-center text-center space-y-4">
-                  {/* Icon */}
-                  <div className="w-20 h-20 bg-gradient-to-br from-orange-400 to-pink-500 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                    <ShoppingBag className="w-10 h-10 text-white" />
-                  </div>
-                  
-                  {/* Title */}
-                  <h3 className="text-2xl font-bold text-gray-900">
-                    Student Marketplace
-                  </h3>
-                  
-                  {/* Description */}
-                  <p className="text-gray-600 text-base leading-relaxed">
-                    Buy & Sell Student Essentials
-                  </p>
-                  
-                  {/* Hover indicator */}
-                  <div className="mt-4 text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Explore →
-                  </div>
-                </div>
+        {/* 03 Traction */}
+        <section aria-label="Traction" className="border-y border-line bg-surface-2">
+          <div className="container-x grid grid-cols-2 gap-y-6 py-8 md:grid-cols-4">
+            {stats.map(([n, l]) => (
+              <div key={l} className="md:text-center">
+                <div className="text-2xl font-semibold tracking-tight md:text-3xl">{n}</div>
+                <div className="text-sm text-subtle">{l}</div>
               </div>
-            </Link>
+            ))}
+          </div>
+        </section>
 
-            {/* Student Collab Card - Highlighted */}
-            <Link href="/collab">
-              <div 
-                className="group relative bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-2 border-2 border-blue-400 ring-4 ring-blue-100"
-                data-testid="card-collab"
-              >
-                {/* Blue accent glow */}
-                <div className="absolute inset-0 rounded-2xl bg-blue-400 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500"></div>
-                
-                <div className="relative flex flex-col items-center text-center space-y-4">
-                  {/* Icon */}
-                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                    <Users className="w-10 h-10 text-white" />
+        {/* 04 Ecosystem */}
+        <section id="product" className="container-x py-20 md:py-28">
+          <p className="eyebrow">One ecosystem</p>
+          <h2 className="h2 mt-3 max-w-2xl">Four products. One identity. One loop.</h2>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {products.map(({ icon: I, name, text, to }) => (
+              <Link key={name} href={to} className="group">
+                <Card className="h-full p-6 transition-colors duration-150 group-hover:border-sky">
+                  <div className="grid h-10 w-10 place-items-center rounded-lg bg-sky-50 text-sky-600"><I size={20} /></div>
+                  <h3 className="mt-5 text-lg font-semibold tracking-tight">{name}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-subtle">{text}</p>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        {/* 05 Journey */}
+        <section id="journey" className="bg-surface-2 py-20 md:py-24">
+          <div className="container-x">
+            <p className="eyebrow">Student journey</p>
+            <h2 className="h2 mt-3 max-w-2xl">From first year to first offer.</h2>
+            <ol className="mt-10 flex gap-0 overflow-x-auto pb-2 [scrollbar-width:none]">
+              {journey.map((s, i) => (
+                <li key={s} className="relative min-w-[140px] flex-1 pr-4">
+                  <div className="flex items-center">
+                    <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ink text-xs font-semibold text-white">{i + 1}</span>
+                    {i < journey.length - 1 && <span className="ml-2 h-px flex-1 bg-line" />}
                   </div>
-                  
-                  {/* Title */}
-                  <h3 className="text-2xl font-bold text-gray-900">
-                    Student Collab
-                  </h3>
-                  
-                  {/* Description */}
-                  <p className="text-gray-600 text-base leading-relaxed">
-                    Connect & Collaborate with Like-Minded Students
-                  </p>
-                  
-                  {/* Badge */}
-                  <div className="absolute -top-3 -right-3 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-                    Popular
-                  </div>
-                  
-                  {/* Hover indicator */}
-                  <div className="mt-4 text-blue-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Start Collaborating →
-                  </div>
+                  <p className="mt-3 text-sm font-medium">{s}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* 06 Career Compass */}
+        <section id="compass" className="container-x grid items-center gap-12 py-20 md:py-28 lg:grid-cols-2">
+          <div>
+            <Badge tone="sky">Premium · ₹499 / year</Badge>
+            <h2 className="h2 mt-4">Career Compass turns “what should I do next?” into a plan.</h2>
+            <p className="lead mt-4">Pick your degree, goals and skills. Get a roadmap, learning paths and assessments, and a readiness score that moves as you do.</p>
+            <ButtonLink href="/lancing/career-compass" className="mt-7" variant="dark">See Career Compass <ArrowRight size={16} /></ButtonLink>
+          </div>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {compass.map(([I, l]) => (
+              <Card key={l} className="p-4">
+                <I size={18} className="text-sky-600" />
+                <p className="mt-3 text-sm font-medium">{l}</p>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* 07 Institutions */}
+        <section id="institutions" className="bg-ink py-20 text-white md:py-28">
+          <div className="container-x">
+            <p className="eyebrow !text-sky">For institutions</p>
+            <h2 className="h2 mt-3 max-w-2xl">Career visibility from Year 1, not just placement season.</h2>
+            <p className="mt-4 max-w-xl text-base text-white/60">Roadmaps, cohort progress and readiness in one dashboard. Students pay directly, so colleges stay out of the billing.</p>
+            <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-5">
+              {inst.map(([I, l]) => (
+                <div key={l} className="rounded-xl border border-white/10 bg-ink-2 p-4">
+                  <I size={18} className="text-sky" />
+                  <p className="mt-3 text-sm font-medium">{l}</p>
                 </div>
-              </div>
-            </Link>
+              ))}
+            </div>
+            <ButtonLink href="/auth" size="lg" className="mt-10">Partner with us</ButtonLink>
+          </div>
+        </section>
 
-            {/* Student Lancing Card */}
-            <Link href="/student-lancing">
-              <div 
-                className="group relative bg-white rounded-2xl p-8 shadow-md hover:shadow-2xl transition-all duration-500 cursor-pointer transform hover:-translate-y-2 border border-gray-100"
-                data-testid="card-lancing"
-              >
-                <div className="flex flex-col items-center text-center space-y-4">
-                  <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-teal-500 rounded-2xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                    <Briefcase className="w-10 h-10 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900">
-                    Student Lancing
-                  </h3>
-                  <p className="text-gray-600 text-base leading-relaxed">
-                    Freelancing Opportunities for Students
-                  </p>
-                  <div className="absolute -top-3 -right-3 bg-gradient-to-r from-green-500 to-teal-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
-                    New
-                  </div>
-                  <div className="mt-4 text-green-600 font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Start Freelancing →
-                  </div>
+        {/* 08 Marketplace */}
+        <section id="marketplace" className="container-x grid items-center gap-12 py-20 md:py-28 lg:grid-cols-2">
+          <div className="order-2 grid grid-cols-2 gap-3 lg:order-1">
+            {[["Data Structures Notes", "₹199"], ["Engineering Drawing Kit", "₹349"], ["Python Cheat Sheets", "₹99"], ["DBMS Previous Papers", "₹149"]].map(([n, p]) => (
+              <Card key={n} className="overflow-hidden">
+                <div className="aspect-[4/3] bg-surface-2" />
+                <div className="p-3">
+                  <p className="text-sm font-medium">{n}</p>
+                  <div className="mt-1 flex items-center justify-between"><span className="text-sm font-semibold">{p}</span><Badge tone="success">Verified</Badge></div>
                 </div>
+              </Card>
+            ))}
+          </div>
+          <div className="order-1 lg:order-2">
+            <p className="eyebrow">Marketplace</p>
+            <h2 className="h2 mt-3">Verified campus commerce.</h2>
+            <ul className="mt-6 space-y-3 text-sm">
+              {[[Search, "Search and filter by category"], [ShieldCheck, "Verified student sellers"], [ShoppingCart, "Cart and one-step checkout"]].map(([I, t]) => {
+                const Icon = I as typeof Search;
+                return <li key={t as string} className="flex items-center gap-3"><Icon size={16} className="text-sky-600" />{t as string}</li>;
+              })}
+            </ul>
+          </div>
+        </section>
+
+        {/* 09 Collab */}
+        <section id="collab" className="bg-surface-2 py-20 md:py-28">
+          <div className="container-x">
+            <p className="eyebrow">Student Collab</p>
+            <h2 className="h2 mt-3 max-w-2xl">A professional network, built for students.</h2>
+            <div className="mt-10 grid gap-4 md:grid-cols-3">
+              {[[Users, "Profiles and matching", "Skills, goals and projects decide who you meet."], [MessageSquare, "Messaging", "Direct and group chats for teams and communities."], [CalendarDays, "Events", "Hackathons, meetups and club activity in one feed."]].map(([I, t, d]) => {
+                const Icon = I as typeof Users;
+                return (
+                  <Card key={t as string} className="p-6">
+                    <Icon size={20} className="text-sky-600" />
+                    <h3 className="mt-4 text-base font-semibold">{t as string}</h3>
+                    <p className="mt-1.5 text-sm text-subtle">{d as string}</p>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* 10 Opportunities */}
+        <section id="opportunities" className="container-x py-20 md:py-28">
+          <p className="eyebrow">Opportunities</p>
+          <h2 className="h2 mt-3 max-w-2xl">Find the next thing worth doing.</h2>
+          <div className="mt-8 flex flex-wrap gap-2">
+            {opp.map(([l, I]) => (
+              <span key={l} className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm"><I size={14} className="text-sky-600" />{l}</span>
+            ))}
+          </div>
+          <div className="mt-8 divide-y divide-line rounded-xl border border-line">
+            {[["Frontend Intern", "Pune · Remote", "Internship"], ["Smart India Hackathon prep", "Team formation open", "Hackathon"], ["Campus drive — Aug", "Placement cell", "Drive"]].map(([t, m, k]) => (
+              <div key={t} className="flex items-center justify-between gap-4 p-4">
+                <div><p className="text-sm font-medium">{t}</p><p className="text-xs text-subtle">{m}</p></div>
+                <Badge tone="sky">{k}</Badge>
               </div>
-            </Link>
-
+            ))}
           </div>
+        </section>
 
-          {/* Tagline */}
-          <div className="text-center mb-8">
-            <p className="text-xl md:text-2xl text-gray-700 font-medium italic">
-              "Empowering Students to Connect, Collaborate, and Create Opportunities."
-            </p>
+        {/* 11 AI */}
+        <section className="bg-ink py-20 text-white md:py-28">
+          <div className="container-x grid items-center gap-12 lg:grid-cols-2">
+            <div>
+              <p className="eyebrow !text-sky">AI, where it helps</p>
+              <h2 className="h2 mt-3">Guidance that reads your goals, not your buzzwords.</h2>
+              <p className="mt-4 text-base text-white/60">Roadmap generation, skill-gap analysis and learning paths, all kept inside your plan with quotas you can see.</p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-ink-2 p-5 font-mono text-[13px] leading-relaxed" aria-hidden>
+              <p className="text-white/50">› goal: backend engineer · year 2</p>
+              <p className="mt-2 text-sky">Skill gap: databases, system design</p>
+              <p className="mt-1 text-white/80">Week 1–2 · SQL fundamentals</p>
+              <p className="text-white/80">Week 3–4 · REST API project</p>
+              <p className="text-white/80">Week 5 · Mock assessment</p>
+            </div>
           </div>
+        </section>
 
-          {/* Mobile Quick Links - About & Policies */}
-          <div className="md:hidden flex justify-center gap-6 mb-8">
-            <Link href="/about">
-              <span className="text-blue-600 font-medium hover:text-blue-700 transition-colors cursor-pointer">
-                About
-              </span>
-            </Link>
-            <span className="text-gray-300">|</span>
-            <Link href="/policies">
-              <span className="text-blue-600 font-medium hover:text-blue-700 transition-colors cursor-pointer">
-                Policies
-              </span>
-            </Link>
+        {/* 12 Testimonials */}
+        <section className="container-x py-20 md:py-28">
+          <h2 className="h2 max-w-2xl">Built with the students who use it.</h2>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {stories.map(([q, a]) => (
+              <Card key={a} className="p-6">
+                <p className="text-sm leading-relaxed">“{q}”</p>
+                <p className="mt-4 text-xs text-subtle">{a}</p>
+              </Card>
+            ))}
           </div>
-        </div>
+        </section>
+
+        {/* 13 Final CTA */}
+        <section className="container-x pb-20 md:pb-28">
+          <div className="rounded-3xl bg-surface-2 px-6 py-14 text-center md:py-20">
+            <h2 className="h2 mx-auto max-w-3xl">Your college years should build your career, not scatter your attention.</h2>
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+              <ButtonLink href="/auth" variant="dark" size="lg">Join StudentXchange</ButtonLink>
+              <ButtonLink href="/auth" variant="secondary" size="lg">Partner with us</ButtonLink>
+            </div>
+          </div>
+        </section>
       </main>
-
-      {/* Footer */}
-      <footer className="w-full py-8 border-t border-gray-200">
-        <div className="max-w-7xl mx-auto px-8 text-center">
-          <div className="flex flex-wrap justify-center gap-4 mb-4 text-sm">
-            <Link href="/about">
-              <span className="text-gray-500 hover:text-gray-700 cursor-pointer">About Us</span>
-            </Link>
-            <Link href="/policies">
-              <span className="text-gray-500 hover:text-gray-700 cursor-pointer">Policies</span>
-            </Link>
-            <Link href="/policies#shipping">
-              <span className="text-gray-500 hover:text-gray-700 cursor-pointer">Shipping</span>
-            </Link>
-            <Link href="/policies#refund">
-              <span className="text-gray-500 hover:text-gray-700 cursor-pointer">Refunds</span>
-            </Link>
-          </div>
-          <p className="text-gray-600 text-sm">
-            © 2025 StudentXchange.in – All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

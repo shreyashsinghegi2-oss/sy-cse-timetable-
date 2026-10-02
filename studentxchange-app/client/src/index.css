@@ -1171,3 +1171,44 @@ nav a, nav button {
     font-size: 16px; /* Prevent iOS zoom */
   }
 }
+
+/* ============================================================
+   StudentXchange brand tokens (Design Brief §2)
+   Sky Blue #38BDF8 accent · Near-black #0B0F14 · White · Greys
+   shadcn variables are overridden here so every existing page
+   inherits the new system. Raised specificity beats the theme plugin.
+   ============================================================ */
+:root:root {
+  --background: 0 0% 100%;
+  --foreground: 210 29% 6%;
+  --card: 0 0% 100%;
+  --card-foreground: 210 29% 6%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 210 29% 6%;
+  --primary: 199 92% 60%;
+  --primary-foreground: 210 29% 6%;
+  --secondary: 210 17% 97%;
+  --secondary-foreground: 210 29% 6%;
+  --muted: 210 17% 97%;
+  --muted-foreground: 220 13% 46%;
+  --accent: 199 100% 94%;
+  --accent-foreground: 210 29% 6%;
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
+  --ring: 199 89% 48%;
+  --radius: 0.5rem;
+}
+body { background: #ffffff; }
+h1, h2, h3, h4, h5, h6 { font-family: 'Inter', 'Inter Fallback', system-ui, sans-serif; letter-spacing: -0.03em; }
+
+/* Marketing primitives used by the redesigned landing page */
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-[1200px] px-5 md:px-8; }
+  .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.14em] text-sky-600; }
+  .h1 { @apply text-[40px] leading-[1.04] font-semibold md:text-[64px]; }
+  .h2 { @apply text-[30px] leading-[1.1] font-semibold md:text-[44px]; }
+  .lead { @apply text-base leading-relaxed text-subtle md:text-lg; }
+}
+@keyframes fade-up { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.animate-fade-up { animation: fade-up 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+@media (prefers-reduced-motion: reduce) { .animate-fade-up { animation: none; } }

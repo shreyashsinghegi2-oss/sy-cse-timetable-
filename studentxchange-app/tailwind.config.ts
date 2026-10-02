@@ -10,7 +10,17 @@ export default {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      boxShadow: {
+        card: "0 1px 2px rgb(11 15 20 / 0.04)",
+        pop: "0 12px 32px -8px rgb(11 15 20 / 0.18)",
+      },
       colors: {
+        // Brand palette (design brief §2): sky accent, near-black, greys
+        ink: { DEFAULT: "#0B0F14", 2: "#151B23" },
+        surface: { DEFAULT: "#FFFFFF", 2: "#F4F6F8" },
+        line: "#E5E7EB",
+        subtle: "#667085",
+        sky: { DEFAULT: "#38BDF8" },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
