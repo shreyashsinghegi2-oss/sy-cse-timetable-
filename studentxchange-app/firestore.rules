@@ -1,0 +1,245 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // =============================================
+    // HELPER FUNCTIONS
+    // =============================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isAuthenticated() && request.auth.uid == uid;
+    }
+
+    // Admin verified via Firebase custom claim (set server-side by Admin SDK only)
+    function isAdminClaim() {
+      return isAuthenticated() && request.auth.token.admin == true;
+    }
+
+    // Conversation participant check — supports both 'participants' and 'members'
+    // field names used by different code paths in the app
+    function isConvParticipant(data) {
+      return ('participants' in data && request.auth.uid in data.participants) ||
+             ('members' in data && request.auth.uid in data.members);
+    }
+
+    // =============================================
+    // STUDENT LANCING COLLECTIONS
+    // =============================================
+
+    match /lancing_users/{userId} {
+      allow read, write: if isOwner(userId);
+
+      match /profile/{document=**} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    match /lancing_jobs/{jobId} {
+      allow read: if isAuthenticated();
+      // HARDENED: creator uid must match the companyId they claim in the document
+      allow create: if isAuthenticated() &&
+        request.auth.uid == request.resource.data.companyId;
+      allow update, delete: if isAuthenticated() &&
+        request.auth.uid == resource.data.companyId;
+    }
+
+    match /lancing_internships/{internshipId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() &&
+        request.auth.uid == request.resource.data.companyId;
+      allow update, delete: if isAuthenticated() &&
+        request.auth.uid == resource.data.companyId;
+    }
+
+    match /lancing_micro_tasks/{taskId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() &&
+        request.auth.uid == request.resource.data.companyId;
+      allow update, delete: if isAuthenticated() &&
+        request.auth.uid == resource.data.companyId;
+    }
+
+    match /lancing_applications/{applicationId} {
+      // HARDENED: applicant must be the authenticated user
+      allow create: if isAuthenticated() &&
+        request.auth.uid == request.resource.data.freelancerId;
+      allow read: if isAuthenticated() &&
+        (request.auth.uid == resource.data.freelancerId ||
+         request.auth.uid == resource.data.companyId);
+      allow update: if isAuthenticated() &&
+        (request.auth.uid == resource.data.freelancerId ||
+         request.auth.uid == resource.data.companyId);
+      allow delete: if false;
+    }
+
+    // Feed cache — backend-only writes via Admin SDK; authenticated reads
+    match /feed_cache/{document=**} {
+      allow read: if isAuthenticated();
+      allow write: if false;
+    }
+
+    // =============================================
+    // STUDENT COLLAB COLLECTIONS
+    // =============================================
+
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
+
+      match /connections/{connectionId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      match /notifications/{notificationId} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+
+    // Extended collab profiles
+    match /collab_profiles/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
+    }
+
+    match /posts/{postId} {
+      allow read: if true;  // Public social feed — intentional
+      allow create: if isAuthenticated();
+      allow update, delete: if isAuthenticated() &&
+        request.auth.uid == resource.data.authorId;
+    }
+
+    // HARDENED: conversations restricted to participants only.
+    // Both 'participants' and 'members' field names are supported for
+    // backward compatibility with different code paths in the codebase.
+    match /conversations/{conversationId} {
+      allow create: if isAuthenticated() && isConvParticipant(request.resource.data);
+      allow read, update: if isAuthenticated() && isConvParticipant(resource.data);
+      allow delete: if false;
+
+      match /messages/{messageId} {
+        // Resolve parent conversation to verify sender is a participant.
+        // This prevents any authenticated user from reading/writing messages
+        // in conversations they are not part of.
+        allow read, write: if isAuthenticated() && isConvParticipant(
+          get(/databases/$(database)/documents/conversations/$(conversationId)).data
+        );
+      }
+    }
+
+    // HARDENED: group membership control
+    match /groups/{groupId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() &&
+        request.auth.uid == request.resource.data.creatorId;
+      allow update, delete: if isAuthenticated() &&
+        request.auth.uid == resource.data.creatorId;
+
+      match /members/{memberId} {
+        allow read: if isAuthenticated();
+        // Users may join themselves; group creator may add anyone
+        allow create: if isAuthenticated() && (
+          request.auth.uid == memberId ||
+          request.auth.uid == get(/databases/$(database)/documents/groups/$(groupId)).data.creatorId
+        );
+        // Users may leave themselves; group creator may remove anyone
+        allow delete: if isAuthenticated() && (
+          request.auth.uid == memberId ||
+          request.auth.uid == get(/databases/$(database)/documents/groups/$(groupId)).data.creatorId
+        );
+        allow update: if isAuthenticated() &&
+          request.auth.uid == get(/databases/$(database)/documents/groups/$(groupId)).data.creatorId;
+      }
+    }
+
+    // HARDENED: elections — admin custom claim required for document writes.
+    // All election management goes through backend Admin SDK (rules bypass), so
+    // restricting client-side writes to admin custom claims doesn't break any flow.
+    // Users still submit votes directly through the votes subcollection.
+    match /elections/{electionId} {
+      allow read: if true;  // Public results
+      allow write: if isAdminClaim();
+
+      match /nominees/{nomineeId} {
+        allow read: if true;
+        allow write: if isAdminClaim();
+      }
+
+      match /votes/{voteId} {
+        allow read: if isAuthenticated();
+        // Users cast votes; no updates or deletes to preserve vote integrity
+        allow create: if isAuthenticated();
+        allow update, delete: if false;
+      }
+    }
+
+    // =============================================
+    // ATTENDANCE COLLECTIONS
+    // =============================================
+
+    // Attendance records — written server-side via Admin SDK only.
+    // TPOs need read access to check for duplicates when scanning QR codes.
+    // Students need read access to view their own history.
+    match /attendance/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if false;
+
+      match /records/{recordId} {
+        allow read: if isAuthenticated();
+        allow write: if false;
+      }
+    }
+
+    // Today's attendance index — TPOs write this client-side when marking present.
+    // Read access for TPOs to display live today's list.
+    match /attendance_today_index/{recordId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    // =============================================
+    // PLACEMENT CELL / SPCR COLLECTIONS
+    // =============================================
+
+    // Placement cell profiles — authenticated read (students browse).
+    // All writes go through server endpoints using Admin SDK so that:
+    //  (a) owners cannot self-approve by writing status="approved" directly
+    //  (b) admin approval/rejection is signed off server-side
+    match /placement_cells/{pcUserId} {
+      allow read: if isAuthenticated();
+      allow write: if false;
+    }
+
+    // SPCR student records — nested under university, accessed by the student themselves
+    match /spcr_students/{university}/{userId}/{document=**} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId);
+    }
+
+    // =============================================
+    // STATETECH SHOWCASE 2026
+    // =============================================
+
+    match /statetech_registrations/{userId} {
+      allow read: if isOwner(userId) || isAdminClaim();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) || isAdminClaim();
+      allow delete: if isAdminClaim();
+
+      match /{subcollection}/{document=**} {
+        allow read: if isOwner(userId) || isAdminClaim();
+        allow write: if isOwner(userId) || isAdminClaim();
+      }
+    }
+
+    // =============================================
+    // CLUB ELECTIONS (legacy alias — same as elections above but separate top-level)
+    // =============================================
+    // Covered by the elections block above. If data lives in a different
+    // collection path, add it here following the same pattern.
+
+  }
+}

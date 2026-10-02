@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Details - StudentLancing</title>
+  <meta name="description" content="View project details and apply for this freelance opportunity.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/student-lancing/css/style.css">
+  
+  <style>
+    .project-detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 32px;
+    }
+    .project-main {
+      padding: 32px;
+    }
+    .project-sidebar {
+      padding: 24px;
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+    }
+    .project-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .meta-item {
+      padding: 16px;
+      background: var(--bg-glass);
+      border-radius: var(--border-radius-sm);
+    }
+    .meta-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .meta-value {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .meta-value.highlight {
+      color: var(--neon-green);
+    }
+    .project-section {
+      margin-bottom: 32px;
+    }
+    .section-heading {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+    .project-content {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+    .client-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px;
+      background: var(--bg-glass);
+      border-radius: var(--border-radius-sm);
+      margin-bottom: 24px;
+    }
+    .client-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--gradient-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+    .client-avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .client-name {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .client-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .apply-section {
+      text-align: center;
+      padding-top: 24px;
+      border-top: 1px solid var(--glass-border);
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      margin-bottom: 24px;
+      transition: var(--transition-fast);
+    }
+    .back-link:hover {
+      color: var(--neon-blue);
+    }
+    @media (max-width: 1024px) {
+      .project-detail-grid {
+        grid-template-columns: 1fr;
+      }
+      .project-sidebar {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animated"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="/student-lancing/dashboard.html" class="logo">
+        <div class="logo-icon">⚡</div>
+        StudentLancing
+      </a>
+      <div class="nav-links">
+        <a href="/student-lancing/dashboard.html" class="nav-link">Dashboard</a>
+        <a href="/student-lancing/projects.html" class="nav-link active">Projects</a>
+        <a href="/student-lancing/messages.html" class="nav-link">Messages</a>
+        <a href="/student-lancing/profile.html" class="nav-link">Profile</a>
+      </div>
+      <div class="nav-user">
+        <div class="user-avatar" onclick="window.location.href='/student-lancing/profile.html'">U</div>
+        <button class="btn btn-secondary btn-sm" onclick="window.Auth.signOut()">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+  
+  <main class="main-content">
+    <div class="container">
+      <a href="/student-lancing/projects.html" class="back-link">
+        ← Back to Projects
+      </a>
+      
+      <div id="project-content" class="project-detail-grid">
+        <div class="text-center" style="grid-column: 1/-1; padding: 60px;">
+          <div class="loader" style="margin: 0 auto;"></div>
+          <p class="mt-3 text-muted">Loading project details...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <div id="apply-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Apply for this Project</h3>
+        <button class="modal-close" onclick="Utils.hideModal('apply-modal')">&times;</button>
+      </div>
+      <form id="apply-form" onsubmit="handleApply(event)">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label">Cover Letter *</label>
+            <textarea name="coverLetter" class="form-input" placeholder="Introduce yourself and explain why you're a great fit for this project..." required style="min-height: 150px;"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Proposed Budget (₹)</label>
+            <input type="number" name="proposedBudget" class="form-input" placeholder="Leave blank to accept client's budget" min="100">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Estimated Duration</label>
+            <select name="estimatedDuration" class="form-input form-select">
+              <option value="">Select duration...</option>
+              <option value="Less than 1 week">Less than 1 week</option>
+              <option value="1-2 weeks">1-2 weeks</option>
+              <option value="2-4 weeks">2-4 weeks</option>
+              <option value="1-3 months">1-3 months</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="Utils.hideModal('apply-modal')">Cancel</button>
+          <button type="submit" class="btn btn-success">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <div id="toast-container" class="toast-container"></div>
+  
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+  
+  <script src="/student-lancing/js/firebase-config.js"></script>
+  <script src="/student-lancing/js/utils.js"></script>
+  <script src="/student-lancing/js/auth.js"></script>
+  <script src="/student-lancing/js/projects.js"></script>
+  <script src="/student-lancing/js/messages.js"></script>
+  
+  <script>
+    let currentProject = null;
+    
+    async function initApp() {
+      try {
+        const response = await fetch('/api/student-lancing/config');
+        window.FIREBASE_CONFIG = await response.json();
+        window.Auth.init();
+        
+        firebase.auth().onAuthStateChanged((user) => {
+          if (user) {
+            loadProject();
+          }
+        });
+      } catch (error) {
+        console.error('Failed to load Firebase config:', error);
+        showToast('Failed to initialize app', 'error');
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', initApp);
+    
+    async function loadProject() {
+      const projectId = window.Utils.getUrlParam('id');
+      
+      if (!projectId) {
+        showToast('Project not found', 'error');
+        setTimeout(() => window.location.href = '/student-lancing/projects.html', 1500);
+        return;
+      }
+      
+      try {
+        currentProject = await window.Projects.get(projectId);
+        
+        if (!currentProject) {
+          showToast('Project not found', 'error');
+          setTimeout(() => window.location.href = '/student-lancing/projects.html', 1500);
+          return;
+        }
+        
+        renderProject();
+      } catch (error) {
+        console.error('Error loading project:', error);
+        showToast('Error loading project', 'error');
+      }
+    }
+    
+    function renderProject() {
+      const project = currentProject;
+      const user = window.Auth.getCurrentUser();
+      const isOwner = user && project.clientId === user.uid;
+      const hasApplied = user && project.applicants?.includes(user.uid);
+      
+      const categoryClass = window.Utils.getCategoryClass(project.category);
+      const clientInitials = (project.clientName || 'C')[0].toUpperCase();
+      const clientPhotoHtml = project.clientPhoto 
+        ? `<img src="${project.clientPhoto}" alt="${project.clientName}">`
+        : clientInitials;
+      
+      const skillsHtml = (project.skills || []).map(skill => 
+        `<span class="skill-tag">${window.Utils.escapeHtml(skill)}</span>`
+      ).join('');
+      
+      let actionHtml = '';
+      if (isOwner) {
+        actionHtml = `
+          <p class="text-muted mb-2">This is your project</p>
+          <p class="mb-3">${project.applicants?.length || 0} applicant(s)</p>
+          <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="viewApplications()">View Applications</button>
+        `;
+      } else if (hasApplied) {
+        actionHtml = `
+          <div class="badge badge-success" style="font-size: 1rem; padding: 12px 20px;">
+            ✓ Already Applied
+          </div>
+          <p class="text-muted mt-3">You've already applied to this project. Good luck!</p>
+        `;
+      } else {
+        actionHtml = `
+          <button class="btn btn-success btn-lg" style="width: 100%;" onclick="showApplyModal()">Apply Now</button>
+          <p class="text-muted mt-3" style="font-size: 0.85rem;">Stand out with a great cover letter!</p>
+        `;
+      }
+      
+      document.getElementById('project-content').innerHTML = `
+        <div class="project-main glass-card glass-card-strong">
+          <div class="flex items-center justify-between mb-3">
+            <span class="project-category ${categoryClass}">${window.Utils.escapeHtml(project.category || 'Other')}</span>
+            <span class="badge ${project.status === 'open' ? 'badge-success' : 'badge-pending'}">${project.status}</span>
+          </div>
+          
+          <h1 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 24px;">${window.Utils.escapeHtml(project.title)}</h1>
+          
+          <div class="project-meta-grid">
+            <div class="meta-item">
+              <div class="meta-label">Budget</div>
+              <div class="meta-value highlight">${window.Utils.formatCurrency(project.budget || 0)}</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">Duration</div>
+              <div class="meta-value">${window.Utils.escapeHtml(project.duration || 'Not specified')}</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">Posted</div>
+              <div class="meta-value">${window.Utils.formatDate(project.createdAt)}</div>
+            </div>
+            <div class="meta-item">
+              <div class="meta-label">Applicants</div>
+              <div class="meta-value">${project.applicants?.length || 0}</div>
+            </div>
+          </div>
+          
+          <div class="project-section">
+            <h2 class="section-heading">Project Description</h2>
+            <div class="project-content">${window.Utils.escapeHtml(project.description || 'No description provided.')}</div>
+          </div>
+          
+          ${project.skills?.length ? `
+            <div class="project-section">
+              <h2 class="section-heading">Required Skills</h2>
+              <div class="skills-list">${skillsHtml}</div>
+            </div>
+          ` : ''}
+        </div>
+        
+        <aside class="project-sidebar glass-card glass-card-strong">
+          <div class="client-info">
+            <div class="client-avatar">${clientPhotoHtml}</div>
+            <div>
+              <div class="client-name">${window.Utils.escapeHtml(project.clientName || 'Anonymous')}</div>
+              <div class="client-label">Project Owner</div>
+            </div>
+          </div>
+          
+          ${!isOwner ? `
+            <button class="btn btn-outline" style="width: 100%; margin-bottom: 16px;" onclick="contactClient()">
+              💬 Message Client
+            </button>
+          ` : ''}
+          
+          <div class="apply-section">
+            ${actionHtml}
+          </div>
+        </aside>
+      `;
+      
+      document.title = `${project.title} - StudentLancing`;
+    }
+    
+    function showApplyModal() {
+      window.Utils.showModal('apply-modal');
+    }
+    
+    async function handleApply(e) {
+      e.preventDefault();
+      
+      const form = e.target;
+      const formData = new FormData(form);
+      
+      const applicationData = {
+        coverLetter: formData.get('coverLetter'),
+        proposedBudget: parseInt(formData.get('proposedBudget')) || currentProject.budget || 0,
+        estimatedDuration: formData.get('estimatedDuration')
+      };
+      
+      window.Utils.showLoading('Submitting application...');
+      
+      const success = await window.Projects.apply(currentProject.id, applicationData);
+      
+      window.Utils.hideLoading();
+      
+      if (success) {
+        window.Utils.hideModal('apply-modal');
+        form.reset();
+        loadProject();
+      }
+    }
+    
+    async function contactClient() {
+      window.Utils.showLoading('Opening conversation...');
+      
+      const conversation = await window.Messages.getOrCreateConversation(
+        currentProject.clientId,
+        currentProject.id
+      );
+      
+      window.Utils.hideLoading();
+      
+      if (conversation) {
+        window.location.href = `/student-lancing/messages.html?conversation=${conversation.id}`;
+      }
+    }
+    
+    function viewApplications() {
+      showToast('Applications viewer coming soon!', 'info');
+    }
+  </script>
+</body>
+</html>

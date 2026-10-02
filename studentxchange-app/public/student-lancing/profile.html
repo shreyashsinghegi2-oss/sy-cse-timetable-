@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - StudentLancing</title>
+  <meta name="description" content="Manage your StudentLancing profile, skills, and portfolio.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/student-lancing/css/style.css">
+  
+  <style>
+    .profile-page {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 32px;
+    }
+    .profile-sidebar-card {
+      text-align: center;
+      position: sticky;
+      top: 100px;
+    }
+    .avatar-upload {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 24px;
+    }
+    .avatar-preview {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      font-weight: 700;
+      box-shadow: var(--shadow-neon-blue);
+      overflow: hidden;
+    }
+    .avatar-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .avatar-upload-btn {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--neon-blue);
+      border: 3px solid var(--bg-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: var(--transition-fast);
+    }
+    .avatar-upload-btn:hover {
+      transform: scale(1.1);
+    }
+    .avatar-upload-btn input {
+      display: none;
+    }
+    .profile-name-display {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .profile-email-display {
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .profile-stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      padding: 20px 0;
+      border-top: 1px solid var(--glass-border);
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .profile-stat-item {
+      text-align: center;
+    }
+    .profile-stat-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--neon-blue);
+    }
+    .profile-stat-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .profile-form-section {
+      margin-bottom: 32px;
+    }
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .skills-input-wrapper {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .skills-display {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .skill-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--bg-glass);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
+    .skill-chip-remove {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      transition: var(--transition-fast);
+    }
+    .skill-chip-remove:hover {
+      background: var(--neon-pink);
+      color: white;
+    }
+    .portfolio-upload-area {
+      border: 2px dashed var(--glass-border);
+      border-radius: var(--border-radius);
+      padding: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition-fast);
+    }
+    .portfolio-upload-area:hover {
+      border-color: var(--neon-blue);
+      background: rgba(0, 212, 255, 0.05);
+    }
+    .portfolio-upload-area input {
+      display: none;
+    }
+    .portfolio-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .portfolio-item {
+      aspect-ratio: 1;
+      border-radius: var(--border-radius-sm);
+      overflow: hidden;
+      position: relative;
+      background: var(--bg-glass);
+    }
+    .portfolio-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .portfolio-item-remove {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.7);
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-size: 0.8rem;
+      opacity: 0;
+      transition: var(--transition-fast);
+    }
+    .portfolio-item:hover .portfolio-item-remove {
+      opacity: 1;
+    }
+    @media (max-width: 1024px) {
+      .profile-page {
+        grid-template-columns: 1fr;
+      }
+      .profile-sidebar-card {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animated"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="/student-lancing/dashboard.html" class="logo">
+        <div class="logo-icon">⚡</div>
+        StudentLancing
+      </a>
+      <div class="nav-links">
+        <a href="/student-lancing/dashboard.html" class="nav-link">Dashboard</a>
+        <a href="/student-lancing/projects.html" class="nav-link">Projects</a>
+        <a href="/student-lancing/messages.html" class="nav-link">Messages</a>
+        <a href="/student-lancing/profile.html" class="nav-link active">Profile</a>
+      </div>
+      <div class="nav-user">
+        <div class="user-avatar" id="nav-avatar">U</div>
+        <button class="btn btn-secondary btn-sm" onclick="window.Auth.signOut()">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+  
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1 class="page-title">Your Profile</h1>
+        <p class="page-subtitle">Manage your profile, skills, and portfolio to stand out to clients.</p>
+      </div>
+      
+      <div class="profile-page">
+        <aside>
+          <div class="glass-card glass-card-strong profile-sidebar-card">
+            <div class="avatar-upload">
+              <div class="avatar-preview" id="avatar-preview">U</div>
+              <label class="avatar-upload-btn">
+                📷
+                <input type="file" accept="image/*" onchange="handleAvatarUpload(event)">
+              </label>
+            </div>
+            <div class="profile-name-display" id="profile-name">Loading...</div>
+            <div class="profile-email-display" id="profile-email">...</div>
+            
+            <div class="profile-stats-row">
+              <div class="profile-stat-item">
+                <div class="profile-stat-number" id="stat-projects">0</div>
+                <div class="profile-stat-text">Projects</div>
+              </div>
+              <div class="profile-stat-item">
+                <div class="profile-stat-number" id="stat-completed">0</div>
+                <div class="profile-stat-text">Completed</div>
+              </div>
+            </div>
+          </div>
+        </aside>
+        
+        <div class="profile-main">
+          <form id="profile-form" onsubmit="handleProfileSave(event)">
+            <div class="glass-card glass-card-strong profile-form-section">
+              <h2 class="section-title">👤 Basic Information</h2>
+              
+              <div class="form-group">
+                <label class="form-label">Display Name</label>
+                <input type="text" name="displayName" id="input-displayName" class="form-input" placeholder="Your name">
+              </div>
+              
+              <div class="form-group">
+                <label class="form-label">Bio</label>
+                <textarea name="bio" id="input-bio" class="form-input" placeholder="Tell clients about yourself, your experience, and what makes you unique..." style="min-height: 120px;"></textarea>
+              </div>
+              
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="form-group">
+                  <label class="form-label">Hourly Rate (₹)</label>
+                  <input type="number" name="hourlyRate" id="input-hourlyRate" class="form-input" placeholder="e.g., 500" min="0">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Location</label>
+                  <input type="text" name="location" id="input-location" class="form-input" placeholder="e.g., Mumbai, India">
+                </div>
+              </div>
+            </div>
+            
+            <div class="glass-card glass-card-strong profile-form-section">
+              <h2 class="section-title">🛠️ Skills</h2>
+              
+              <div class="skills-input-wrapper">
+                <input type="text" id="skill-input" class="form-input" placeholder="Add a skill (e.g., Photoshop, React, Video Editing)" onkeypress="handleSkillKeyPress(event)">
+                <button type="button" class="btn btn-secondary" onclick="addSkill()">Add</button>
+              </div>
+              
+              <div class="skills-display" id="skills-display"></div>
+            </div>
+            
+            <div class="glass-card glass-card-strong profile-form-section">
+              <h2 class="section-title">🖼️ Portfolio</h2>
+              
+              <label class="portfolio-upload-area" id="portfolio-upload">
+                <input type="file" accept="image/*" multiple onchange="handlePortfolioUpload(event)">
+                <div style="font-size: 2rem; margin-bottom: 12px;">📁</div>
+                <div style="font-weight: 500; margin-bottom: 4px;">Drop images here or click to upload</div>
+                <div class="text-muted" style="font-size: 0.85rem;">PNG, JPG up to 5MB each</div>
+              </label>
+              
+              <div class="portfolio-gallery" id="portfolio-gallery"></div>
+            </div>
+            
+            <div style="display: flex; gap: 16px; justify-content: flex-end;">
+              <button type="button" class="btn btn-secondary" onclick="resetForm()">Reset Changes</button>
+              <button type="submit" class="btn btn-success btn-lg">💾 Save Profile</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <div id="toast-container" class="toast-container"></div>
+  
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+  
+  <script src="/student-lancing/js/firebase-config.js"></script>
+  <script src="/student-lancing/js/utils.js"></script>
+  <script src="/student-lancing/js/auth.js"></script>
+  <script src="/student-lancing/js/projects.js"></script>
+  
+  <script>
+    let userData = null;
+    let skills = [];
+    let portfolio = [];
+    
+    async function initApp() {
+      try {
+        const response = await fetch('/api/student-lancing/config');
+        window.FIREBASE_CONFIG = await response.json();
+        window.Auth.init();
+        
+        firebase.auth().onAuthStateChanged(async (user) => {
+          if (user) {
+            await loadProfile();
+          }
+        });
+      } catch (error) {
+        console.error('Failed to load Firebase config:', error);
+        showToast('Failed to initialize app', 'error');
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', initApp);
+    
+    async function loadProfile() {
+      window.Utils.showLoading('Loading profile...');
+      
+      try {
+        userData = await window.Auth.getCurrentUserData();
+        
+        if (userData) {
+          populateForm();
+          await loadStats();
+        }
+      } catch (error) {
+        console.error('Error loading profile:', error);
+        showToast('Error loading profile', 'error');
+      } finally {
+        window.Utils.hideLoading();
+      }
+    }
+    
+    function populateForm() {
+      const user = firebase.auth().currentUser;
+      
+      const initials = (userData.displayName || user.email || 'U')[0].toUpperCase();
+      const avatarHtml = userData.photoURL 
+        ? `<img src="${userData.photoURL}" alt="Avatar">`
+        : initials;
+      
+      document.getElementById('avatar-preview').innerHTML = avatarHtml;
+      document.getElementById('nav-avatar').innerHTML = avatarHtml;
+      document.getElementById('profile-name').textContent = userData.displayName || 'No name set';
+      document.getElementById('profile-email').textContent = user.email;
+      
+      document.getElementById('input-displayName').value = userData.displayName || '';
+      document.getElementById('input-bio').value = userData.bio || '';
+      document.getElementById('input-hourlyRate').value = userData.hourlyRate || '';
+      document.getElementById('input-location').value = userData.location || '';
+      
+      skills = userData.skills || [];
+      renderSkills();
+      
+      portfolio = userData.portfolio || [];
+      renderPortfolio();
+    }
+    
+    async function loadStats() {
+      const user = firebase.auth().currentUser;
+      const projects = await window.Projects.getUserProjects(user.uid);
+      
+      document.getElementById('stat-projects').textContent = projects.length;
+      document.getElementById('stat-completed').textContent = projects.filter(p => p.status === 'completed').length;
+    }
+    
+    function renderSkills() {
+      const container = document.getElementById('skills-display');
+      
+      if (skills.length === 0) {
+        container.innerHTML = '<p class="text-muted" style="font-size: 0.9rem;">No skills added yet. Add your skills to help clients find you!</p>';
+        return;
+      }
+      
+      container.innerHTML = skills.map((skill, index) => `
+        <span class="skill-chip">
+          ${window.Utils.escapeHtml(skill)}
+          <button type="button" class="skill-chip-remove" onclick="removeSkill(${index})">×</button>
+        </span>
+      `).join('');
+    }
+    
+    function addSkill() {
+      const input = document.getElementById('skill-input');
+      const skill = input.value.trim();
+      
+      if (!skill) return;
+      
+      if (skills.includes(skill)) {
+        showToast('Skill already added', 'error');
+        return;
+      }
+      
+      if (skills.length >= 15) {
+        showToast('Maximum 15 skills allowed', 'error');
+        return;
+      }
+      
+      skills.push(skill);
+      input.value = '';
+      renderSkills();
+    }
+    
+    function handleSkillKeyPress(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addSkill();
+      }
+    }
+    
+    function removeSkill(index) {
+      skills.splice(index, 1);
+      renderSkills();
+    }
+    
+    function renderPortfolio() {
+      const container = document.getElementById('portfolio-gallery');
+      
+      if (portfolio.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+      
+      container.innerHTML = portfolio.map((url, index) => `
+        <div class="portfolio-item">
+          <img src="${url}" alt="Portfolio item ${index + 1}">
+          <button type="button" class="portfolio-item-remove" onclick="removePortfolioItem(${index})">×</button>
+        </div>
+      `).join('');
+    }
+    
+    async function handleAvatarUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('Image too large. Max 5MB.', 'error');
+        return;
+      }
+      
+      window.Utils.showLoading('Uploading avatar...');
+      
+      try {
+        const user = firebase.auth().currentUser;
+        const storage = firebase.storage();
+        const ref = storage.ref(`studentlancing/${user.uid}/avatar.${file.name.split('.').pop()}`);
+        
+        await ref.put(file);
+        const url = await ref.getDownloadURL();
+        
+        await user.updateProfile({ photoURL: url });
+        await window.Auth.updateUserProfile({ photoURL: url });
+        
+        loadProfile();
+      } catch (error) {
+        console.error('Error uploading avatar:', error);
+        showToast('Error uploading avatar', 'error');
+      } finally {
+        window.Utils.hideLoading();
+      }
+    }
+    
+    async function handlePortfolioUpload(event) {
+      const files = Array.from(event.target.files);
+      if (files.length === 0) return;
+      
+      if (portfolio.length + files.length > 12) {
+        showToast('Maximum 12 portfolio images allowed', 'error');
+        return;
+      }
+      
+      window.Utils.showLoading('Uploading images...');
+      
+      try {
+        const user = firebase.auth().currentUser;
+        const storage = firebase.storage();
+        
+        for (const file of files) {
+          if (file.size > 5 * 1024 * 1024) {
+            showToast(`${file.name} too large. Skipping.`, 'error');
+            continue;
+          }
+          
+          const fileName = `${Date.now()}_${file.name}`;
+          const ref = storage.ref(`studentlancing/${user.uid}/portfolio/${fileName}`);
+          
+          await ref.put(file);
+          const url = await ref.getDownloadURL();
+          portfolio.push(url);
+        }
+        
+        renderPortfolio();
+        showToast('Images uploaded!', 'success');
+      } catch (error) {
+        console.error('Error uploading portfolio:', error);
+        showToast('Error uploading images', 'error');
+      } finally {
+        window.Utils.hideLoading();
+      }
+    }
+    
+    function removePortfolioItem(index) {
+      portfolio.splice(index, 1);
+      renderPortfolio();
+    }
+    
+    async function handleProfileSave(e) {
+      e.preventDefault();
+      
+      const form = e.target;
+      const formData = new FormData(form);
+      
+      const profileData = {
+        displayName: formData.get('displayName'),
+        bio: formData.get('bio'),
+        hourlyRate: parseInt(formData.get('hourlyRate')) || 0,
+        location: formData.get('location'),
+        skills,
+        portfolio
+      };
+      
+      window.Utils.showLoading('Saving profile...');
+      
+      try {
+        const user = firebase.auth().currentUser;
+        
+        if (profileData.displayName !== user.displayName) {
+          await user.updateProfile({ displayName: profileData.displayName });
+        }
+        
+        await window.Auth.updateUserProfile(profileData);
+        
+        loadProfile();
+      } catch (error) {
+        console.error('Error saving profile:', error);
+        showToast('Error saving profile', 'error');
+        window.Utils.hideLoading();
+      }
+    }
+    
+    function resetForm() {
+      if (userData) {
+        populateForm();
+        showToast('Form reset to saved values', 'info');
+      }
+    }
+  </script>
+</body>
+</html>

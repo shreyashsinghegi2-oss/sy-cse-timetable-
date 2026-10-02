@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="x-dns-prefetch-control" content="on" />
+    
+    <!-- SEO Meta Tags - Multi-Service Student Platform -->
+    <title>StudentXchange - India's Multi-Service Student Platform | Marketplace, Collaboration & Freelancing</title>
+    
+    <!-- Critical CSS -->
+    <style id="critical-css">
+      body {
+        font-family: 'Inter', 'Inter Fallback', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #fafafa;
+        color: #1f2937;
+        line-height: 1.6;
+        font-size: 16px;
+      }
+      * { box-sizing: border-box; }
+      #loading-indicator {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: #ffffff; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; z-index: 9999;
+      }
+      .ld-spin {
+        width: 40px; height: 40px; border: 3px solid #f3f3f3;
+        border-top: 3px solid #2563eb; border-radius: 50%;
+        animation: spin 1s linear infinite; margin-bottom: 16px;
+      }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="StudentXchange.in - India's comprehensive multi-service student platform. Buy & sell educational materials, collaborate on projects, find student freelancing gigs, and build your academic network." />
+    <meta name="keywords" content="StudentXchange, student platform India, student marketplace India, buy sell student materials, student freelancing platform, student collaboration platform, college student marketplace, notes marketplace for students, student gigs India, peer-to-peer student platform, campus marketplace, studentxchange.in" />
+    <meta name="author" content="StudentXchange" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="language" content="English" />
+    <meta name="geo.region" content="IN" />
+    <meta name="geo.country" content="India" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://studentxchange.in/" />
+    <meta property="og:title" content="StudentXchange - India's Multi-Service Student Platform | Marketplace, Collaboration & Freelancing" />
+    <meta property="og:description" content="India's comprehensive student platform: Buy & sell study materials, collaborate on projects, find freelancing gigs, and connect with peers." />
+    <meta property="og:image" content="https://studentxchange.in/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="StudentXchange" />
+    <meta property="og:locale" content="en_IN" />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://studentxchange.in/" />
+    <meta name="twitter:title" content="StudentXchange - India's Multi-Service Student Platform" />
+    <meta name="twitter:description" content="Marketplace, Collaboration & Freelancing for students. Buy/sell materials, find projects, earn through gigs." />
+    <meta name="twitter:image" content="https://studentxchange.in/og-image.png" />
+    
+    <!-- Structured Data - WebSite Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "StudentXchange",
+      "alternateName": ["StudentXchange.in", "Student Xchange"],
+      "url": "https://studentxchange.in",
+      "description": "India's comprehensive multi-service student platform offering marketplace, collaboration tools, and freelancing opportunities",
+      "inLanguage": "en-IN",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://studentxchange.in/browse?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    
+    <!-- Structured Data - Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "StudentXchange",
+      "url": "https://studentxchange.in",
+      "logo": "https://studentxchange.in/logo.png",
+      "description": "India's leading multi-service student platform",
+      "foundingDate": "2024",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "IN",
+        "addressRegion": "Maharashtra"
+      },
+      "contactPoint": [{
+        "@type": "ContactPoint",
+        "telephone": "+91-7039862086",
+        "contactType": "customer support",
+        "email": "studentxchange1@gmail.com",
+        "availableLanguage": ["English", "Hindi"]
+      }]
+    }
+    </script>
+    
+    <link rel="canonical" href="https://studentxchange.in/" />
+    <meta name="theme-color" content="#2563eb" />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    
+    <!-- DNS prefetch for all external origins (resolved before TCP is needed) -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="dns-prefetch" href="https://identitytoolkit.googleapis.com" />
+    <link rel="dns-prefetch" href="https://securetoken.googleapis.com" />
+    <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
+    <link rel="dns-prefetch" href="https://firebasestorage.googleapis.com" />
+    <link rel="dns-prefetch" href="https://storage.googleapis.com" />
+    <link rel="dns-prefetch" href="https://www.googleapis.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://api.sendgrid.com" />
+
+    <!-- Preconnect for origins hit on every page load -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://firebasestorage.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://identitytoolkit.googleapis.com" crossorigin />
+    
+    <!-- Google Fonts — slimmed to weights actually used (removed Inter:300, Poppins:400) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" /></noscript>
+    
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="StudentXchange" />
+  </head>
+  <body>
+    <div id="loading-indicator">
+      <div class="ld-spin"></div>
+      <div style="font-family:'Inter',system-ui,sans-serif;font-size:18px;font-weight:500;color:#2563eb;">StudentXchange</div>
+      <div id="ld-slow-msg" style="display:none;font-family:'Inter',system-ui,sans-serif;font-size:13px;color:#6b7280;margin-top:8px;text-align:center;max-width:260px;">Loading resources, please wait…</div>
+      <button id="ld-reload-btn" type="button" style="display:none;margin-top:14px;background:#2563eb;color:#fff;border:none;padding:9px 20px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;">Reload Page</button>
+    </div>
+    
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <script>
+      (function(){
+        var li=document.getElementById('loading-indicator');
+        if(!li)return;
+        var reloadButton=document.getElementById('ld-reload-btn');
+        if(reloadButton)reloadButton.addEventListener('click',function(){window.location.reload();});
+
+        // Hide as soon as React renders any content into #root
+        var mo=new MutationObserver(function(){
+          var r=document.getElementById('root');
+          if(r&&r.children.length>0){
+            mo.disconnect();
+            clearTimeout(slowTimer);
+            clearTimeout(reloadTimer);
+            clearTimeout(safetyTimer);
+            li.style.display='none';
+          }
+        });
+        mo.observe(document.getElementById('root')||document.body,{childList:true,subtree:true});
+
+        // After 6 s — show "loading resources" hint (cold Vite startup)
+        var slowTimer=setTimeout(function(){
+          var m=document.getElementById('ld-slow-msg');
+          if(m)m.style.display='block';
+        },6000);
+
+        // After 14 s — show Reload button (something stalled)
+        var reloadTimer=setTimeout(function(){
+          var b=document.getElementById('ld-reload-btn');
+          if(b)b.style.display='block';
+          var m=document.getElementById('ld-slow-msg');
+          if(m)m.textContent='This is taking longer than expected.';
+        },14000);
+
+        // Hard safety cap: 30 s — hide and let whatever rendered show through
+        var safetyTimer=setTimeout(function(){
+          mo.disconnect();
+          li.style.display='none';
+        },30000);
+      })();
+    </script>
+  </body>
+</html>

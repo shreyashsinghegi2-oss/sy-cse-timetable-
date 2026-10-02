@@ -1,0 +1,14 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "LBqYnZCvNwOv1A7eN2L6L"
+uri = "file://studentxchange-conference-page-source.zip"
+type = "unspecified"
+title = "NCADT 2026 – Conference Page Standalone Package"
+
+[[outputs]]
+id = "jdIjIVE3WnSXrdwn8QMLn"
+uri = "file://StudentMarketplace.zip"
+type = "unspecified"
+title = "StudentMarketplace — Full Source Code"

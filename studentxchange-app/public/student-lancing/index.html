@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudentLancing - Find Freelance Gigs for Students</title>
+  <meta name="description" content="StudentLancing is a freelance platform where students can find gigs, create portfolios, and get hired by companies.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/student-lancing/css/style.css">
+  
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
+  
+  <style>
+    .login-features {
+      margin-top: 40px;
+      text-align: left;
+    }
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      background: var(--bg-glass);
+    }
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .feature-text h4 {
+      font-size: 0.95rem;
+      margin-bottom: 2px;
+    }
+    .feature-text p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    .login-divider {
+      display: flex;
+      align-items: center;
+      margin: 30px 0;
+      color: var(--text-muted);
+    }
+    .login-divider::before,
+    .login-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--glass-border);
+    }
+    .login-divider span {
+      padding: 0 16px;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animated"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  
+  <div class="login-container">
+    <div class="login-card glass-card glass-card-strong">
+      <div class="login-logo">
+        <span style="font-size: 2.5rem;">⚡</span> StudentLancing
+      </div>
+      <p class="login-subtitle">Your gateway to student freelancing opportunities</p>
+      
+      <div id="firebaseui-auth-container"></div>
+      
+      <div class="login-divider">
+        <span>Why StudentLancing?</span>
+      </div>
+      
+      <div class="login-features">
+        <div class="feature-item">
+          <div class="feature-icon">🎯</div>
+          <div class="feature-text">
+            <h4>Find Micro-Projects</h4>
+            <p>Perfect gigs sized for student schedules</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">💼</div>
+          <div class="feature-text">
+            <h4>Build Your Portfolio</h4>
+            <p>Showcase your work and skills to clients</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">💰</div>
+          <div class="feature-text">
+            <h4>Earn While Learning</h4>
+            <p>Get paid for real-world experience</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div id="toast-container" class="toast-container"></div>
+  
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+  
+  <script src="/student-lancing/js/firebase-config.js"></script>
+  <script src="/student-lancing/js/utils.js"></script>
+  <script src="/student-lancing/js/auth.js"></script>
+  
+  <script>
+    async function initApp() {
+      try {
+        const response = await fetch('/api/student-lancing/config');
+        window.FIREBASE_CONFIG = await response.json();
+        window.FirebaseApp.init();
+        window.Auth.initUI();
+      } catch (error) {
+        console.error('Failed to load Firebase config:', error);
+        showToast('Failed to initialize app', 'error');
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', initApp);
+  </script>
+</body>
+</html>

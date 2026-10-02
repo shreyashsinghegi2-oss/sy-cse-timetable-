@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NCADT 2026 – National Conference on Aerospace &amp; Defence Technologies</title>
+  <meta name="description" content="National Conference on Aerospace & Defence Technologies 2026 – Ajeenkya DY Patil University, Pune. 30–31 March 2026. In collaboration with AeSI." />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body style="background: linear-gradient(150deg,#020c1b 0%,#071428 45%,#0a1a38 75%,#050e1e 100%); font-family: 'Inter', sans-serif;">
+
+  <!-- ══════════════════════════════════════════════
+       GLOBAL STAR FIELD
+  ══════════════════════════════════════════════ -->
+  <div id="starfield" class="star-field"></div>
+  <div class="scan-line absolute left-0 right-0 h-px" style="background: linear-gradient(to right, transparent, rgba(34,211,238,0.10), transparent);"></div>
+
+  <!-- HERO BACKGROUND ORBS -->
+  <div class="orb-container">
+    <div class="orb-inner-1"></div>
+    <div class="orb-inner-2"></div>
+  </div>
+
+  <!-- GRID OVERLAY -->
+  <div class="grid-overlay"></div>
+
+  <!-- ══════════════════════════════════════════════
+       MAIN PAGE CONTENT
+  ══════════════════════════════════════════════ -->
+  <div class="relative z-10 max-w-6xl mx-auto px-4 py-8">
+
+    <!-- Back link -->
+    <a href="#" onclick="history.back(); return false;" class="inline-flex items-center gap-2 text-blue-300 hover:text-white mb-8 transition-colors text-sm" style="text-decoration: none;">
+      <!-- ArrowLeft icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>
+      </svg>
+      Back
+    </a>
+
+    <!-- ══════════════════════════════════════════════
+         ADYPU LOGO
+    ══════════════════════════════════════════════ -->
+    <div class="flex items-center justify-center mb-10">
+      <div class="float-anim bg-white rounded-xl p-2 shadow-lg" style="box-shadow: 0 10px 40px rgba(30,58,138,0.6);">
+        <img src="images/adypu-logo.png" alt="Ajeenkya DY Patil University" style="height:64px; width:auto; object-fit:contain;" />
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         HERO
+    ══════════════════════════════════════════════ -->
+    <section class="text-center mb-4">
+
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-6 text-sm font-medium"
+           style="background: rgba(59,130,246,0.20); color: #93c5fd; border-color: rgba(59,130,246,0.40);">
+        <span class="w-2 h-2 rounded-full animate-pulse" style="background:#60a5fa; display:inline-block;"></span>
+        NCADT 2026 · National Conference
+      </div>
+
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-4 leading-tight fade-in-up">
+        National Conference on<br />
+        <span style="background: linear-gradient(to right, #60a5fa, #67e8f9, #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+          Aerospace &amp; Defence Technologies
+        </span>
+      </h1>
+
+      <p class="text-base md:text-lg font-semibold mb-1" style="color:#bfdbfe;">Organized by Department of Space Engineering</p>
+      <p class="text-sm md:text-base mb-2" style="color:#93c5fd;">Ajeenkya DY Patil University, Pune</p>
+      <p class="text-sm md:text-base mb-8 font-medium" style="color:#67e8f9;">
+        In collaboration with <span class="font-semibold text-white">Aeronautical Society of India (AeSI)</span>
+      </p>
+
+      <!-- Date & Venue Badges -->
+      <div class="flex flex-wrap items-center justify-center gap-4 text-sm mb-10" style="color:#93c5fd;">
+        <div class="flex items-center gap-2 px-5 py-2.5 rounded-full border backdrop-blur" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.10);">
+          <!-- Calendar icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+          </svg>
+          <span class="font-medium text-white">30 – 31 March 2026</span>
+        </div>
+        <div class="flex items-center gap-2 px-5 py-2.5 rounded-full border backdrop-blur" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.10);">
+          <!-- MapPin icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+          </svg>
+          <span>ADYPU, Pune, Maharashtra, India</span>
+        </div>
+      </div>
+
+      <!-- Register Button -->
+      <a href="https://forms.gle/Ai5UbDS5ivcZ7WJ29" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
+        <button class="pulse-glow inline-flex items-center gap-2 font-bold px-12 py-4 text-lg rounded-2xl text-white transition-all cursor-pointer border-0"
+                style="background: linear-gradient(to right, #3b82f6, #06b6d4);"
+                onmouseover="this.style.background='linear-gradient(to right,#2563eb,#0891b2)'"
+                onmouseout="this.style.background='linear-gradient(to right,#3b82f6,#06b6d4)'">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+            <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+            <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+            <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+          </svg>
+          Register Now
+        </button>
+      </a>
+    </section>
+
+    <!-- ══════════════════════════════════════════════
+         ORBITAL GRAPHIC
+    ══════════════════════════════════════════════ -->
+    <div class="flex justify-center my-10 select-none pointer-events-none">
+      <div class="relative flex items-center justify-center" style="width:380px; height:380px;">
+
+        <!-- Orbit rings -->
+        <div class="absolute rounded-full border" style="inset:40px; border-color:rgba(56,189,248,0.20); box-shadow:0 0 24px rgba(56,189,248,0.08);"></div>
+        <div class="absolute rounded-full border" style="inset:10px; border-color:rgba(59,130,246,0.15);"></div>
+        <div class="absolute rounded-full border" style="top:-20px; right:-20px; bottom:-20px; left:-20px; border-color:rgba(99,102,241,0.10);"></div>
+
+        <!-- Planet core -->
+        <div class="absolute rounded-full z-10" style="width:136px; height:136px; background: radial-gradient(circle at 35% 35%, #1e90ff 0%, #0047ab 50%, #00234d 100%); box-shadow: 0 0 60px rgba(30,144,255,0.5), inset 0 -10px 30px rgba(0,35,77,0.8);">
+          <div class="absolute rounded-full bg-blue-300" style="top:22%; left:20%; width:32px; height:20px; opacity:0.30; transform:rotate(12deg);"></div>
+          <div class="absolute rounded-full bg-cyan-300" style="bottom:25%; right:18%; width:24px; height:16px; opacity:0.20; transform:rotate(-6deg);"></div>
+          <div class="absolute rounded-full border-2 blur-sm" style="inset:-4px; border-color:rgba(34,211,238,0.30);"></div>
+        </div>
+
+        <!-- Satellite 1 – Rocket -->
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="sat-1 flex items-center justify-center rounded-full" style="width:24px; height:24px; background: linear-gradient(135deg,#22d3ee,#3b82f6); box-shadow:0 0 16px rgba(34,211,238,0.6);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+              <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Satellite 2 – Star -->
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="sat-2 flex items-center justify-center rounded-full" style="width:20px; height:20px; background: linear-gradient(135deg,#facc15,#f97316); box-shadow:0 0 14px rgba(250,204,21,0.5);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Satellite 3 – Shield -->
+        <div class="absolute inset-0 flex items-center justify-center">
+          <div class="sat-3 flex items-center justify-center rounded-full" style="width:20px; height:20px; background: linear-gradient(135deg,#c084fc,#6366f1); box-shadow:0 0 14px rgba(192,132,252,0.5);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         STATS STRIP
+    ══════════════════════════════════════════════ -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-12">
+      <div class="stat-card text-center p-5 rounded-2xl border" style="background:rgba(255,255,255,0.05); border-color:rgba(56,189,248,0.20); box-shadow:0 0 20px rgba(56,189,248,0.06);">
+        <p class="text-3xl font-extrabold mb-1" style="color:#67e8f9;">2</p>
+        <p class="text-xs" style="color:#bfdbfe; line-height:1.4;">Conference Days</p>
+      </div>
+      <div class="stat-card text-center p-5 rounded-2xl border" style="background:rgba(255,255,255,0.05); border-color:rgba(56,189,248,0.20); box-shadow:0 0 20px rgba(56,189,248,0.06);">
+        <p class="text-3xl font-extrabold mb-1" style="color:#67e8f9;">12</p>
+        <p class="text-xs" style="color:#bfdbfe; line-height:1.4;">Technical Themes</p>
+      </div>
+      <div class="stat-card text-center p-5 rounded-2xl border" style="background:rgba(255,255,255,0.05); border-color:rgba(56,189,248,0.20); box-shadow:0 0 20px rgba(56,189,248,0.06);">
+        <p class="text-3xl font-extrabold mb-1" style="color:#67e8f9;">6+</p>
+        <p class="text-xs" style="color:#bfdbfe; line-height:1.4;">Paper Awards</p>
+      </div>
+      <div class="stat-card text-center p-5 rounded-2xl border" style="background:rgba(255,255,255,0.05); border-color:rgba(56,189,248,0.20); box-shadow:0 0 20px rgba(56,189,248,0.06);">
+        <p class="text-3xl font-extrabold mb-1" style="color:#67e8f9;">AeSI</p>
+        <p class="text-xs" style="color:#bfdbfe; line-height:1.4;">National Collaboration</p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         ABOUT CARDS (3 columns)
+    ══════════════════════════════════════════════ -->
+    <div class="grid md:grid-cols-3 gap-6 mb-8">
+
+      <!-- About ADYPU -->
+      <div class="card-glass rounded-2xl p-6 border" style="border-color:rgba(255,255,255,0.10);">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#3b82f6,#06b6d4);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
+          <h2 class="font-bold text-white text-base">About ADYPU</h2>
+        </div>
+        <p class="text-sm leading-relaxed" style="color:#dbeafe;">
+          ADYPU is one of the leading private universities in Pune offering undergraduate, postgraduate and
+          doctoral programs across engineering, management, media, design and law. The university promotes
+          innovation, research and entrepreneurship while providing students with a vibrant campus environment
+          that encourages exploration beyond academics.
+        </p>
+      </div>
+
+      <!-- Dept of Space Engineering -->
+      <div class="card-glass rounded-2xl p-6 border" style="border-color:rgba(255,255,255,0.10);">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#6366f1,#3b82f6);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+              <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+            </svg>
+          </div>
+          <h2 class="font-bold text-white text-base">Dept. of Space Engineering</h2>
+        </div>
+        <p class="text-sm leading-relaxed" style="color:#dbeafe;">
+          The Department of Space Engineering at ADYPU was established in 2022 with the goal of delivering
+          high quality technical education in Aerospace, Aeronautical, Avionics and Defence Technology. The
+          department aims to produce skilled aerospace engineers to meet the increasing demand in both civilian
+          and defence aerospace industries.
+        </p>
+      </div>
+
+      <!-- AeSI -->
+      <div class="card-glass rounded-2xl p-6 border" style="border-color:rgba(255,255,255,0.10);">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#06b6d4,#0d9488);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <h2 class="font-bold text-white text-base">Aeronautical Society of India</h2>
+        </div>
+        <p class="text-sm leading-relaxed" style="color:#dbeafe;">
+          AeSI, established in 1948, is a prestigious professional organization promoting aeronautics and
+          astronautics in India. With 18+ branches and thousands of members, AeSI connects research
+          organizations, industry and academia to strengthen India's aerospace ecosystem.
+        </p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         ABOUT NCADT 2026
+    ══════════════════════════════════════════════ -->
+    <div class="card-glass rounded-2xl p-6 md:p-8 border mb-10" style="border-color:rgba(56,189,248,0.20); box-shadow:0 0 40px rgba(56,189,248,0.06);">
+      <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#3b82f6,#06b6d4);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+            <polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/>
+          </svg>
+        </div>
+        About NCADT 2026
+      </h2>
+      <div class="space-y-3 text-sm md:text-base leading-relaxed" style="color:#dbeafe;">
+        <p>
+          The National Conference on Aerospace and Defence Technology (NCADT 2026) brings together
+          academicians, researchers, industry experts and students to discuss emerging technologies and
+          innovations in aerospace and defence engineering.
+        </p>
+        <p>
+          The conference provides a platform for sharing research findings, technical knowledge and
+          collaborative ideas in aeronautics, space systems and defence applications.
+        </p>
+        <p>
+          The event will be held on <span class="font-semibold" style="color:#67e8f9;">30–31 March 2026</span> at ADYPU Pune in
+          collaboration with <span class="font-semibold" style="color:#67e8f9;">Aeronautical Society of India (AeSI) Pune Branch</span>.
+        </p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-4 mt-6">
+
+        <div class="rounded-xl p-4 text-center border" style="background:rgba(255,255,255,0.10); border-color:rgba(255,255,255,0.05);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-2">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <p class="font-semibold text-white text-sm">National Participation</p>
+          <p class="text-xs mt-1" style="color:#bfdbfe;">Researchers &amp; academicians across India</p>
+        </div>
+
+        <div class="rounded-xl p-4 text-center border" style="background:rgba(255,255,255,0.10); border-color:rgba(255,255,255,0.05);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-2">
+            <rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/>
+            <path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/>
+          </svg>
+          <p class="font-semibold text-white text-sm">Industry Experts</p>
+          <p class="text-xs mt-1" style="color:#bfdbfe;">Connect with aerospace &amp; defence professionals</p>
+        </div>
+
+        <div class="rounded-xl p-4 text-center border" style="background:rgba(255,255,255,0.10); border-color:rgba(255,255,255,0.05);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-2">
+            <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+          </svg>
+          <p class="font-semibold text-white text-sm">Paper &amp; Poster Awards</p>
+          <p class="text-xs mt-1" style="color:#bfdbfe;">Recognition in every session</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         CONFERENCE THEMES
+    ══════════════════════════════════════════════ -->
+    <div class="mb-12">
+      <h2 class="text-2xl font-bold text-white mb-2 text-center">Conference Themes</h2>
+      <p class="text-center text-sm mb-6" style="color:#93c5fd;">Topics covered at NCADT 2026</p>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+
+        <!-- Aerodynamics -->
+        <div class="theme-card rounded-2xl border p-4 text-center" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.10);">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg" style="background:linear-gradient(135deg,#3b82f6,#06b6d4);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>
+            </svg>
+          </div>
+          <p class="text-white text-xs font-medium leading-tight">Aerodynamics</p>
+        </div>
+
+        <!-- Aircraft / Spacecraft Propulsion -->
+        <div class="theme-card rounded-2xl border p-4 text-center" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.10);">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg" style="background:linear-gradient(135deg,#6366f1,#3b82f6);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+              <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+            </svg>
+          </div>
+          <p class="text-white text-xs font-medium leading-tight">Aircraft / Spacecraft Propulsion</p>
+        </div>
+
+        <!-- Analysis of Composite Structures -->
+        <div class="theme-card rounded-2xl border p-4 text-center" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.10);">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg" style="background:linear-gradient(135deg,#a855f7,#6366f1);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </div>
+          <p class="text-white text-xs font-medium leading-tight">Analysis of Composite Structures</p>
+        </div>
+
+        <!-- Orbital Mechanics -->
+        <div class="theme-card rounded-2xl border p-4 text-center" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.10);">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg" style="background:linear-gradient(135deg,#64748b,#1d4ed8);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
+          <p class="text-white text-xs font-medium leading-tight">Orbital Mechanics</p>
+        </div>
+
+        <!-- CFD -->
+        <div class="theme-card rounded-2xl border p-4 text-center" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.10);">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg" style="background:linear-gradient(135deg,#06b6d4,#3b82f6);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/>
+              <path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/>
+            </svg>
+          </div>
+          <p class="text-white text-xs font-medium leading-tight">Computational Fluid Dynamics</p>
+        </div>
+
+        <!-- Space Technology -->
+        <div class="theme-card rounded-2xl border p-4 text-center" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.10);">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg" style="background:linear-gradient(135deg,#2563eb,#4338ca);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+              <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+            </svg>
+          </div>
+          <p class="text-white text-xs font-medium leading-tight">Space Technology</p>
+        </div>
+
+        <!-- Aeroacoustics -->
+        <div class="theme-card rounded-2xl border p-4 text-center" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.10);">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg" style="background:linear-gradient(135deg,#14b8a6,#06b6d4);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>
+              <path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>
+              <path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>
+            </svg>
+          </div>
+          <p class="text-white text-xs font-medium leading-tight">Aeroacoustics</p>
+        </div>
+
+        <!-- Aircraft / Spacecraft Structures -->
+        <div class="theme-card rounded-2xl border p-4 text-center" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.10);">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg" style="background:linear-gradient(135deg,#3b82f6,#475569);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </div>
+          <p class="text-white text-xs font-medium leading-tight">Aircraft / Spacecraft Structures</p>
+        </div>
+
+        <!-- Avionics -->
+        <div class="theme-card rounded-2xl border p-4 text-center" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.10);">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg" style="background:linear-gradient(135deg,#f59e0b,#f97316);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <p class="text-white text-xs font-medium leading-tight">Avionics</p>
+        </div>
+
+        <!-- Fluid Dynamics -->
+        <div class="theme-card rounded-2xl border p-4 text-center" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.10);">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg" style="background:linear-gradient(135deg,#0891b2,#3b82f6);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2v6l3.4 8.5A2 2 0 0 1 15.5 20h-7a2 2 0 0 1-1.9-2.5L10 8V2"/>
+              <path d="M8.5 2h7"/><path d="M14 14.5H10"/>
+            </svg>
+          </div>
+          <p class="text-white text-xs font-medium leading-tight">Fluid Dynamics</p>
+        </div>
+
+        <!-- Mathematical Modelling -->
+        <div class="theme-card rounded-2xl border p-4 text-center" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.10);">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg" style="background:linear-gradient(135deg,#475569,#2563eb);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="16" height="20" x="4" y="2" rx="2"/>
+              <line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/>
+              <path d="M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/>
+            </svg>
+          </div>
+          <p class="text-white text-xs font-medium leading-tight">Mathematical Modelling</p>
+        </div>
+
+        <!-- Defence Technologies -->
+        <div class="theme-card rounded-2xl border p-4 text-center" style="background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.10);">
+          <div class="w-11 h-11 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg" style="background:linear-gradient(135deg,#ef4444,#f43f5e);">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <p class="text-white text-xs font-medium leading-tight">Defence Technologies</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         IMPORTANT DATES
+    ══════════════════════════════════════════════ -->
+    <div class="card-glass rounded-2xl p-6 md:p-8 border mb-10" style="border-color:rgba(255,255,255,0.10);">
+      <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#3b82f6,#6366f1);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+          </svg>
+        </div>
+        Important Dates
+      </h2>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+
+        <!-- Abstract Submission -->
+        <div class="rounded-xl p-4 text-center border" style="background:rgba(255,255,255,0.10); border-color:rgba(255,255,255,0.05);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-2">
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+          <p class="text-sm font-bold mb-1 text-white">15 March 2026</p>
+          <p class="text-xs" style="color:#bfdbfe; line-height:1.4;">Abstract Submission</p>
+        </div>
+
+        <!-- Acceptance Notification -->
+        <div class="rounded-xl p-4 text-center border" style="background:rgba(255,255,255,0.10); border-color:rgba(255,255,255,0.05);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-2">
+            <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+          </svg>
+          <p class="text-sm font-bold mb-1 text-white">18 March 2026</p>
+          <p class="text-xs" style="color:#bfdbfe; line-height:1.4;">Abstract Acceptance Notification</p>
+        </div>
+
+        <!-- Last Date Registration -->
+        <div class="rounded-xl p-4 text-center border" style="background:rgba(255,255,255,0.10); border-color:rgba(255,255,255,0.05);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-2">
+            <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/>
+          </svg>
+          <p class="text-sm font-bold mb-1 text-white">20 March 2026</p>
+          <p class="text-xs" style="color:#bfdbfe; line-height:1.4;">Last Date for Registration</p>
+        </div>
+
+        <!-- Manuscript Submission -->
+        <div class="rounded-xl p-4 text-center border" style="background:rgba(255,255,255,0.10); border-color:rgba(255,255,255,0.05);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-2">
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+            <polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/>
+          </svg>
+          <p class="text-sm font-bold mb-1 text-white">22 March 2026</p>
+          <p class="text-xs" style="color:#bfdbfe; line-height:1.4;">Manuscript Submission</p>
+        </div>
+
+        <!-- Conference Days (highlighted) -->
+        <div class="rounded-xl p-4 text-center border" style="background:linear-gradient(135deg,rgba(59,130,246,0.30),rgba(6,182,212,0.20)); border-color:rgba(34,211,238,0.50); box-shadow:0 0 20px rgba(34,211,238,0.08);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-2">
+            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+            <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+            <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+            <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+          </svg>
+          <p class="text-sm font-bold mb-1" style="color:#a5f3fc;">30 – 31 March 2026</p>
+          <p class="text-xs mb-2" style="color:#bfdbfe; line-height:1.4;">Conference Days</p>
+          <span class="inline-block px-2 py-0.5 rounded-full text-xs font-semibold text-white" style="background:#06b6d4;">Conference</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         AWARDS
+    ══════════════════════════════════════════════ -->
+    <div class="grid md:grid-cols-2 gap-6 mb-10">
+
+      <div class="rounded-2xl border p-6 text-center" style="border-color:rgba(234,179,8,0.30); background:linear-gradient(135deg,rgba(234,179,8,0.10),rgba(245,158,11,0.10)); box-shadow:0 0 30px rgba(251,191,36,0.08);">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg" style="background:linear-gradient(135deg,#facc15,#f59e0b); box-shadow:0 0 20px rgba(250,204,21,0.30);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+            <path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/>
+            <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/>
+            <path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-1">Best Paper Award</h3>
+        <p class="text-sm" style="color:#fde68a;">Best Paper Award in Each Session</p>
+      </div>
+
+      <div class="rounded-2xl border p-6 text-center" style="border-color:rgba(56,189,248,0.30); background:linear-gradient(135deg,rgba(6,182,212,0.10),rgba(59,130,246,0.10)); box-shadow:0 0 30px rgba(56,189,248,0.08);">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg" style="background:linear-gradient(135deg,#22d3ee,#3b82f6); box-shadow:0 0 20px rgba(34,211,238,0.30);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-1">Best Poster Award</h3>
+        <p class="text-sm" style="color:#a5f3fc;">Best Poster Presentation Award</p>
+      </div>
+
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         REGISTRATION FEES
+    ══════════════════════════════════════════════ -->
+    <div class="card-glass rounded-2xl p-6 md:p-8 border mb-10" style="border-color:rgba(255,255,255,0.10);">
+      <h2 class="text-2xl font-bold text-white mb-6 flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,#22c55e,#0d9488);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>
+          </svg>
+        </div>
+        Registration Fees
+      </h2>
+      <div class="overflow-x-auto rounded-xl border" style="border-color:rgba(255,255,255,0.10);">
+        <table style="width:100%; border-collapse:collapse;">
+          <thead>
+            <tr style="background:rgba(30,58,138,0.40);">
+              <th style="text-align:left; padding:12px 16px; color:#a5f3fc; font-weight:600; font-size:14px;">Category</th>
+              <th style="text-align:center; padding:12px 16px; color:#a5f3fc; font-weight:600; font-size:14px;">AeSI Member</th>
+              <th style="text-align:center; padding:12px 16px; color:#a5f3fc; font-weight:600; font-size:14px;">Non Member</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:rgba(255,255,255,0.05);">
+              <td style="padding:12px 16px; color:white; font-weight:500; font-size:14px;">Student</td>
+              <td style="padding:12px 16px; text-align:center; color:#a5f3fc; font-weight:600;">₹2,500</td>
+              <td style="padding:12px 16px; text-align:center; color:#dbeafe;">₹3,000</td>
+            </tr>
+            <tr>
+              <td style="padding:12px 16px; color:white; font-weight:500; font-size:14px;">Faculty / Research</td>
+              <td style="padding:12px 16px; text-align:center; color:#a5f3fc; font-weight:600;">₹3,500</td>
+              <td style="padding:12px 16px; text-align:center; color:#dbeafe;">₹4,000</td>
+            </tr>
+            <tr style="background:rgba(255,255,255,0.05);">
+              <td style="padding:12px 16px; color:white; font-weight:500; font-size:14px;">Industry</td>
+              <td style="padding:12px 16px; text-align:center; color:#a5f3fc; font-weight:600;">₹4,500</td>
+              <td style="padding:12px 16px; text-align:center; color:#dbeafe;">₹5,000</td>
+            </tr>
+            <tr>
+              <td style="padding:12px 16px; color:white; font-weight:500; font-size:14px;">Accompanying Author</td>
+              <td style="padding:12px 16px; text-align:center; color:#a5f3fc; font-weight:600;">₹750</td>
+              <td style="padding:12px 16px; text-align:center; color:#dbeafe;">₹1,000</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-4 space-y-1">
+        <p class="text-xs flex items-start gap-2" style="color:#93c5fd;">
+          <span style="color:#facc15;">*</span>
+          Separate registration required for poster competition and conference presentation.
+        </p>
+        <p class="text-xs flex items-start gap-2" style="color:#93c5fd;">
+          <span style="color:#facc15;">*</span>
+          Maximum two authors per registration.
+        </p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         ORGANISING COMMITTEE
+    ══════════════════════════════════════════════ -->
+    <div class="mb-12">
+      <h2 class="text-2xl font-bold text-white mb-2 text-center">Organising Committee</h2>
+      <p class="text-center text-sm mb-6" style="color:#93c5fd;">Leadership &amp; coordination for NCADT 2026</p>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+        <!-- Chief Patron -->
+        <div class="rounded-2xl border p-5 backdrop-blur" style="background:linear-gradient(135deg,rgba(234,179,8,0.30),rgba(245,158,11,0.20)); border-color:rgba(234,179,8,0.40);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-3" style="color:#67e8f9; letter-spacing:0.15em;">Chief Patron</p>
+          <p class="text-white font-medium text-sm">Dr Ajeenkya DY Patil</p>
+          <p class="text-white font-medium text-sm">Mrs Pooja Patil</p>
+          <p class="text-white font-medium text-sm">Shri Anshul B Sharma</p>
+        </div>
+
+        <!-- Patron -->
+        <div class="rounded-2xl border p-5 backdrop-blur" style="background:linear-gradient(135deg,rgba(37,99,235,0.30),rgba(79,70,229,0.20)); border-color:rgba(59,130,246,0.40);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-3" style="color:#67e8f9; letter-spacing:0.15em;">Patron</p>
+          <p class="text-white font-medium text-sm">Dr Rakesh Kumar Jain</p>
+        </div>
+
+        <!-- Advisory Committee -->
+        <div class="rounded-2xl border p-5 backdrop-blur" style="background:linear-gradient(135deg,rgba(124,58,237,0.30),rgba(79,70,229,0.20)); border-color:rgba(139,92,246,0.40);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-3" style="color:#67e8f9; letter-spacing:0.15em;">Advisory Committee</p>
+          <p class="text-white font-medium text-sm">Dr Sudhakar Shinde</p>
+        </div>
+
+        <!-- National Advisory Committee -->
+        <div class="rounded-2xl border p-5 backdrop-blur" style="background:linear-gradient(135deg,rgba(67,56,202,0.30),rgba(37,99,235,0.20)); border-color:rgba(99,102,241,0.40);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-3" style="color:#67e8f9; letter-spacing:0.15em;">National Advisory Committee</p>
+          <p class="text-white font-medium text-sm">Dr A.P. Dash</p>
+        </div>
+
+        <!-- Convener -->
+        <div class="rounded-2xl border p-5 backdrop-blur" style="background:linear-gradient(135deg,rgba(8,145,178,0.30),rgba(37,99,235,0.20)); border-color:rgba(6,182,212,0.40);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-3" style="color:#67e8f9; letter-spacing:0.15em;">Convener</p>
+          <p class="text-white font-medium text-sm">Dr M Suresh Kumar</p>
+        </div>
+
+        <!-- Co Conveners -->
+        <div class="rounded-2xl border p-5 backdrop-blur" style="background:linear-gradient(135deg,rgba(13,148,136,0.30),rgba(8,145,178,0.20)); border-color:rgba(20,184,166,0.40);">
+          <p class="text-xs font-bold uppercase tracking-widest mb-3" style="color:#67e8f9; letter-spacing:0.15em;">Co Conveners</p>
+          <p class="text-white font-medium text-sm">Dr Shiva Prasad U</p>
+          <p class="text-white font-medium text-sm">Dr Prashant Kumar</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         CONTACT INFORMATION
+    ══════════════════════════════════════════════ -->
+    <div class="card-glass rounded-2xl p-6 md:p-8 border mb-10" style="border-color:rgba(255,255,255,0.10);">
+      <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#3b82f6,#6366f1);">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+        </div>
+        Contact Information
+      </h2>
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <div class="rounded-xl p-5" style="background:rgba(255,255,255,0.10);">
+          <p class="text-xs font-semibold uppercase tracking-wide mb-2" style="color:#67e8f9; letter-spacing:0.1em;">Co-Convener</p>
+          <p class="text-white font-bold text-base mb-2">Dr. Shiva Prasad U</p>
+          <div class="flex items-center gap-2 text-sm" style="color:#bfdbfe;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span>9290303037</span>
+          </div>
+        </div>
+
+        <div class="rounded-xl p-5" style="background:rgba(255,255,255,0.10);">
+          <p class="text-xs font-semibold uppercase tracking-wide mb-2" style="color:#67e8f9; letter-spacing:0.1em;">Co-Convener</p>
+          <p class="text-white font-bold text-base mb-2">Dr. Prashant Kumar</p>
+          <div class="flex items-center gap-2 text-sm" style="color:#bfdbfe;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <span>7708690845</span>
+          </div>
+        </div>
+
+        <div class="rounded-xl p-5" style="background:rgba(255,255,255,0.10);">
+          <p class="text-xs font-semibold uppercase tracking-wide mb-2" style="color:#67e8f9; letter-spacing:0.1em;">Venue</p>
+          <div class="flex items-start gap-2 text-sm leading-relaxed" style="color:#dbeafe;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#67e8f9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:2px;">
+              <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span>
+              Ajeenkya DY Patil University,<br />
+              Charholi BK, via Lohegaon,<br />
+              Pune, Maharashtra – 412105
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         FINAL CTA BANNER
+    ══════════════════════════════════════════════ -->
+    <div class="relative rounded-3xl overflow-hidden mb-12 border" style="border-color:rgba(34,211,238,0.30); box-shadow:0 0 60px rgba(56,189,248,0.12);">
+      <div class="absolute inset-0" style="background:linear-gradient(to right,#0c1f4a,#0d2560,#0a1a3e);"></div>
+      <div class="absolute inset-0" style="background:radial-gradient(ellipse at 50% 50%, rgba(56,189,248,0.18), transparent 65%);"></div>
+      <div class="absolute top-4 left-6 opacity-10 text-5xl select-none">🚀</div>
+      <div class="absolute bottom-4 right-6 opacity-10 text-5xl select-none" style="transform:rotate(180deg);">🚀</div>
+      <div class="relative z-10 text-center px-6 py-14">
+        <h2 class="text-2xl md:text-4xl font-extrabold text-white mb-3">
+          Submit Your Research and Join NCADT 2026
+        </h2>
+        <p class="text-base mb-8 max-w-xl mx-auto" style="color:#bfdbfe;">
+          Be part of India's premier aerospace &amp; defence technologies conference at ADYPU Pune, 30–31 March 2026.
+        </p>
+        <a href="https://forms.gle/Ai5UbDS5ivcZ7WJ29" target="_blank" rel="noopener noreferrer" style="text-decoration:none;">
+          <button class="pulse-glow inline-flex items-center gap-2 font-bold px-12 py-4 text-lg rounded-2xl text-white border-0 cursor-pointer transition-all"
+                  style="background:linear-gradient(to right,#06b6d4,#3b82f6);"
+                  onmouseover="this.style.background='linear-gradient(to right,#0891b2,#2563eb)'"
+                  onmouseout="this.style.background='linear-gradient(to right,#06b6d4,#3b82f6)'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+              <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+              <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+              <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+            </svg>
+            Register Now
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-6 border-t" style="border-color:rgba(255,255,255,0.10);">
+      <p class="text-sm mb-1" style="color:#bfdbfe;">
+        <span class="font-semibold" style="color:#67e8f9;">Powered by StudentXchange</span>
+      </p>
+      <p class="text-xs" style="color:#93c5fd;">Organized by Dept. of Space Engineering, Ajeenkya DY Patil University</p>
+      <p class="text-xs mt-1" style="color:#60a5fa;">National Conference on Aerospace &amp; Defence Technologies 2026 · NCADT 2026</p>
+    </footer>
+
+  </div><!-- /max-w-6xl -->
+
+  <script src="js/stars.js"></script>
+</body>
+</html>

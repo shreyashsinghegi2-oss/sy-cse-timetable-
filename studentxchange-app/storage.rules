@@ -1,0 +1,112 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function isValidImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    function isValidMedia() {
+      return request.resource.contentType.matches('image/.*') ||
+             request.resource.contentType.matches('video/.*');
+    }
+
+    function isValidDocument() {
+      return request.resource.contentType.matches('image/.*') ||
+             request.resource.contentType.matches('application/pdf');
+    }
+
+    // =============================================
+    // CHAT MEDIA — authenticated sender, 10 MB cap
+    // =============================================
+    match /chat-media/{filename} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated()
+        && request.resource.size < 10 * 1024 * 1024
+        && isValidMedia();
+    }
+
+    // =============================================
+    // SOCIAL POSTS — public read, authenticated write
+    // =============================================
+    match /posts/{filename} {
+      allow read: if true;
+      allow write: if isAuthenticated()
+        && request.resource.size < 25 * 1024 * 1024
+        && isValidMedia();
+    }
+
+    // =============================================
+    // GROUP MEDIA — members read, authenticated write
+    // =============================================
+    match /groups/{groupId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated()
+        && request.resource.size < 25 * 1024 * 1024;
+    }
+
+    // =============================================
+    // STUDENT DOCUMENTS — owner only
+    // =============================================
+    match /student-documents/{userId}/{allPaths=**} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId)
+        && request.resource.size < 5 * 1024 * 1024
+        && isValidDocument();
+    }
+
+    // =============================================
+    // PROFILE IMAGES — public read, owner write
+    // =============================================
+    match /profile-images/{userId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isOwner(userId)
+        && request.resource.size < 5 * 1024 * 1024
+        && isValidImage();
+    }
+
+    // =============================================
+    // CAREER COMPASS UPLOADS — owner only
+    // =============================================
+    match /career-compass/{userId}/{allPaths=**} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(userId)
+        && request.resource.size < 5 * 1024 * 1024;
+    }
+
+    // =============================================
+    // COLLAB ARENA / COMPETITION — auth required, 50 MB for project submissions
+    // =============================================
+    match /collab-arena/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated()
+        && request.resource.size < 50 * 1024 * 1024;
+    }
+
+    // =============================================
+    // LANCING PROFILE UPLOADS — owner write
+    // =============================================
+    match /lancing/{userId}/{allPaths=**} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId)
+        && request.resource.size < 5 * 1024 * 1024;
+    }
+
+    // =============================================
+    // LEGACY / MISC UPLOADS
+    // =============================================
+    match /uploads/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAuthenticated()
+        && request.resource.size < 10 * 1024 * 1024;
+    }
+  }
+}

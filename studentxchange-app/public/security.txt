@@ -1,0 +1,5 @@
+Contact: mailto:studentxchange1@gmail.com
+Contact: tel:+91-7039862086
+Expires: 2025-12-31T23:59:59.000Z
+Preferred-Languages: en, hi
+Canonical: https://studentxchange.in/.well-known/security.txt

@@ -1,0 +1,4 @@
+# ads.txt file for StudentXchange.in
+# This file is for advertising transparency
+# Add your advertising partners here when you start monetizing
+# Example: google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0

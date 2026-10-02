@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages - StudentLancing</title>
+  <meta name="description" content="Chat with clients and freelancers on StudentLancing.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/student-lancing/css/style.css">
+  
+  <style>
+    .messages-page {
+      height: calc(100vh - 100px);
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 0;
+      overflow: hidden;
+    }
+    .conversations-panel {
+      border-right: 1px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-card);
+    }
+    .conversations-header {
+      padding: 20px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .conversations-header h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    .conversations-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px;
+    }
+    .chat-panel {
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-secondary);
+    }
+    .chat-panel.empty {
+      align-items: center;
+      justify-content: center;
+    }
+    .chat-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--bg-card);
+    }
+    .chat-header-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+    .chat-header-avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .chat-header-info h3 {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .chat-header-info p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .chat-input-area {
+      padding: 16px 24px;
+      border-top: 1px solid var(--glass-border);
+      display: flex;
+      gap: 12px;
+      background: var(--bg-card);
+    }
+    .chat-input {
+      flex: 1;
+      padding: 12px 18px;
+      border-radius: 24px;
+      background: var(--bg-glass);
+      border: 1px solid var(--glass-border);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+    }
+    .chat-input:focus {
+      outline: none;
+      border-color: var(--neon-blue);
+    }
+    .send-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--gradient-primary);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      transition: var(--transition-fast);
+    }
+    .send-btn:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-neon-blue);
+    }
+    .empty-chat {
+      text-align: center;
+      padding: 40px;
+    }
+    .empty-chat-icon {
+      font-size: 4rem;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+    @media (max-width: 768px) {
+      .messages-page {
+        grid-template-columns: 1fr;
+      }
+      .conversations-panel {
+        display: none;
+      }
+      .conversations-panel.mobile-visible {
+        display: flex;
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-animated"></div>
+  
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="/student-lancing/dashboard.html" class="logo">
+        <div class="logo-icon">⚡</div>
+        StudentLancing
+      </a>
+      <div class="nav-links">
+        <a href="/student-lancing/dashboard.html" class="nav-link">Dashboard</a>
+        <a href="/student-lancing/projects.html" class="nav-link">Projects</a>
+        <a href="/student-lancing/messages.html" class="nav-link active">Messages</a>
+        <a href="/student-lancing/profile.html" class="nav-link">Profile</a>
+      </div>
+      <div class="nav-user">
+        <div class="user-avatar" onclick="window.location.href='/student-lancing/profile.html'">U</div>
+        <button class="btn btn-secondary btn-sm" onclick="window.Auth.signOut()">Sign Out</button>
+      </div>
+    </div>
+  </nav>
+  
+  <main class="main-content" style="padding-top: 80px;">
+    <div class="messages-page">
+      <div class="conversations-panel" id="conversations-panel">
+        <div class="conversations-header">
+          <h2>Messages</h2>
+        </div>
+        <div class="conversations-list" id="conversations-list">
+          <div class="text-center" style="padding: 40px 20px;">
+            <div class="loader" style="margin: 0 auto;"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="chat-panel empty" id="chat-panel">
+        <div class="empty-chat">
+          <div class="empty-chat-icon">💬</div>
+          <h3>Select a conversation</h3>
+          <p class="text-muted">Choose a conversation from the left to start chatting.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <div id="toast-container" class="toast-container"></div>
+  
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+  
+  <script src="/student-lancing/js/firebase-config.js"></script>
+  <script src="/student-lancing/js/utils.js"></script>
+  <script src="/student-lancing/js/auth.js"></script>
+  <script src="/student-lancing/js/messages.js"></script>
+  
+  <script>
+    let currentConversationId = null;
+    let currentUserId = null;
+    
+    async function initApp() {
+      try {
+        const response = await fetch('/api/student-lancing/config');
+        window.FIREBASE_CONFIG = await response.json();
+        window.Auth.init();
+        
+        firebase.auth().onAuthStateChanged(async (user) => {
+          if (user) {
+            currentUserId = user.uid;
+            await loadConversations();
+            
+            const urlConvId = window.Utils.getUrlParam('conversation');
+            if (urlConvId) {
+              selectConversation(urlConvId);
+            }
+          }
+        });
+      } catch (error) {
+        console.error('Failed to load Firebase config:', error);
+        showToast('Failed to initialize app', 'error');
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', initApp);
+    
+    async function loadConversations() {
+      const conversations = await window.Messages.getConversations();
+      const container = document.getElementById('conversations-list');
+      
+      if (conversations.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state" style="padding: 40px 20px;">
+            <div class="empty-icon" style="width: 60px; height: 60px;">📭</div>
+            <h3 class="empty-title" style="font-size: 1rem;">No messages yet</h3>
+            <p class="empty-text" style="font-size: 0.85rem;">Start a conversation by contacting a client!</p>
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = conversations.map(conv => 
+        window.Messages.renderConversationItem(conv, currentUserId)
+      ).join('');
+      
+      container.querySelectorAll('.conversation-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const convId = item.dataset.conversationId;
+          selectConversation(convId);
+        });
+      });
+    }
+    
+    async function selectConversation(conversationId) {
+      currentConversationId = conversationId;
+      
+      document.querySelectorAll('.conversation-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.conversationId === conversationId);
+      });
+      
+      const { db } = window.FirebaseApp.init();
+      const convDoc = await db.collection(window.FirebaseApp.COLLECTIONS.MESSAGES).doc(conversationId).get();
+      
+      if (!convDoc.exists) {
+        showToast('Conversation not found', 'error');
+        return;
+      }
+      
+      const conversation = { id: convDoc.id, ...convDoc.data() };
+      const otherParticipantId = conversation.participants.find(p => p !== currentUserId);
+      const otherParticipant = conversation.participantDetails?.[otherParticipantId] || {};
+      
+      const initials = (otherParticipant.name || 'U')[0].toUpperCase();
+      const photoHtml = otherParticipant.photo 
+        ? `<img src="${otherParticipant.photo}" alt="${otherParticipant.name}">`
+        : initials;
+      
+      document.getElementById('chat-panel').innerHTML = `
+        <div class="chat-header">
+          <div class="chat-header-avatar">${photoHtml}</div>
+          <div class="chat-header-info">
+            <h3>${window.Utils.escapeHtml(otherParticipant.name || 'Unknown')}</h3>
+            <p>Click to view profile</p>
+          </div>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="chat-input-area">
+          <input type="text" class="chat-input" id="message-input" placeholder="Type a message..." onkeypress="handleKeyPress(event)">
+          <button class="send-btn" onclick="sendMessage()">➤</button>
+        </div>
+      `;
+      
+      document.getElementById('chat-panel').classList.remove('empty');
+      
+      window.Messages.subscribe(conversationId, (messages) => {
+        renderMessages(messages);
+      });
+      
+      window.Messages.markAsRead(conversationId);
+    }
+    
+    function renderMessages(messages) {
+      const container = document.getElementById('chat-messages');
+      
+      if (!messages || messages.length === 0) {
+        container.innerHTML = `
+          <div class="empty-chat" style="margin: auto;">
+            <p class="text-muted">No messages yet. Say hello!</p>
+          </div>
+        `;
+        return;
+      }
+      
+      container.innerHTML = messages.map(msg => 
+        window.Messages.renderMessage(msg, currentUserId)
+      ).join('');
+      
+      container.scrollTop = container.scrollHeight;
+    }
+    
+    async function sendMessage() {
+      const input = document.getElementById('message-input');
+      const message = input.value.trim();
+      
+      if (!message || !currentConversationId) return;
+      
+      input.value = '';
+      
+      await window.Messages.sendMessage(currentConversationId, message);
+    }
+    
+    function handleKeyPress(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    }
+  </script>
+</body>
+</html>

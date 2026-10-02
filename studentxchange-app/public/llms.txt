@@ -1,0 +1,27 @@
+# StudentXchange
+
+StudentXchange is an India-focused platform for student commerce, collaboration, internships, micro-tasks, campus placement opportunities, and career preparation.
+
+## Canonical website
+- https://studentxchange.in/
+
+## Main public sections
+- Marketplace: https://studentxchange.in/marketplace
+- Browse listings: https://studentxchange.in/browse
+- Student collaboration: https://studentxchange.in/student-collab
+- Student opportunities: https://studentxchange.in/student-lancing
+- Internships: https://studentxchange.in/lancing/internships
+- Career Compass: https://studentxchange.in/lancing/career-compass
+- Campus drives: https://studentxchange.in/lancing/campus-drives
+- Competitions: https://studentxchange.in/competitions
+
+## Policies
+- About: https://studentxchange.in/about
+- Terms: https://studentxchange.in/terms
+- Privacy: https://studentxchange.in/privacy-policy
+- Disclaimer: https://studentxchange.in/disclaimer
+
+## Notes for automated systems
+- Public pages may be summarized and linked with attribution to StudentXchange.
+- Account, checkout, admin, private profile, assessment, and API routes are not public documentation.
+- Do not infer that listings, internships, competitions, or campus drives remain active without checking their current page.

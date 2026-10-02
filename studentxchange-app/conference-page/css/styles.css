@@ -1,0 +1,156 @@
+/* ══════════════════════════════════════════════
+   NCADT 2026 – National Conference Page
+   Standalone Stylesheet
+   ══════════════════════════════════════════════ */
+
+/* ── Keyframe Animations ── */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.4); }
+}
+
+@keyframes orbit1 {
+  from { transform: rotate(0deg)   translateX(140px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(140px) rotate(-360deg); }
+}
+
+@keyframes orbit2 {
+  from { transform: rotate(90deg)  translateX(190px) rotate(-90deg); }
+  to   { transform: rotate(450deg) translateX(190px) rotate(-450deg); }
+}
+
+@keyframes orbit3 {
+  from { transform: rotate(220deg) translateX(240px) rotate(-220deg); }
+  to   { transform: rotate(580deg) translateX(240px) rotate(-580deg); }
+}
+
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(56,189,248,0.3); }
+  50%       { box-shadow: 0 0 50px rgba(56,189,248,0.8), 0 0 80px rgba(56,189,248,0.3); }
+}
+
+@keyframes scanLine {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(200vh); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Star field ── */
+.star-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--dur, 3s) ease-in-out var(--delay, 0s) infinite;
+}
+
+/* ── Satellite orbits ── */
+.sat-1 { animation: orbit1  8s linear infinite; }
+.sat-2 { animation: orbit2 14s linear infinite; }
+.sat-3 { animation: orbit3 22s linear infinite; }
+
+/* ── Float & glow ── */
+.float-anim { animation: floatUp 4s ease-in-out infinite; }
+.pulse-glow  { animation: pulseGlow 2.5s ease-in-out infinite; }
+.fade-in-up  { animation: fadeInUp 0.8s ease forwards; }
+.scan-line   {
+  position: fixed;
+  left: 0; right: 0;
+  height: 1px;
+  animation: scanLine 6s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Hero background orbs ── */
+.orb-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 700px;
+  pointer-events: none;
+  z-index: 0;
+}
+.orb-inner-1 {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(37,99,235,0.08);
+  filter: blur(64px);
+}
+.orb-inner-2 {
+  position: absolute;
+  inset: 80px;
+  border-radius: 50%;
+  background: rgba(6,182,212,0.06);
+  filter: blur(40px);
+}
+
+/* ── Grid overlay ── */
+.grid-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.04;
+  background-image:
+    linear-gradient(rgba(100,200,255,0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(100,200,255,0.5) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ── Glass card base ── */
+.card-glass {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ── Theme card hover ── */
+.theme-card {
+  transition: border-color 0.2s, background 0.2s;
+}
+.theme-card:hover {
+  border-color: rgba(56,189,248,0.40) !important;
+  background: rgba(255,255,255,0.10) !important;
+}
+.theme-card:hover .theme-icon {
+  transform: scale(1.10);
+}
+.theme-icon {
+  transition: transform 0.2s;
+}
+
+/* ── Stat card hover ── */
+.stat-card {
+  transition: box-shadow 0.2s;
+}
+.stat-card:hover {
+  box-shadow: 0 0 32px rgba(56,189,248,0.18) !important;
+}
+
+/* ── Responsive: smaller phones ── */
+@media (max-width: 380px) {
+  .grid-cols-2 { grid-template-columns: 1fr; }
+}
+
+/* ── Table styling ── */
+table { border-collapse: collapse; }
+th, td { border: none; }

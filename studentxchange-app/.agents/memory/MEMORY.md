@@ -1,0 +1,24 @@
+- [Phase 2 hardening decisions](phase2-hardening.md) — Postgres rate limiter (fail-open UPSERT), async Firestore AI quota, public Claude endpoint limits; ACTIVE_ATTEMPTS migrated to Firestore (see active-attempts-firestore.md).
+- [ACTIVE_ATTEMPTS Firestore migration](active-attempts-firestore.md) — active_skill_attempts/{attempt_id}; submit uses runTransaction to prevent duplicates; 10-min cleanup job; expires_at server-computed.
+- [Career Compass skill storage](career-compass-skill-storage.md) — personal vs institutional store skill completion in different Firestore shapes; not interchangeable.
+- [Career Compass option lists](career-compass-option-lists.md) — degrees/aspirations centralized in shared/career-data.ts; NEVER rename/delete a degree label (degreeKey feeds Firestore doc ids).
+- [Placement Readiness ↔ roadmap sync](placement-readiness-roadmap-sync.md) — roadmap→placement passes skill NAMES only (credits stay getMeta/lookupCredits); institutional progress folds into portal_activity (+5, clamped).
+- [Career Compass crash root cause](career-compass-crash-root-cause.md) — crash was undefined `orgLabel` (ReferenceError) + TDZ from `trackFromUrl` declared after hooks that used it.
+- [Lancing auth loading gates](lancing-auth-loading-gates.md) — role-based redirects must wait for dataLoaded; slow-Firestore timeout must set dataLoaded=true or users strand on login.
+- [PayU subscription idempotency](payu-subscription-idempotency.md) — settle verified payments only once; validate the stored transaction price, not the current plan price.
+- [Google sign-in on custom domain](google-auth-custom-domain.md) — signInWithRedirect silently loses auth state on studentxchange.in; always popup-first, redirect only as blocked-popup fallback; SW must never cache HTML/JS.
+- [Coding Arena design](coding-arena-design.md) — free-tier quotas must reserve a slot in a Firestore txn pre-judge; hidden tests never leave server; readiness weights 30/20/20/10/10/10.
+- [Admin tester bypass](admin-tester-bypass.md) — platform admin email skips readiness/premium/setup gates for testing; server-side eligible override + client tester-mode UI.
+- [Career Compass roadmap truncation](career-compass-roadmap-truncation.md) — models ignore soft token budgets; enforce structural caps + max_tokens headroom, never silent roadmap:null.
+- [PayU reverse-hash false negatives](payu-reverse-hash-false-negative.md) — hash mismatch on real payments; always fall back to verify_payment API before rejecting.
+- [Student Collab token precedence](student-collab-token-precedence.md) — prefer the active Firebase ID token over cached Collab JWTs; retry profile requests once after forced refresh.
+- [Career Compass track meaning](career-compass-track-meaning.md) — personal and institutional maps are two paths in one system; institutional is the partnership route, not a separate product.
+- [Gemini model availability](gemini-model-availability.md) — verify Flash-Lite IDs against the configured key; older IDs may be unavailable or temporarily overloaded.
+- [Gemini request deadlines](gemini-request-deadlines.md) — explicit API deadlines under ten seconds are rejected immediately, rather than timing out.
+- [Career Compass Claude-token objective](career-compass-claude-tokens.md) — optimize Claude calls and input/output tokens specifically; use Gemini critique/repair before compact Claude escalation.
+- [StudentLancing AI provider boundary](studentlancing-ai-provider-boundary.md) — StudentLancing features avoid Claude, including adjacent assessment/coaching paths; Career Compass roadmap remains separate.
+- [Shared roadmap cache save truth](shared-roadmap-cache-save-truth.md) — a cache hit is not proof that the requesting student owns a saved plan; restore per-user persistence before reporting saved.
+- [Himalayas API search freshness](himalayas-api-freshness.md) — search updatedAt can mirror newest listing publication, so a quiet search need not mean the API feed is stale.
+- [Microtask source permissions](microtask-source-permissions.md) — public freelance APIs may restrict competing feeds; verify reuse rights and student eligibility before enabling.
+- [Competition source permissions](competition-source-permissions.md) — Public API access varies: Hackalendar/Codeforces are keyless; Brabble/Kaggle require credentials; restricted sites stay off.
+- [Institution name display](institution-name-display.md) — Hide the legacy Veloces Campus label in UI only; preserve saved institution identity for SPCR lookups and records.

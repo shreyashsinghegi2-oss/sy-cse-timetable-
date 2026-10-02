@@ -1,0 +1,30 @@
+# StudentXchange crawler policy
+# https://studentxchange.in
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin
+Disallow: /admin-lancing
+Disallow: /collab-admin
+Disallow: /competitions-admin
+Disallow: /coe-dashboard
+Disallow: /database-monitor
+Disallow: /seo-dashboard
+Disallow: /clear-cache
+Disallow: /auth
+Disallow: /cart
+Disallow: /checkout
+Disallow: /orders
+Disallow: /uploads/
+Disallow: /objects/
+Disallow: /*?token=
+Disallow: /*?code=
+
+Allow: /favicon.ico
+Allow: /logo.png
+Allow: /og-image.png
+Allow: /manifest.json
+Allow: /llms.txt
+
+Sitemap: https://studentxchange.in/sitemap.xml

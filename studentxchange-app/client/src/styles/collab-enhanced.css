@@ -1,0 +1,2372 @@
+/* Student Collab Enhanced UI Styles - Pixel-Perfect Reference Match */
+/* Version: 2025-12-01 - EXACT Reference Implementation */
+
+/* ============================================
+   LAYOUT - Clean Scrolling Behavior
+   ============================================ */
+
+/* Prevent horizontal overflow on page */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Sidebar sticky positioning - fixed in place while feed scrolls */
+.collab-sidebar {
+  position: sticky;
+  top: 80px;
+  align-self: flex-start;
+}
+
+/* Ensure sidebars stay fixed on large screens */
+@media (min-width: 1024px) {
+  .collab-stagger {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+  .collab-stagger::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Opera */
+  }
+}
+
+/* ============================================
+   CSS VARIABLES - Easy Color Management
+   ============================================ */
+:root {
+  --collab-primary: #3b82f6;
+  --collab-primary-dark: #2563eb;
+  --collab-secondary: #8b5cf6;
+  --collab-success: #22c55e;
+  --collab-warning: #f59e0b;
+  --collab-danger: #ef4444;
+  --collab-bg: #f8fafc;
+  --collab-card-bg: #ffffff;
+  --collab-border: rgba(0, 0, 0, 0.05);
+  --collab-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --collab-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --collab-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --collab-radius: 16px;
+  --collab-radius-lg: 20px;
+  --collab-text-primary: #1e293b;
+  --collab-text-secondary: #64748b;
+  --collab-text-muted: #94a3b8;
+  --collab-spacing-xs: 0.5rem;
+  --collab-spacing-sm: 0.75rem;
+  --collab-spacing-md: 1rem;
+  --collab-spacing-lg: 1.5rem;
+  --collab-spacing-xl: 2rem;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+@keyframes collab-fade-in {
+  from { 
+    opacity: 0; 
+    transform: translateY(8px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes collab-slide-up {
+  0% { 
+    opacity: 0; 
+    transform: translateY(20px) scale(0.98); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+  }
+}
+
+@keyframes collab-scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes badge-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(34, 197, 94, 0.3); }
+  50% { box-shadow: 0 0 12px rgba(34, 197, 94, 0.5); }
+}
+
+/* Animation Classes */
+.collab-fade-in {
+  animation: collab-fade-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.collab-slide-up {
+  animation: collab-slide-up 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.collab-scale-in {
+  animation: collab-scale-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* .animate-fade-in consolidated in index.css */
+
+/* Staggered animations for lists */
+.collab-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.collab-stagger > *:nth-child(2) { animation-delay: 0.1s; }
+.collab-stagger > *:nth-child(3) { animation-delay: 0.15s; }
+.collab-stagger > *:nth-child(4) { animation-delay: 0.2s; }
+.collab-stagger > *:nth-child(5) { animation-delay: 0.25s; }
+
+/* ============================================
+   HEADER STYLES - Compact & Clean
+   ============================================ */
+
+.collab-header {
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  padding: 0.625rem 0;
+}
+
+/* Search Bar - Compact & Centered */
+.collab-search-bar {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0.5rem 0.875rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  max-width: 380px;
+}
+
+.collab-search-bar:focus-within {
+  background: white;
+  border-color: #3b82f6;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.12);
+}
+
+.collab-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.875rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #64748b;
+  transition: all 0.2s ease;
+}
+
+.collab-nav-btn:hover {
+  background: #f3f4f6;
+  color: #1e293b;
+}
+
+.collab-nav-btn.active {
+  background: #eff6ff;
+  color: #3b82f6;
+}
+
+/* ============================================
+   PROFILE CARD STYLES - Premium Match
+   ============================================ */
+
+.collab-profile-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.collab-profile-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.collab-avatar-ring {
+  position: relative;
+}
+
+.collab-avatar-ring::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  background: #22c55e;
+  border: 2.5px solid white;
+  border-radius: 50%;
+}
+
+.collab-profile-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.375rem 0.875rem;
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+  color: #15803d;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 20px;
+  animation: badge-glow 2s ease-in-out infinite;
+}
+
+.collab-profile-badge::before {
+  content: '✓';
+  font-size: 0.625rem;
+}
+
+/* ============================================
+   QUICK LINKS - HIDDEN (Per User Request)
+   ============================================ */
+
+.collab-quick-links {
+  display: none !important;
+}
+
+/* ============================================
+   FIND YOUR MATCH CARD - Premium Style
+   ============================================ */
+
+.collab-match-card {
+  background: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.collab-match-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.3);
+}
+
+.collab-match-icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.collab-match-btn {
+  width: 100%;
+  background: white;
+  color: #3b82f6;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.collab-match-btn:hover {
+  background: #f8fafc;
+  transform: scale(1.02);
+}
+
+/* ============================================
+   UPCOMING EVENTS STYLES - Premium Match
+   ============================================ */
+
+.collab-events-card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 1.25rem;
+}
+
+.collab-events-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.collab-events-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 1rem 0;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.collab-events-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  color: var(--collab-text-primary);
+}
+
+.collab-events-count {
+  background: #eff6ff;
+  color: #3b82f6;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 0.375rem 0.75rem;
+  border-radius: 20px;
+}
+
+/* Event Item with Colored Left Border - Premium Layout */
+.collab-event-item {
+  display: flex;
+  gap: 0;
+  padding: 0.75rem;
+  margin: 0 0 0.75rem;
+  background: #fafbfc;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+}
+
+.collab-event-item:last-child {
+  margin-bottom: 0;
+}
+
+.collab-event-item:hover {
+  background: #f3f4f6;
+  border-color: rgba(59, 130, 246, 0.15);
+}
+
+/* Colored left border indicator */
+.collab-event-item::before {
+  content: '';
+  width: 4px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #22c55e, #16a34a);
+  border-radius: 4px 0 0 4px;
+}
+
+.collab-event-item:nth-child(2)::before {
+  background: linear-gradient(180deg, #22c55e, #16a34a);
+}
+
+.collab-event-item:nth-child(3)::before {
+  background: linear-gradient(180deg, #8b5cf6, #7c3aed);
+}
+
+.collab-event-item:nth-child(4)::before {
+  background: linear-gradient(180deg, #3b82f6, #2563eb);
+}
+
+.collab-event-item:nth-child(5)::before {
+  background: linear-gradient(180deg, #f59e0b, #d97706);
+}
+
+.collab-event-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  padding: 0.5rem 0.625rem;
+  text-align: center;
+  background: transparent;
+  border-radius: 0;
+}
+
+.collab-event-day {
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.125rem;
+}
+
+.collab-event-time {
+  font-size: 0.8125rem;
+  font-weight: 800;
+  color: var(--collab-text-primary);
+}
+
+.collab-event-info {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem 0.75rem 0.5rem 0.5rem;
+}
+
+.collab-event-title {
+  font-weight: 600;
+  color: var(--collab-text-primary);
+  font-size: 0.8125rem;
+  margin-bottom: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.collab-event-host {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.6875rem;
+  color: var(--collab-text-secondary);
+  margin-bottom: 0.125rem;
+}
+
+.collab-event-host-avatar {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.5rem;
+  font-weight: 700;
+}
+
+.collab-event-joined {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.625rem;
+  color: var(--collab-success);
+  font-weight: 600;
+}
+
+/* ============================================
+   STAY CONNECTED CARD - Premium Style
+   ============================================ */
+
+.collab-connected-card {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.collab-connected-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.875rem;
+  color: #3b82f6;
+}
+
+.collab-connected-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.375rem;
+  margin-top: 1rem;
+}
+
+.collab-connected-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #cbd5e1;
+}
+
+.collab-connected-dot.active {
+  background: #f59e0b;
+}
+
+/* ============================================
+   PREMIUM POST CARD STYLES - Exact Design Specification
+   ============================================ */
+
+.premium-post-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  margin-bottom: 1.5rem;
+  animation: postCardFadeIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  opacity: 0;
+  contain: layout style;
+}
+
+/* Staggered animation for each card */
+.premium-post-card:nth-child(1) { animation-delay: 0ms; }
+.premium-post-card:nth-child(2) { animation-delay: 80ms; }
+.premium-post-card:nth-child(3) { animation-delay: 160ms; }
+.premium-post-card:nth-child(4) { animation-delay: 240ms; }
+.premium-post-card:nth-child(5) { animation-delay: 320ms; }
+.premium-post-card:nth-child(n+6) { animation-delay: 400ms; }
+
+@keyframes postCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.premium-post-card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  transform: translateY(-6px) scale(1.01);
+}
+
+/* ============ POST CARD HEADER - Exact Spec ============ */
+.post-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 1rem;
+  gap: 1rem;
+}
+
+/* Trending Badge - Green color, rounded-full */
+.post-trending-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.5rem;
+  padding: 0 0.75rem;
+  background: #d1fae5;
+  color: #10b981;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  gap: 0.375rem;
+}
+
+.post-trending-badge svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+/* Category Badge - Achievement green badge */
+.post-category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  background: #d1fae5;
+  color: #10b981;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ============ PROFILE SECTION - Avatar 48x48 ============ */
+.post-profile-section {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 1rem 0.75rem;
+  position: relative;
+}
+
+.post-profile-section .post-connect-wrapper {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.post-profile-avatar {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6 0%, #3b82f6 70%);
+}
+
+.post-profile-info {
+  flex: 1;
+}
+
+.post-profile-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #111827;
+}
+
+.post-profile-name-row .dot {
+  width: 0.25rem;
+  height: 0.25rem;
+  background: #6b7280;
+  border-radius: 50%;
+}
+
+.post-profile-date {
+  font-size: 0.8125rem;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.post-profile-date svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+/* ============ CONTENT SECTION ============ */
+.post-content {
+  padding: 0 1.5rem;
+}
+
+/* Title with Winner Badge - 18px bold inline */
+.post-content-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.75rem;
+}
+
+.post-winner-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  background: #d1fae5;
+  color: #10b981;
+  border-radius: 9999px;
+  font-size: 0.625rem;
+  font-weight: 600;
+}
+
+/* Description - 15px, multi-line, darker for readability */
+.post-content-description {
+  font-size: 0.9375rem;
+  color: #1f2937;
+  line-height: 1.65;
+  margin-bottom: 0.75rem;
+  font-weight: 400;
+}
+
+/* Image - 3:2 aspect ratio with hover zoom */
+.post-content-image {
+  width: 100%;
+  aspect-ratio: 3/2;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-bottom: 0.75rem;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.post-content-image:hover {
+  transform: scale(1.02);
+}
+
+/* Tags - Small pills with outline */
+.post-tags-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.post-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.post-tag-pill:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .premium-post-card {
+    border-radius: 16px;
+    margin-bottom: 1.25rem;
+  }
+  .premium-post-card > div {
+    padding: 1.25rem;
+  }
+  .premium-post-card h3 {
+    font-size: 1.25rem;
+  }
+  .premium-post-card p {
+    font-size: 0.875rem;
+  }
+}
+
+/* Post text truncation - exactly 3 lines with inline ...more */
+.post-text-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ========== Profile Page Styles ========== */
+
+/* Fixed Height Banner - 260px Teal to Sky Blue */
+.profile-banner-fixed {
+  position: relative;
+  height: 260px;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.profile-banner-fixed::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(255,255,255,0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+/* Profile Hero Section Container */
+.profile-hero-section {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+/* Profile Hero Overlay - Positioned to overlap banner bottom */
+.profile-hero-overlay {
+  position: relative;
+  margin-top: -80px;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  z-index: 20;
+}
+
+/* Avatar Container - Positioned relative for badge overlay */
+.profile-avatar-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Profile Avatar with shadow */
+.profile-avatar-wrapper {
+  position: relative;
+  z-index: 10;
+}
+
+.profile-avatar {
+  border: 4px solid white;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  transition: transform 0.2s ease;
+}
+
+.profile-avatar:hover {
+  transform: scale(1.02);
+}
+
+/* Profile Card - Modern styling with 20px radius */
+.profile-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  border: none;
+  overflow: hidden;
+}
+
+.profile-card-content {
+  padding: 1.5rem;
+}
+
+/* Section title styling - clean minimal */
+.profile-section-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.profile-section-title svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #4f46e5;
+  flex-shrink: 0;
+}
+
+/* Modern 30/70 Grid Layout */
+.profile-grid-modern {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .profile-grid-modern {
+    grid-template-columns: minmax(300px, 30%) 1fr;
+    gap: 2rem;
+  }
+}
+
+/* Team member item */
+.profile-team-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0.5rem 0;
+}
+
+.profile-team-item:not(:last-child) {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.profile-team-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.profile-team-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.4;
+}
+
+/* Contact info item */
+.profile-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.375rem 0;
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.profile-contact-item svg {
+  width: 1rem;
+  height: 1rem;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.profile-contact-item a {
+  color: #4f46e5;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.profile-contact-item a:hover {
+  color: #4338ca;
+  text-decoration: underline;
+}
+
+/* Connection stats */
+.profile-connection-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #f9fafb;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+
+/* Profile grid layout */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .profile-grid {
+    grid-template-columns: 1fr 2fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Profile Hero Banner - Blue to Purple Gradient matching all profile views */
+.profile-hero-banner {
+  background: linear-gradient(135deg, #005FF9 0%, #9A1EFF 100%);
+  border-radius: 20px 20px 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-hero-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(255,255,255,0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .profile-hero-banner {
+    height: 7rem !important;
+  }
+  
+  .profile-avatar {
+    width: 5rem !important;
+    height: 5rem !important;
+    font-size: 1.5rem !important;
+  }
+  
+  .profile-card-content {
+    padding: 1rem;
+  }
+  
+  .profile-section-title {
+    font-size: 0.9375rem;
+  }
+}
+
+/* Trending Label - Hidden */
+.post-trending-label {
+  display: none;
+}
+
+.post-trending-label::before {
+  content: none;
+}
+
+/* Post Type Badges - Pastel Colors */
+.post-type-badge {
+  padding: 0.375rem 1rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: none;
+}
+
+.post-type-badge.achievement {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.post-type-badge.project {
+  background: #dbeafe;
+  color: #0284c7;
+}
+
+.post-type-badge.group {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+/* Winner Badge */
+.post-winner-badge {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: white;
+  font-size: 0.625rem;
+  font-weight: 700;
+  padding: 0.1875rem 0.625rem;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
+}
+
+/* Congrats/Join Button */
+.post-congrats-btn {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+}
+
+.post-congrats-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+}
+
+.post-congrats-btn:active {
+  transform: translateY(0);
+}
+
+/* Post Title with Emoji */
+.post-title-enhanced {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 0.625rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  line-height: 1.5;
+}
+
+/* Post Content */
+.post-content-text {
+  color: #1f2937;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  margin-bottom: 0.875rem;
+  font-weight: 400;
+}
+
+/* Enhanced Post Image */
+.post-media-enhanced {
+  margin: 0.875rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  aspect-ratio: 16/10;
+  position: relative;
+  background: #f3f4f6;
+}
+
+.post-media-enhanced:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: scale(1.01);
+}
+
+.post-media-enhanced img,
+.post-media-enhanced video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 16/10;
+}
+
+/* Post Tags */
+.post-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f3f4f6;
+  margin-top: 0.75rem;
+}
+
+.post-tag-chip {
+  padding: 0.375rem 0.75rem;
+  background: #f3f4f6;
+  color: #475569;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.post-tag-chip:hover {
+  background: #e0e7ff;
+  color: #3b82f6;
+  border-color: #bfdbfe;
+  transform: translateY(-1px);
+}
+
+/* Engagement Bar Enhanced */
+.post-engagement-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem 1.25rem;
+  border-top: 1px solid #f3f4f6;
+  background: #fafbfc;
+}
+
+.post-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #64748b;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.post-action-btn:hover {
+  background: #f1f5f9;
+  color: #3b82f6;
+}
+
+.post-action-btn.liked {
+  color: #ef4444;
+}
+
+.post-action-btn.liked:hover {
+  background: #fef2f2;
+}
+
+/* Author Header Enhanced */
+.post-author-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.post-author-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.post-author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  object-fit: cover;
+}
+
+.post-author-name {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.9375rem;
+}
+
+.post-author-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem;
+  color: #94a3b8;
+}
+
+/* ============================================
+   PROJECT CARD STYLES - Enhanced
+   ============================================ */
+
+.collab-project-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 6px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.collab-project-status.in-progress {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.collab-project-status.completed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.collab-project-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 1rem;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #475569;
+  transition: all 0.2s ease;
+}
+
+.collab-project-view-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.collab-project-members {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: #64748b;
+}
+
+.collab-project-spots {
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.collab-project-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.collab-project-skill {
+  padding: 0.25rem 0.625rem;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+/* ============================================
+   SPOTS AVAILABLE BADGE
+   ============================================ */
+
+.spots-available-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  border-radius: 6px;
+}
+
+/* ============================================
+   GRID LAYOUT IMPROVEMENTS
+   ============================================ */
+
+/* Main grid container - Perfect 3-column layout */
+.lg\:grid-cols-12 {
+  gap: 1.5rem !important;
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-12 {
+    gap: 1.75rem !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .lg\:grid-cols-12 {
+    gap: 2rem !important;
+  }
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS
+   ============================================ */
+
+/* Large Desktop (≥1440px): Full 3-column layout */
+@media (min-width: 1440px) {
+  .premium-post-card {
+    max-width: 100%;
+  }
+  
+  .collab-events-card {
+    max-width: 100%;
+  }
+}
+
+/* Desktop (1024–1439px): Tighter 3-column */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  .collab-profile-card {
+    padding: 1.25rem;
+  }
+  
+  .collab-events-card .collab-event-title {
+    font-size: 0.8125rem;
+  }
+}
+
+/* Tablet (768–1023px): 2-column layout */
+@media (max-width: 1023px) {
+  .collab-events-card,
+  .collab-quick-links,
+  .collab-connected-card,
+  .collab-match-card {
+    display: none;
+  }
+}
+
+/* Mobile Large (430–767px): Single column */
+@media (max-width: 767px) {
+  .collab-profile-card {
+    border-radius: 14px;
+    padding: 1rem;
+  }
+  
+  .collab-match-card {
+    border-radius: 14px;
+    padding: 1.25rem;
+  }
+  
+  .premium-post-card {
+    border-radius: 12px;
+    margin-bottom: 0.75rem;
+  }
+  
+  .premium-post-card > div {
+    padding: 1rem;
+  }
+  
+  .post-media-enhanced {
+    border-radius: 10px;
+    margin: 0.5rem 0;
+  }
+  
+  .post-congrats-btn {
+    padding: 0.375rem 0.875rem;
+    font-size: 0.75rem;
+  }
+  
+  .post-trending-label {
+    font-size: 0.6875rem;
+  }
+  
+  .post-type-badge {
+    font-size: 0.6875rem;
+    padding: 0.25rem 0.625rem;
+  }
+  
+  .post-tag-chip {
+    font-size: 0.6875rem;
+  }
+  
+  .collab-events-header {
+    padding: 0 0 0.75rem 0;
+    margin-bottom: 0.5rem;
+  }
+  
+  .collab-event-item {
+    padding: 0.625rem;
+    margin: 0 0 0.5rem;
+  }
+  
+  .collab-event-date {
+    min-width: 48px;
+    padding: 0.375rem;
+  }
+  
+  .collab-event-info {
+    padding: 0.375rem 0.5rem 0.375rem 0.375rem;
+  }
+  
+  .collab-event-title {
+    font-size: 0.75rem;
+  }
+  
+  .collab-event-day {
+    font-size: 0.5625rem;
+  }
+  
+  .collab-event-time {
+    font-size: 0.75rem;
+  }
+  
+  .collab-event-host {
+    font-size: 0.625rem;
+  }
+}
+
+/* Mobile Small (<430px) */
+@media (max-width: 429px) {
+  .collab-header {
+    padding: 0.5rem 0;
+  }
+  
+  .collab-search-bar {
+    max-width: 100%;
+    padding: 0.45rem 0.75rem;
+  }
+  
+  .collab-nav-btn {
+    padding: 0.45rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+  
+  .premium-post-card > div {
+    padding: 0.875rem;
+  }
+  
+  .post-author-avatar {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .post-author-name {
+    font-size: 0.875rem;
+  }
+  
+  .post-author-meta {
+    font-size: 0.75rem;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   STUDENT COLLAB MOBILE UI - Complete Redesign (max-width: 768px)
+   Strict mobile isolation - No desktop changes
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE HEADER - Sticky 56px
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sc-mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    z-index: 50;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  
+  .sc-mobile-header-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .sc-mobile-header-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .sc-mobile-header-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .sc-mobile-logo {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .sc-mobile-logo span {
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .sc-mobile-header-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: transparent;
+    color: #475569;
+    transition: all 0.15s ease;
+    position: relative;
+  }
+  
+  .sc-mobile-header-btn:active {
+    background: #f1f5f9;
+    transform: scale(0.95);
+  }
+  
+  .sc-mobile-header-btn .badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: #ef4444;
+    color: white;
+    font-size: 0.625rem;
+    font-weight: 600;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE DRAWER - Slide from left (280px, max 85vw)
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sc-mobile-drawer-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 60;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .sc-mobile-drawer-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .sc-mobile-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 280px;
+    max-width: 85vw;
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    z-index: 70;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  
+  .sc-mobile-drawer.open {
+    transform: translateX(0);
+  }
+  
+  .sc-mobile-drawer-header {
+    padding: 20px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .sc-mobile-drawer-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .sc-mobile-drawer-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  .sc-mobile-drawer-info h3 {
+    color: white;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  
+  .sc-mobile-drawer-info p {
+    color: #94a3b8;
+    font-size: 0.8125rem;
+  }
+  
+  .sc-mobile-drawer-nav {
+    padding: 16px 0;
+    flex: 1;
+  }
+  
+  .sc-mobile-drawer-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #cbd5e1;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: all 0.15s ease;
+  }
+  
+  .sc-mobile-drawer-item:active {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .sc-mobile-drawer-item.active {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+  }
+  
+  .sc-mobile-drawer-item svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+  
+  .sc-mobile-drawer-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 8px 16px;
+  }
+  
+  .sc-mobile-drawer-footer {
+    padding: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .sc-mobile-drawer-logout {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px;
+    color: #f87171;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+  }
+  
+  .sc-mobile-drawer-logout:active {
+    background: rgba(239, 68, 68, 0.15);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE BOTTOM NAVIGATION - Fixed 56px
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sc-mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    background: white;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 50;
+    padding: 0 8px;
+  }
+  
+  .sc-mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    flex: 1;
+    padding: 8px 4px;
+    color: #94a3b8;
+    font-size: 0.625rem;
+    font-weight: 500;
+    transition: color 0.15s ease;
+    text-decoration: none;
+    position: relative;
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+  
+  .sc-mobile-nav-item:active {
+    opacity: 0.7;
+  }
+  
+  .sc-mobile-nav-item.active {
+    color: #3b82f6;
+  }
+  
+  .sc-mobile-nav-item.active svg {
+    color: #3b82f6;
+  }
+  
+  .sc-mobile-nav-item svg {
+    width: 24px;
+    height: 24px;
+    color: inherit;
+  }
+  
+  .sc-mobile-nav-item span {
+    margin-top: 2px;
+  }
+  
+  .sc-mobile-nav-item .badge {
+    position: absolute;
+    top: 2px;
+    right: calc(50% - 16px);
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: #ef4444;
+    color: white;
+    font-size: 0.5625rem;
+    font-weight: 600;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE MAIN CONTENT WRAPPER
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sc-mobile-content {
+    padding-top: 56px;
+    padding-bottom: 64px;
+    min-height: 100vh;
+    background: #f8fafc;
+  }
+  
+  .sc-mobile-feed {
+    padding: 12px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE FIND YOUR MATCH CARD - Spotlight
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sc-mobile-match-card {
+    background: linear-gradient(135deg, #3b82f6 0%, #6366f1 50%, #8b5cf6 100%);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+  }
+  
+  .sc-mobile-match-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .sc-mobile-match-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  
+  .sc-mobile-match-title {
+    flex: 1;
+  }
+  
+  .sc-mobile-match-title h3 {
+    color: white;
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  
+  .sc-mobile-match-title p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.8125rem;
+  }
+  
+  .sc-mobile-match-btn {
+    width: 100%;
+    padding: 12px;
+    background: white;
+    color: #3b82f6;
+    font-weight: 600;
+    font-size: 0.9375rem;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  
+  .sc-mobile-match-btn:active {
+    transform: scale(0.98);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE EVENTS CAROUSEL - Horizontal swipeable slider
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sc-events-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 12px;
+    padding: 4px 4px 12px 4px;
+    margin-bottom: 4px;
+    /* Hide scrollbar — all browsers */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .sc-events-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .sc-carousel-card {
+    min-width: 86%;
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    /* Remove the per-card bottom margin — spacing handled by carousel gap */
+    margin-bottom: 0 !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE EVENTS WIDGET - Compact collapsible card
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sc-mobile-events-card {
+    background: white;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 16px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .sc-mobile-events-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  
+  .sc-mobile-events-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #1e293b;
+  }
+  
+  .sc-mobile-events-title svg {
+    color: #3b82f6;
+  }
+  
+  .sc-mobile-events-count {
+    font-size: 0.75rem;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 4px 10px;
+    border-radius: 12px;
+  }
+  
+  .sc-mobile-event-item {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  
+  .sc-mobile-event-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .sc-mobile-event-item:active {
+    background: #f1f5f9;
+    transform: scale(0.99);
+  }
+  
+  .sc-mobile-event-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 48px;
+    padding: 6px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    border-radius: 8px;
+    color: white;
+  }
+  
+  .sc-mobile-event-day {
+    font-size: 0.5625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    opacity: 0.9;
+  }
+  
+  .sc-mobile-event-time {
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  
+  .sc-mobile-event-info {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .sc-mobile-event-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .sc-mobile-event-host {
+    font-size: 0.75rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE STAY CONNECTED WIDGET - Compact informational
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sc-mobile-connected-card {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #bae6fd;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .sc-mobile-connected-icon {
+    width: 44px;
+    height: 44px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0284c7;
+    flex-shrink: 0;
+  }
+  
+  .sc-mobile-connected-content h4 {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #0c4a6e;
+    margin-bottom: 2px;
+  }
+  
+  .sc-mobile-connected-content p {
+    font-size: 0.8125rem;
+    color: #0369a1;
+    line-height: 1.4;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE POST CARDS - Touch optimized
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sc-mobile-post-card {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  
+  .sc-mobile-post-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 12px 0;
+  }
+  
+  .sc-mobile-post-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  
+  .sc-mobile-post-author {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .sc-mobile-post-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 2px;
+  }
+  
+  .sc-mobile-post-meta {
+    font-size: 0.75rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .sc-mobile-post-content {
+    padding: 10px 12px;
+    font-size: 0.875rem;
+    color: #374151;
+    line-height: 1.5;
+  }
+  
+  .sc-mobile-post-media {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+  }
+  
+  .sc-mobile-post-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 8px 12px;
+    border-top: 1px solid #f1f5f9;
+  }
+  
+  .sc-mobile-post-action {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    color: #64748b;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.15s ease;
+  }
+  
+  .sc-mobile-post-action:active {
+    background: #f1f5f9;
+    transform: scale(0.95);
+  }
+  
+  .sc-mobile-post-action.liked {
+    color: #ef4444;
+  }
+  
+  .sc-mobile-post-action svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   HIDE DESKTOP ELEMENTS ON MOBILE
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Hide desktop header and sidebars */
+  .collab-header {
+    display: none !important;
+  }
+  
+  /* Hide desktop three-column grid */
+  .lg\\:col-span-3,
+  .lg\\:col-span-6 {
+    display: block;
+  }
+  
+  /* Ensure mobile wrapper takes full width */
+  .sc-mobile-wrapper {
+    display: block;
+  }
+}
+
+/* Show desktop elements only on desktop */
+@media (min-width: 769px) {
+  .sc-mobile-header,
+  .sc-mobile-drawer,
+  .sc-mobile-drawer-overlay,
+  .sc-mobile-bottom-nav,
+  .sc-mobile-content,
+  .sc-mobile-wrapper {
+    display: none !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE TYPOGRAPHY ADJUSTMENTS
+   ───────────────────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .sc-mobile-feed h1, .sc-mobile-feed h2, .sc-mobile-feed h3 {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .sc-mobile-feed p, .sc-mobile-feed span, .sc-mobile-feed button {
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   TABLET RESPONSIVE IMPROVEMENTS (769–1023px)
+   Strict layout adaptation — no design changes
+   ════════════════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  /* Compact the desktop header search bar on tablet */
+  .collab-search-bar {
+    max-width: 220px;
+  }
+
+  /* Shrink nav buttons on tablet to prevent overflow */
+  .collab-nav-btn {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8125rem;
+    gap: 0.25rem;
+  }
+
+  /* Left sidebar: show profile card on tablet too */
+  .collab-profile-card {
+    padding: 1rem;
+  }
+
+  /* Reduce sidebar card padding on tablet */
+  .collab-events-card {
+    padding: 1rem;
+  }
+
+  /* Show profile card on tablet (override hidden lg:block) */
+  .md\:block .collab-profile-card {
+    display: block;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   GLOBAL TOUCH TARGET IMPROVEMENTS
+   Ensures 44px min touch target without changing visual design
+   ════════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1023px) {
+  /* Increase button touch target area */
+  button, [role="button"], a.collab-nav-btn {
+    min-height: 44px;
+  }
+
+  /* Ensure icon-only buttons have 44px hit area */
+  .sc-mobile-header-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Drawer nav items */
+  .sc-mobile-drawer-item {
+    padding: 14px 16px;
+    min-height: 44px;
+  }
+
+  /* Bottom nav buttons */
+  .sc-mobile-bottom-nav-item {
+    min-height: 52px;
+    flex: 1;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   POST CARD TEXT OVERFLOW PREVENTION
+   Prevents cut-off text without changing layout or design
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* Ensure flex children don't overflow their parent */
+.post-author-info,
+.post-profile-info,
+.sc-mobile-post-author {
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* Post author name truncation */
+.post-author-name,
+.sc-mobile-post-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Post meta (time, date) wraps gracefully */
+.post-author-meta,
+.sc-mobile-post-meta {
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+/* Post text: no horizontal overflow */
+.post-content-text,
+.sc-mobile-post-content,
+.post-description {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Ensure post images never overflow their card.
+   Do NOT set height: auto here — that would conflict with
+   aspect-ratio on .post-content-image / video before metadata loads. */
+.premium-post-card img,
+.premium-post-card video,
+.sc-mobile-post-card img,
+.sc-mobile-post-card video {
+  max-width: 100%;
+}
+
+/* Reserve exact 3:2 space for the post media wrapper before
+   the image/video is fetched, eliminating CLS on the feed. */
+.post-media-cls-wrapper {
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   PROFILE PAGE RESPONSIVE FIXES
+   ════════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+  /* Profile hero overlay: tighten spacing on small phones */
+  .profile-hero-overlay {
+    margin-top: -60px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Profile name + action buttons stack vertically */
+  .profile-name-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  /* Profile card inner padding tighter on small screens */
+  .profile-card-content {
+    padding: 1rem;
+  }
+
+  /* Connection stats wrap */
+  .profile-connection-stats {
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 0.8125rem;
+    padding: 0.375rem 0.75rem;
+  }
+
+  /* Banner fixed height on small phones */
+  .profile-banner-fixed {
+    height: 140px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  .profile-banner-fixed {
+    height: 180px;
+  }
+  .profile-hero-overlay {
+    margin-top: -70px;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   SEARCH PAGE RESPONSIVE FIXES
+   ════════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+  /* Search result cards full width */
+  .collab-search-result-card {
+    width: 100%;
+  }
+
+  /* Search result info wraps gracefully */
+  .collab-search-result-info {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .collab-search-result-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   NOTIFICATIONS DROPDOWN RESPONSIVE
+   ════════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+  /* Notifications panel: full width on tiny screens */
+  .notifications-panel,
+  [data-notifications-panel] {
+    width: calc(100vw - 1rem) !important;
+    left: 0.5rem !important;
+    right: 0.5rem !important;
+  }
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   COLLAB HEADER NAV OVERFLOW FIX (769–1023px)
+   Prevents navbar items from wrapping or overflowing
+   ════════════════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 769px) and (max-width: 900px) {
+  /* Hide nav button text labels, keep icons only */
+  .collab-nav-btn span:not([class]) {
+    display: none;
+  }
+
+  /* Tighten right-side icon buttons */
+  .collab-header .flex.items-center.gap-1,
+  .collab-header .flex.items-center.gap-2 {
+    gap: 0.125rem;
+  }
+}
