@@ -76,6 +76,9 @@ export function Logo({ light = false }: { light?: boolean }) {
   );
 }
 
+/** Header wordmark: monogram + name. The full-colour official badge is shown in the footer. */
+export const BrandLogo = Logo;
+
 export function EmptyState({ icon, title, body, action }: { icon: ReactNode; title: string; body: string; action?: ReactNode }) {
   return (
     <div className="flex flex-col items-center rounded-xl border border-dashed border-line px-6 py-16 text-center">

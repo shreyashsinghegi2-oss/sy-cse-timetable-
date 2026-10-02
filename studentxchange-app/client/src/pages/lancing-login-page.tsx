@@ -11,7 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import SEOHead from "@/components/seo/seo-head";
 
 export default function LancingLoginPage() {
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(() => new URLSearchParams(window.location.search).get("mode") !== "signup");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);

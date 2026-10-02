@@ -1,11 +1,11 @@
 import { Link } from "wouter";
 import { Logo } from "@/components/marketing/mui";
 
-const cols: { title: string; items: string[] }[] = [
-  { title: "Platform", items: ["Marketplace", "Student Collab", "StudentLancing", "Career Compass", "Coding Arena"] },
-  { title: "For Institutions", items: ["Placement cells", "Cohort analytics", "Career roadmaps", "Partner with us"] },
-  { title: "Company", items: ["About", "Careers", "Contact", "Press"] },
-  { title: "Legal", items: ["Terms", "Privacy", "Refund policy", "Security"] },
+const cols: { title: string; items: [string, string][] }[] = [
+  { title: "Platform", items: [["Marketplace", "/marketplace"], ["Student Collab", "/collab"], ["StudentLancing", "/student-lancing"], ["Career Compass", "/lancing/career-compass"], ["Competitions", "/competitions"]] },
+  { title: "Opportunities", items: [["Internships", "/lancing/internships"], ["Campus drives", "/lancing/campus-drives"], ["Competitions", "/competitions"], ["Company problem bank", "/lancing/companies"]] },
+  { title: "Company", items: [["About", "/about"], ["Log in", "/auth"], ["Register", "/auth?mode=signup"]] },
+  { title: "Legal", items: [["Terms", "/terms"], ["Privacy policy", "/privacy-policy"], ["Policies & refunds", "/policies"]] },
 ];
 
 export function SiteFooter() {
@@ -15,13 +15,14 @@ export function SiteFooter() {
         <div>
           <Link href="/"><Logo light /></Link>
           <p className="mt-4 max-w-xs text-sm text-white/60">The student operating system. Learn, earn, collaborate and grow.</p>
+          <img src="/logo-studentxchange.jpg" alt="StudentXchange.in official badge" width={72} height={72} className="mt-5 h-[72px] w-[72px] rounded-xl object-cover" loading="lazy" />
         </div>
         {cols.map((c) => (
           <div key={c.title}>
             <h4 className="text-sm font-semibold">{c.title}</h4>
             <ul className="mt-4 space-y-2.5">
-              {c.items.map((i) => (
-                <li key={i}><a href="#" className="text-sm text-white/60 transition-colors hover:text-white">{i}</a></li>
+              {c.items.map(([l, h]) => (
+                <li key={l}><Link href={h} className="text-sm text-white/60 transition-colors hover:text-white">{l}</Link></li>
               ))}
             </ul>
           </div>

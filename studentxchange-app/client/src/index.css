@@ -1205,7 +1205,7 @@ h1, h2, h3, h4, h5, h6 { font-family: 'Inter', 'Inter Fallback', system-ui, sans
 @layer components {
   .container-x { @apply mx-auto w-full max-w-[1200px] px-5 md:px-8; }
   .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.14em] text-sky-600; }
-  .h1 { @apply text-[40px] leading-[1.04] font-semibold md:text-[64px]; }
+  .h1 { @apply text-[36px] leading-[1.06] font-semibold md:text-[46px] lg:text-[52px]; }
   .h2 { @apply text-[30px] leading-[1.1] font-semibold md:text-[44px]; }
   .lead { @apply text-base leading-relaxed text-subtle md:text-lg; }
 }
