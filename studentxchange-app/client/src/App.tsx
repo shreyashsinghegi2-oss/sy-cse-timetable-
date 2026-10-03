@@ -15,11 +15,13 @@ import { CartProvider } from "./hooks/use-cart";
 import { ErrorBoundary } from "./components/error-boundary";
 import { FeedSkeleton, MarketplaceGridSkeleton, UserProfileSkeleton } from "@/components/ui/skeletons";
 import { BrandLoader } from "@/components/brand/brand-mark";
+import { usesShell } from "@/components/app-shell/nav";
 import TopNav from "./components/navigation/top-nav";
 import MobileNav from "./components/layout/mobile-nav";
 import CollabMobileNav from "./components/collab/collab-mobile-nav";
 import RouteSEO from "./components/seo/route-seo";
 
+const MarketplaceDashboard = lazy(() => import("@/pages/marketplace-dashboard"));
 const HomePage = lazy(() => import("@/pages/home-page"));
 const ProductDetailPage = lazy(() => import("@/pages/product-detail"));
 const AuthPage = lazy(() => import("@/pages/auth-page"));
@@ -302,18 +304,19 @@ function Router() {
 
   const isLandingPage = location === '/';
   const isCollabPage = location.startsWith('/collab') || location.startsWith('/student-collab') || location.startsWith('/elections') || location.startsWith('/statetech') || location.startsWith('/nat-conf') || location.startsWith('/hastech-2026') || location === '/hastech-register' || location === '/hastech-admin' || location.startsWith('/netx');
+  const isShellPage = usesShell(location);
   const isLancingPage = location.startsWith('/student-lancing') || location.startsWith('/lancing') || location.startsWith('/admin-lancing');
 
   return (
     <>
       <RouteSEO />
-      {!isLandingPage && !isLancingPage && !isCollabPage && (
+      {!isLandingPage && !isLancingPage && !isCollabPage && !isShellPage && (
         <TopNav />
       )}
       <Suspense fallback={<PageLoader />}>
         <Switch>
           <Route path="/" component={LandingPage} />
-          <Route path="/marketplace" component={HomePage} />
+          <Route path="/marketplace" component={MarketplaceDashboard} />
           <Route path="/product/:id" component={ProductDetailPage} />
           <Route path="/auth" component={AuthPage} />
           <Route path="/forgot-password" component={ForgotPasswordPage} />
@@ -333,7 +336,7 @@ function Router() {
           <Route path="/disclaimer" component={DisclaimerPage} />
           <Route path="/payment-success" component={PaymentSuccessPage} />
           <Route path="/payment-failure" component={PaymentFailurePage} />
-          <Route path="/browse" component={BrowsePage} />
+          <Route path="/browse" component={MarketplaceDashboard} />
           <ProtectedRoute path="/buyer-requests" component={BuyerRequestsPage} />
           <Route path="/student-collab" component={CollabRoutes} />
           <Route path="/collab" component={CollabRoutes} />
@@ -389,7 +392,7 @@ function Router() {
           <Route component={NotFound} />
         </Switch>
       </Suspense>
-      {!isLandingPage && !isCollabPage && !isLancingPage && (
+      {!isLandingPage && !isCollabPage && !isLancingPage && !isShellPage && (
         <MobileNav />
       )}
       {isCollabPage && (
