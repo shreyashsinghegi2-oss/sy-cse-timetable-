@@ -17,6 +17,8 @@ export default {
       colors: {
         // Brand palette (design brief §2): sky accent, near-black, greys
         ink: { DEFAULT: "#0B0F14", 2: "#151B23" },
+        navy: { DEFAULT: "#0A192F", 2: "#10264A" },
+        coral: { DEFAULT: "#FF6B6B", 600: "#F25555" },
         surface: { DEFAULT: "#FFFFFF", 2: "#F4F6F8" },
         line: "#E5E7EB",
         subtle: "#667085",

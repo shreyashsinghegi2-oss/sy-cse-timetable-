@@ -23,7 +23,7 @@ interface FilterState {
 }
 
 export default function BrowsePage() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(() => (typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("q") ?? "" : ""));
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [sortOption, setSortOption] = useState("newest");
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);

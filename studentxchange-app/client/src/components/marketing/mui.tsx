@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import { BrandMark } from "@/components/brand/brand-mark";
 import { cn } from "./cn";
 
-type Variant = "primary" | "dark" | "secondary" | "ghost" | "white";
+type Variant = "primary" | "dark" | "navy" | "secondary" | "ghost" | "white";
 type Size = "sm" | "md" | "lg";
 
 const base =
@@ -14,6 +14,7 @@ const variants: Record<Variant, string> = {
   secondary: "border border-line bg-surface text-ink hover:bg-surface-2",
   ghost: "text-ink hover:bg-surface-2",
   white: "bg-white text-ink hover:bg-sky-50",
+  navy: "bg-navy text-white hover:bg-navy-2",
 };
 const sizes: Record<Size, string> = { sm: "h-8 px-3 text-sm", md: "h-10 px-4 text-sm", lg: "h-12 px-6 text-base" };
 const cls = (v: Variant, s: Size, extra?: string) => cn(base, variants[v], sizes[s], extra);
